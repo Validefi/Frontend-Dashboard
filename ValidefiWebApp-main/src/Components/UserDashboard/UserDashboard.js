@@ -11,7 +11,7 @@ import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
 import AddCircleOutlineRoundedIcon from "@material-ui/icons/AddCircleOutlineRounded";
 import SettingsBackupRestoreIcon from "@material-ui/icons/SettingsBackupRestore";
 import SortIcon from "@material-ui/icons/Sort";
-import { useStateValue } from "E:/GitHub/eth-auth/src/StateProvider.js";
+import { useStateValue } from "./StateProvider.js";
 import RefreshIcon from "@material-ui/icons/Refresh";
 import axios from "axios";
 

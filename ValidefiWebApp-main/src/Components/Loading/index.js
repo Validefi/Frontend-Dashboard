@@ -14,7 +14,7 @@ const Loading = (props) => {
   }, [auth?.isAuthenticated]);
 
   if (isAuthenticated) {
-    return <Redirect to="/typesel" />;
+    return <Redirect to="/login" />;
   }
   return (
     <Spinner size="lg" style={{ position: 'fixed', left: '50%', top: '50%' }} />

@@ -50,9 +50,15 @@ const Layout = (params) => {
   const { children, layout, ...props } = params;
   return (
     <>
-      {layout && <TopHeader />}
-      {React.cloneElement(children, { ...props })}
-      {layout && <BottomHeader />}
+      {layout ? (
+        <div class="page-container">
+          <TopHeader />
+          {React.cloneElement(children, { ...props })}
+          <BottomHeader />
+        </div>
+      ) : (
+        <>{React.cloneElement(children, { ...props })}</>
+      )}
     </>
   );
 };

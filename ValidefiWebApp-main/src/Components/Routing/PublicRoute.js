@@ -24,7 +24,7 @@ const PublicRouteComponent = (props) => {
         props.logged_in && props.restricted ? (
           <Redirect to="/dashboard" />
         ) : (
-          <div>{updateChildrenWithProps(renderProps, props.children)}</div>
+          <>{updateChildrenWithProps(renderProps, props.children)}</>
         )
       }
     />

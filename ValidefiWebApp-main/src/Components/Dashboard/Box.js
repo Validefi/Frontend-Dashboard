@@ -2,15 +2,15 @@ import React from 'react';
 
 const Box = ({ title, data, color }) => {
   return (
-    <div class="col-md-6 col-xl-3">
-      <div class="card stat-widget">
-        <div class="card-body">
-          <h5 class="card-title">{title}</h5>
+    <div className="col-md-6 col-xl-3">
+      <div className="card stat-widget">
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
           <h2>{data}</h2>
           <p>From last week</p>
-          <div class="progress">
+          <div className="progress">
             <div
-              class={`progress-bar bg-${color} progress-bar-striped`}
+              className={`progress-bar bg-${color} progress-bar-striped`}
               role="progressbar"
               style={{ width: '25%' }}
               aria-valuenow="25"

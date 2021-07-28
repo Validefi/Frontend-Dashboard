@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-// eslint-disable-next-line
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { configureStore } from './Store/configureStore';
 import { Provider } from 'react-redux';

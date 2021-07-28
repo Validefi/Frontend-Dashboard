@@ -55,10 +55,10 @@ const CustomChart = () => {
     },
   ]);
   return (
-    <div class="col-sm-6 col-xl-8">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Revenue</h5>
+    <div className="col-sm-6 col-xl-8">
+      <div className="card">
+        <div className="card-body">
+          <h5 className="card-title">Portfolio value</h5>
           <div id="apexchart">
             <Chart
               options={options}

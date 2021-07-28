@@ -4,7 +4,8 @@ import Loading from '../Loading';
 import { RouteList } from './RouteList';
 
 const TopHeader = lazy(() => import('../TopHeader'));
-const BottomHeader = lazy(() => import('../BottomHeader'));
+// const BottomHeader = lazy(() => import('../BottomHeader'));
+const Sidebar = lazy(() => import('../Sidebar'));
 const PrivateRoute = lazy(() => import('./PrivateRoute'));
 const PublicRoute = lazy(() => import('./PublicRoute'));
 
@@ -51,10 +52,11 @@ const Layout = (params) => {
   return (
     <>
       {layout ? (
-        <div class="page-container">
+        <div className="page-container">
           <TopHeader />
+          <Sidebar />
           {React.cloneElement(children, { ...props })}
-          <BottomHeader />
+          {/* <BottomHeader /> */}
         </div>
       ) : (
         <>{React.cloneElement(children, { ...props })}</>

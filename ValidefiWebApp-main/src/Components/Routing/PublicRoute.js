@@ -15,13 +15,14 @@ const PublicRouteComponent = (props) => {
   if (props.render) {
     return props.render({ match: props.computedMatch });
   }
+  console.log(props);
   return (
     // restricted = false meaning public route
     // restricted = true meaning restricted route
     <Route
       {...props.routeProps}
       render={(renderProps) =>
-        props.logged_in && props.restricted ? (
+        props.isAuthenticated && props.restricted ? (
           <Redirect to="/dashboard" />
         ) : (
           <>{updateChildrenWithProps(renderProps, props.children)}</>
@@ -33,7 +34,7 @@ const PublicRouteComponent = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    logged_in: state.auth.isAuthenticated,
+    isAuthenticated: state.auth.isAuthenticated,
     restricted: ownProps.restricted,
     location: ownProps.path,
     routeProps: {

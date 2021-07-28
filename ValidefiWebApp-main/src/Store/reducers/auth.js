@@ -1,12 +1,10 @@
 import * as ActionTypes from '../ActionTypes';
 
 const initState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   isLoading: false,
-  user_id: null,
   errmess: null,
-  accessToken: null,
-  refreshToken: null,
+  wallet_address: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -72,6 +70,20 @@ const authReducer = (state = initState, action) => {
 
     case ActionTypes.REGISTER_FAILED:
       return { ...state, errmess: action.errmess, isLoading: false };
+
+    case ActionTypes.SET_WALLET_ADDRESS:
+      if (action.address) {
+        return {
+          ...state,
+          wallet_address: action.address,
+          isAuthenticated: true,
+        };
+      }
+      return {
+        ...state,
+        wallet_address: action.address,
+        isAuthenticated: false,
+      };
 
     default:
       return state;

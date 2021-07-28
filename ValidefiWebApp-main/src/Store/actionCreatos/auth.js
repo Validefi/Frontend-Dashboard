@@ -45,24 +45,9 @@ export const logoutAction = () => {
   };
 };
 
-export const registerAction = (data) => {
-  return async (dispatch) => {
-    dispatch({ type: ActionTypes.REGISTER_REQUEST });
-    return await axios
-      .post(`${url}/registration/`, data)
-      .then((response) => {
-        if (response.data) dispatch({ type: ActionTypes.REGISTER_SUCCESS });
-        else
-          dispatch({
-            type: ActionTypes.REGISTER_FAILED,
-            errmess: 'Registeration failed',
-          });
-      })
-      .catch((error) => {
-        dispatch({
-          type: ActionTypes.REGISTER_FAILED,
-          errmess: 'Something went wrong. Please try again',
-        });
-      });
+export const setAddress = (address) => {
+  return {
+    type: ActionTypes.SET_WALLET_ADDRESS,
+    address: address,
   };
 };

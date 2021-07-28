@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import {
   ArrowLeft,
@@ -6,46 +8,45 @@ import {
   User,
   Inbox,
   Activity,
-  Settings,
   LogOut,
 } from 'react-feather';
 
 const TopHeader = () => {
   return (
-    <div class="page-header">
-      <nav class="navbar navbar-expand-lg d-flex justify-content-between">
-        <div class="" id="navbarNav">
-          <ul class="navbar-nav" id="leftNav">
-            <li class="nav-item">
-              <a class="nav-link" id="sidebar-toggle" href="#">
+    <div className="page-header">
+      <nav className="navbar navbar-expand-lg d-flex justify-content-between">
+        <div className="" id="navbarNav">
+          <ul className="navbar-nav" id="leftNav">
+            <li className="nav-item">
+              <a className="nav-link" id="sidebar-toggle" href="#">
                 <ArrowLeft />
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Home
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Settings
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
+            <li className="nav-item">
+              <a className="nav-link" href="#">
                 Help
               </a>
             </li>
           </ul>
         </div>
-        <div class="logo">
-          <a class="navbar-brand" href="index.html"></a>
+        <div className="logo">
+          <a className="navbar-brand"></a>
         </div>
-        <div class="" id="headerNav">
-          <ul class="navbar-nav">
-            <li class="nav-item dropdown">
+        <div className="" id="headerNav">
+          <ul className="navbar-nav">
+            <li className="nav-item dropdown">
               <a
-                class="nav-link search-dropdown"
+                className="nav-link search-dropdown"
                 href="#"
                 id="searchDropDown"
                 role="button"
@@ -55,35 +56,35 @@ const TopHeader = () => {
                 <Search />
               </a>
               <div
-                class="dropdown-menu dropdown-menu-end dropdown-lg search-drop-menu"
+                className="dropdown-menu dropdown-menu-end dropdown-lg search-drop-menu"
                 aria-labelledby="searchDropDown"
               >
                 <form>
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="text"
                     placeholder="Type something.."
                     aria-label="Search"
                   />
                 </form>
-                <h6 class="dropdown-header">Recent Searches</h6>
-                <a class="dropdown-item" href="#">
+                <h6 className="dropdown-header">Recent Searches</h6>
+                <a className="dropdown-item" href="#">
                   charts
                 </a>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   new orders
                 </a>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   file manager
                 </a>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   new users
                 </a>
               </div>
             </li>
-            <li class="nav-item dropdown">
+            <li className="nav-item dropdown">
               <a
-                class="nav-link notifications-dropdown"
+                className="nav-link notifications-dropdown"
                 href="#"
                 id="notificationsDropDown"
                 role="button"
@@ -93,19 +94,19 @@ const TopHeader = () => {
                 3
               </a>
               <div
-                class="dropdown-menu dropdown-menu-end notif-drop-menu"
+                className="dropdown-menu dropdown-menu-end notif-drop-menu"
                 aria-labelledby="notificationsDropDown"
               >
-                <h6 class="dropdown-header">Notifications</h6>
+                <h6 className="dropdown-header">Notifications</h6>
                 <a href="#">
-                  <div class="header-notif">
-                    <div class="notif-image">
-                      <span class="notification-badge bg-info text-white">
+                  <div className="header-notif">
+                    <div className="notif-image">
+                      <span className="notification-badge bg-info text-white">
                         <BellOff />
                       </span>
                     </div>
-                    <div class="notif-text">
-                      <p class="bold-notif-text">
+                    <div className="notif-text">
+                      <p className="bold-notif-text">
                         faucibus dolor in commodo lectus mattis
                       </p>
                       <small>19:00</small>
@@ -113,14 +114,14 @@ const TopHeader = () => {
                   </div>
                 </a>
                 <a href="#">
-                  <div class="header-notif">
-                    <div class="notif-image">
-                      <span class="notification-badge bg-primary text-white">
+                  <div className="header-notif">
+                    <div className="notif-image">
+                      <span className="notification-badge bg-primary text-white">
                         <BellOff />
                       </span>
                     </div>
-                    <div class="notif-text">
-                      <p class="bold-notif-text">
+                    <div className="notif-text">
+                      <p className="bold-notif-text">
                         faucibus dolor in commodo lectus mattis
                       </p>
                       <small>18:00</small>
@@ -128,42 +129,42 @@ const TopHeader = () => {
                   </div>
                 </a>
                 <a href="#">
-                  <div class="header-notif">
-                    <div class="notif-image">
-                      <span class="notification-badge bg-success text-white">
+                  <div className="header-notif">
+                    <div className="notif-image">
+                      <span className="notification-badge bg-success text-white">
                         <BellOff />
                       </span>
                     </div>
-                    <div class="notif-text">
+                    <div className="notif-text">
                       <p>faucibus dolor in commodo lectus mattis</p>
                       <small>yesterday</small>
                     </div>
                   </div>
                 </a>
                 <a href="#">
-                  <div class="header-notif">
-                    <div class="notif-image">
-                      <span class="notification-badge">
+                  <div className="header-notif">
+                    <div className="notif-image">
+                      <span className="notification-badge">
                         <img src="../../assets/error.svg" alt="" />
                       </span>
                     </div>
-                    <div class="notif-text">
+                    <div className="notif-text">
                       <p>faucibus dolor in commodo lectus mattis</p>
                       <small>yesterday</small>
                     </div>
                   </div>
                 </a>
                 <a href="#">
-                  <div class="header-notif">
-                    <div class="notif-image">
-                      <span class="notification-badge">
+                  <div className="header-notif">
+                    <div className="notif-image">
+                      <span className="notification-badge">
                         <img
                           src="../../assets/images/avatars/profile-image.png"
                           alt=""
                         />
                       </span>
                     </div>
-                    <div class="notif-text">
+                    <div className="notif-text">
                       <p>faucibus dolor in commodo lectus mattis</p>
                       <small>yesterday</small>
                     </div>
@@ -171,9 +172,9 @@ const TopHeader = () => {
                 </a>
               </div>
             </li>
-            <li class="nav-item dropdown">
+            <li className="nav-item dropdown">
               <a
-                class="nav-link profile-dropdown"
+                className="nav-link profile-dropdown"
                 href="#"
                 id="profileDropDown"
                 role="button"
@@ -186,27 +187,24 @@ const TopHeader = () => {
                 />
               </a>
               <div
-                class="dropdown-menu dropdown-menu-end profile-drop-menu"
+                className="dropdown-menu dropdown-menu-end profile-drop-menu"
                 aria-labelledby="profileDropDown"
               >
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   <User />
                   Profile
                 </a>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   <Inbox />
                   Messages
                 </a>
-                <a class="dropdown-item" href="#">
+                <a className="dropdown-item" href="#">
                   <Activity />
                   Activities
-                  <span class="badge rounded-pill bg-success">12</span>
+                  <span className="badge rounded-pill bg-success">12</span>
                 </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">
-                  <Settings /> Settings
-                </a>
-                <a class="dropdown-item" href="#">
+                <div className="dropdown-divider"></div>
+                <a className="dropdown-item" href="#">
                   <LogOut /> Logout
                 </a>
               </div>

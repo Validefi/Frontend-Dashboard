@@ -15,7 +15,7 @@ const PrivateRouteComponent = (props) => (
   <Route
     {...props.routeProps}
     render={(renderProps) => {
-      if (!props.logged_in) {
+      if (!props.isAuthenticated) {
         return (
           <Redirect
             to={{
@@ -37,7 +37,7 @@ const PrivateRouteComponent = (props) => (
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    logged_in: state.auth.isAuthenticated,
+    isAuthenticated: state.auth.isAuthenticated,
     location: ownProps.path,
     routeProps: {
       exact: ownProps.exact,
@@ -48,6 +48,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, null, null, { pure: false })(
+export default connect(mapStateToProps, null, null, { pure: true })(
   PrivateRouteComponent
 );

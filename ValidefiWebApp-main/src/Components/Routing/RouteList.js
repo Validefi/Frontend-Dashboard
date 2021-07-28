@@ -20,14 +20,8 @@ export const RouteList = [
     link: '/login',
     private: false,
     restricted: true,
-    layout: true,
-    render: (props) => <Auth type="login" {...props} />,
-  },
-  {
-    link: '/register',
-    restricted: true,
-    layout: true,
-    render: (props) => <Auth type="register" {...props} />,
+    layout: false,
+    render: (props) => <Auth {...props} />,
   },
   {
     link: '/404',
@@ -37,6 +31,12 @@ export const RouteList = [
   },
   {
     link: '/contact',
+    private: false,
+    layout: true,
+    render: () => <Contact />,
+  },
+  {
+    link: '/',
     private: false,
     layout: true,
     render: () => <Contact />,

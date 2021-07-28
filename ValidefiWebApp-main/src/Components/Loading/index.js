@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Redirect } from 'react-router';
-import { Spinner } from 'reactstrap';
+import React from 'react';
 
-const Loading = (props) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const auth = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (!auth?.isAuthenticated) {
-      setIsAuthenticated(true);
-    }
-  }, [auth?.isAuthenticated]);
-
-  if (isAuthenticated) {
-    return <Redirect to="/login" />;
-  }
-  return (
-    <Spinner size="lg" style={{ position: 'fixed', left: '50%', top: '50%' }} />
-  );
-};
+const Loading = () => (
+  <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+);
 
 export default Loading;

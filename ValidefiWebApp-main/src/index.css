@@ -705,13 +705,9 @@ h6 {
   transition: all 0.2s ease-in-out;
   transform: scale(1, 1);
   transform-origin: left;
-  overflow: visible;
+  overflow: hidden;
 }
-.page-sidebar .ps__rail-y {
-  margin-top: 8px !important;
-  margin-bottom: 8px !important;
-  background-color: transparent !important;
-}
+
 .page-sidebar .accordion-menu {
   height: 100% !important;
   padding: 20px 15px;

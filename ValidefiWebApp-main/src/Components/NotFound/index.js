@@ -3,11 +3,6 @@ import React from 'react';
 const NotFound = () => {
   return (
     <div className="error-page err-404 h-100">
-      {/* <div class="loader">
-        <div class="spinner-grow text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div> */}
       <div className="container">
         <div className="error-container">
           <div className="error-info">

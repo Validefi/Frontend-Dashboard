@@ -8,6 +8,13 @@ const Dashboard = () => {
   return (
     <div className="page-content">
       <div className="main-wrapper">
+        <div
+          class="alert alert-danger"
+          role="alert"
+          style={{ textAlign: 'center' }}
+        >
+          Advertisement
+        </div>
         <div className="row">
           <Box title="Portfolio Value" data="100k" color="success" />
           <Box title="Monthly Profit" data={10} color="danger" />

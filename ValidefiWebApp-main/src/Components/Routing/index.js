@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from 'react';
+import { connect } from 'react-redux';
 import { withRouter, Switch, Redirect } from 'react-router-dom';
+import { compose } from 'redux';
 import Loading from '../Loading';
 import { RouteList } from './RouteList';
 
@@ -9,11 +11,11 @@ const Sidebar = lazy(() => import('../Sidebar'));
 const PrivateRoute = lazy(() => import('./PrivateRoute'));
 const PublicRoute = lazy(() => import('./PublicRoute'));
 
-const Routing = () => {
+const Routing = ({ isSidebarVisible }) => {
   const routes = RouteList;
   return (
     <Suspense fallback={<Loading />}>
-      <div className="h-100">
+      <div className={`h-100 ${isSidebarVisible ? '' : 'sidebar-hidden'}`}>
         <Switch>
           {routes.map((route, index) => {
             return route.private ? (
@@ -64,4 +66,9 @@ const Layout = (params) => {
     </>
   );
 };
-export default withRouter(Routing);
+
+const mapStateToProps = (state) => ({
+  isSidebarVisible: state.settings.isSidebarVisible,
+});
+
+export default compose(withRouter, connect(mapStateToProps))(Routing);

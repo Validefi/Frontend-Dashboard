@@ -2,21 +2,23 @@ import React, { useEffect, useState } from 'react';
 import MetamaskLogo from '../../assets/metamask.svg';
 import Web3 from 'web3';
 import { connect } from 'react-redux';
-import { setAddress } from '../../Store/actionCreatos/auth';
+import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
 import { showAlert } from '../../Utils/Alert';
 
-const Auth = ({ setAddr }) => {
-  const [isMetamask, setIsMetamask] = useState(false);
+const Auth = ({ setAddr, setChainId }) => {
+  const [isMetamask, setIsMetamask] = useState(true);
 
   useEffect(() => {
-    if (typeof window.ethereum !== 'undefined') {
-      setIsMetamask(true);
+    if (typeof window.ethereum === 'undefined') {
+      setIsMetamask(false);
+      showAlert('Please install MetaMask', 'error');
     }
   }, []);
 
   const connectMetamask = async () => {
     if (typeof window.ethereum === 'undefined') {
       setIsMetamask(false);
+      showAlert('Please install MetaMask', 'error');
       return;
     }
 
@@ -40,7 +42,13 @@ const Auth = ({ setAddr }) => {
         setAddr(null);
       } else if (Web3.utils.isAddress(accounts[0])) {
         setAddr(accounts[0]);
-      } else {
+      }
+    });
+
+    window.ethereum.on('chainChanged', function (chainId) {
+      if (chainId.length > 0) {
+        setChainId(chainId);
+        window.location.reload();
       }
     });
   };
@@ -81,15 +89,17 @@ const Auth = ({ setAddr }) => {
   );
 };
 
-const mapstateToProps = (state) => {
-  return {
-    address: state.auth.wallet_address,
-  };
-};
+const mapstateToProps = (state) => ({
+  address: state.auth.wallet_address,
+  chainId: state.auth.chainId,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   setAddr: (address) => {
     dispatch(setAddress(address));
+  },
+  setChainId: (chainId) => {
+    dispatch(setChainId(chainId));
   },
 });
 

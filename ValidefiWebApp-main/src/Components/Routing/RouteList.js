@@ -38,7 +38,8 @@ export const RouteList = [
   {
     link: '/',
     private: false,
-    layout: true,
-    render: () => <Contact />,
+    layout: false,
+    restricted: true,
+    render: (props) => <Auth {...props} />,
   },
 ];

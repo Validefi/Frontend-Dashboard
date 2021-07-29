@@ -1,11 +1,11 @@
 import React from 'react';
 import Routing from './Components/Routing';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 const App = () => (
-  <BrowserRouter>
+  <HashRouter>
     <Routing />
-  </BrowserRouter>
+  </HashRouter>
 );
 
 export default App;

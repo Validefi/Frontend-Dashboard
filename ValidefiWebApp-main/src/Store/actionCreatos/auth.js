@@ -51,3 +51,9 @@ export const setAddress = (address) => {
     address: address,
   };
 };
+export const setChainId = (chainId) => {
+  return {
+    type: ActionTypes.SET_CHAIN_ID,
+    chainId: chainId,
+  };
+};

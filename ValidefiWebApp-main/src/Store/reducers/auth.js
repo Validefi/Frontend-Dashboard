@@ -5,6 +5,7 @@ const initState = {
   isLoading: false,
   errmess: null,
   wallet_address: null,
+  chainId: null,
 };
 
 const authReducer = (state = initState, action) => {

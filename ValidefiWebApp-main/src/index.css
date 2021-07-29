@@ -2359,6 +2359,14 @@ ul.profile-about-list li.profile-about-list-buttons {
   font-weight: 400;
   color: #5b5b5b;
 }
+
+.search-icon {
+  color: #5b5b5b;
+}
+.search-icon:hover {
+  color: #7888fc;
+}
+
 .fc-next-button.fc-button.fc-button-primary,
 .fc-next-button.fc-button.fc-button-primary.active,
 .fc-next-button.fc-button.fc-button-primary:focus,

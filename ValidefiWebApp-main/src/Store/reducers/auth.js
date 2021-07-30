@@ -5,6 +5,10 @@ const initState = {
   isLoading: false,
   errmess: null,
   wallet_address: null,
+  network: {
+    value: 'Ethereum Mainnet',
+    label: 'Ethereum Mainnet',
+  },
   chainId: null,
 };
 
@@ -84,6 +88,21 @@ const authReducer = (state = initState, action) => {
         ...state,
         wallet_address: action.address,
         isAuthenticated: false,
+      };
+
+    case ActionTypes.SET_NETWORK:
+      if (action.network.value && action.network.label) {
+        return {
+          ...state,
+          network: action.network,
+        };
+      }
+      return {
+        ...state,
+        network: {
+          value: 'Ethereum Mainnet',
+          label: 'Ethereum Mainnet',
+        },
       };
 
     default:

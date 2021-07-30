@@ -2,9 +2,10 @@ import React from 'react';
 import Box from './Box';
 import LongBox from './LongBox';
 import Chart from './Chart';
+import { connect } from 'react-redux';
 // import Transactions from './Transactions';
 
-const Dashboard = () => {
+const Dashboard = ({ wallet_address }) => {
   return (
     <div className="page-content">
       <div className="main-wrapper">
@@ -23,19 +24,35 @@ const Dashboard = () => {
         </div>
         <div className="row">
           <Chart />
-          <LongBox title="Current Holdings" />
+          <LongBox
+            title="Current Holdings"
+            url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+          />
         </div>
         {/* <div className="row">
           <Transactions />
         </div> */}
         <div className="row">
-          <LongBox title="Current Events" />
-          <LongBox title="News &#38; Updates" />
-          <LongBox title="Your Transactions" />
+          <LongBox
+            title="Current Events"
+            url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+          />
+          <LongBox
+            title="News &#38; Updates"
+            url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+          />
+          <LongBox
+            title="Your Transactions"
+            url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+          />
         </div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  wallet_address: state.auth.wallet_address,
+});
+
+export default connect(mapStateToProps)(Dashboard);

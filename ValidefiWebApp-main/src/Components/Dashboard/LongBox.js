@@ -1,39 +1,75 @@
-import React from 'react';
-import { Info } from 'react-feather';
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import TransitionGroup from './TransitionGroup';
+import { useQuery, useQueryClient } from 'react-query';
+import Loading from '../Loading';
 
-const LongBox = ({ title }) => {
+const LongBox = ({ title, url }) => {
+  const queryClient = useQueryClient();
+
+  const { isLoading, error, data } = useQuery(
+    title,
+    async () => {
+      const CancelToken = axios.CancelToken;
+      const source = CancelToken.source();
+
+      const promise = await axios.get(url, { cancelToken: source.token });
+      promise.cancel = () => {
+        source.cancel('Aborting the request');
+      };
+      return promise;
+    },
+    {
+      retry: 2,
+      // refetchInterval: 1000,
+    }
+  );
+  useEffect(() => {
+    return () => {
+      queryClient.cancelQueries(title);
+    };
+  }, [queryClient, title]);
+  console.log(isLoading, error, data);
   return (
     <>
-      <div className="col-sm-6 col-xl-4">
-        <div className="card stat-widget">
-          <div className="card-body">
-            <h5 className="card-title">{title}</h5>
-            <Tile name="Bitcoin" value="$100" />
-            <Tile name="Ethereum" value="$80" />
-            <Tile name="Cardano" value="$22.10" />
-            <Tile name="Pancakeswap" value="$1100" />
-            <Tile name="Uniswap" value="$1100" />
+      <div className="col-sm-6 col-xl-4 ">
+        <div
+          className={`card stat-widget ${
+            title === 'Current Holdings' ? 'bg-primary text-white' : ''
+          }`}
+        >
+          <div
+            className="card-body"
+            style={{
+              minHeight: '476px',
+            }}
+          >
+            <div className="card-body-header">
+              <h5 className="card-title">{title}</h5>
+              <p className="card-title-view">View All</p>
+            </div>
+            {isLoading && (
+              <Loading
+                color={title === 'Current Holdings' ? 'text-white' : ''}
+              />
+            )}
+            {!isLoading && error && (
+              <p>
+                There seems to be some problem while fetching the data. Please
+                try again.
+              </p>
+            )}
+            {data && (
+              <TransitionGroup
+                isHoldings={title === 'Current Holdings'}
+                data={data?.data}
+              />
+            )}
           </div>
         </div>
       </div>
     </>
   );
 };
-
-const Tile = ({ name, value }) => (
-  <div className="transactions-list">
-    <div className="tr-item">
-      <div className="tr-company-name">
-        <div className="tr-icon tr-card-icon tr-card-bg-primary text-primary">
-          <Info />
-        </div>
-        <div className="tr-text">
-          <h4>{name}</h4>
-          <p>{value}</p>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 export default LongBox;

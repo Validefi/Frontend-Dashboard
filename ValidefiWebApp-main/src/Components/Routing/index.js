@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Switch, Redirect } from 'react-router-dom';
 import { compose } from 'redux';
-import Loading from '../Loading';
+import Loading from '../Loading/Spinner';
 import { RouteList } from './RouteList';
 
 const TopHeader = lazy(() => import('../TopHeader'));

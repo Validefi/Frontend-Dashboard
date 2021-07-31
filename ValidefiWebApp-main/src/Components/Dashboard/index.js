@@ -10,7 +10,7 @@ const Dashboard = ({ wallet_address }) => {
     <div className="page-content">
       <div className="main-wrapper">
         <div
-          class="alert alert-danger"
+          className="alert alert-danger"
           role="alert"
           style={{ textAlign: 'center' }}
         >
@@ -43,7 +43,7 @@ const Dashboard = ({ wallet_address }) => {
           />
           <LongBox
             title="Your Transactions"
-            url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+            url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/transactions?page=1&pageSize=5&auth_key=VGVtcEtleQ%3D%3D`}
           />
         </div>
       </div>

@@ -15,7 +15,6 @@ const PublicRouteComponent = (props) => {
   if (props.render) {
     return props.render({ match: props.computedMatch });
   }
-  console.log(props);
   return (
     // restricted = false meaning public route
     // restricted = true meaning restricted route

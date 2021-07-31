@@ -64,11 +64,11 @@ const TopHeader = ({
               className="nav-item dropdown m-r-xs dashboard-search"
               style={{ flex: 1 }}
             >
-              <div class="d-flex justify-content-center">
-                <div class="input-group flex-nowrap">
+              <div className="d-flex justify-content-center">
+                <div className="input-group flex-nowrap">
                   <input
                     type="text"
-                    class="form-control accordion-flush"
+                    className="form-control accordion-flush"
                     placeholder="Search..."
                     aria-label="Search"
                     value={text}

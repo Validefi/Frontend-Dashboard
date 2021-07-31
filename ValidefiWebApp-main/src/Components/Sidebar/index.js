@@ -12,17 +12,17 @@ import {
 const Sidebar = () => {
   const [text, setText] = useState('');
   return (
-    <div class="page-sidebar">
-      <ul class="list-unstyled accordion-menu">
+    <div className="page-sidebar">
+      <ul className="list-unstyled accordion-menu">
         <li
           className="nav-item dropdown m-r-xs sidebar-search"
           style={{ flex: 1 }}
         >
-          <div class="d-flex justify-content-center">
-            <div class="input-group flex-nowrap">
+          <div className="d-flex justify-content-center">
+            <div className="input-group flex-nowrap">
               <input
                 type="text"
-                class="form-control accordion-flush"
+                className="form-control accordion-flush"
                 placeholder="Search..."
                 aria-label="Search"
                 value={text}
@@ -39,7 +39,7 @@ const Sidebar = () => {
           </div>
         </li>
 
-        <li class="sidebar-title">
+        <li className="sidebar-title">
           <a href="calendar.html">Wallets</a>
         </li>
         <li>
@@ -54,7 +54,7 @@ const Sidebar = () => {
             Explorer
           </a>
         </li>
-        <li class="active-page">
+        <li className="active-page">
           <a href="calendar.html">
             <Monitor />
             Monitor

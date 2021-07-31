@@ -4,10 +4,8 @@ import { withRouter, Switch, Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 import Loading from '../Loading/Spinner';
 import { RouteList } from './RouteList';
+import Layout from './layout';
 
-const TopHeader = lazy(() => import('../TopHeader'));
-// const BottomHeader = lazy(() => import('../BottomHeader'));
-const Sidebar = lazy(() => import('../Sidebar'));
 const PrivateRoute = lazy(() => import('./PrivateRoute'));
 const PublicRoute = lazy(() => import('./PublicRoute'));
 
@@ -46,24 +44,6 @@ const Routing = ({ isSidebarVisible }) => {
         </Switch>
       </div>
     </Suspense>
-  );
-};
-
-const Layout = (params) => {
-  const { children, layout, ...props } = params;
-  return (
-    <>
-      {layout ? (
-        <div className="page-container">
-          <TopHeader />
-          <Sidebar />
-          {React.cloneElement(children, { ...props })}
-          {/* <BottomHeader /> */}
-        </div>
-      ) : (
-        <>{React.cloneElement(children, { ...props })}</>
-      )}
-    </>
   );
 };
 

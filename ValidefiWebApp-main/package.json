@@ -40,7 +40,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "commit": "git add . && git commit -m 'Dasboard current holding done' && git push origin main"
+    "commit": "git add . && git commit -m 'Transaction added' && git push origin main"
   },
   "eslintConfig": {
     "extends": [

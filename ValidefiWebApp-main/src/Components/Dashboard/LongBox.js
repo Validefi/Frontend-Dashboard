@@ -29,7 +29,6 @@ const LongBox = ({ title, url }) => {
       queryClient.cancelQueries(title);
     };
   }, [queryClient, title]);
-  console.log(isLoading, error, data);
   return (
     <>
       <div className="col-sm-6 col-xl-4 ">
@@ -41,7 +40,7 @@ const LongBox = ({ title, url }) => {
           <div
             className="card-body"
             style={{
-              minHeight: '476px',
+              minHeight: title === 'Current Holdings' ? '476px' : '573px',
             }}
           >
             <div className="card-body-header">
@@ -59,11 +58,12 @@ const LongBox = ({ title, url }) => {
                 try again.
               </p>
             )}
-            {data && (
-              <TransitionGroup
-                isHoldings={title === 'Current Holdings'}
-                data={data?.data}
-              />
+            {data && title !== 'Your Transactions' && (
+              <TransitionGroup title={title} data={data?.data} />
+            )}
+
+            {data && title === 'Your Transactions' && (
+              <TransitionGroup title={title} data={data?.data?.transactions} />
             )}
           </div>
         </div>

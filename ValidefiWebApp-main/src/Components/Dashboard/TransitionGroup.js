@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { Info } from 'react-feather';
 
-const Transition = ({ isHoldings, data }) => {
+const Transition = ({ title, data }) => {
   const [items, setItems] = useState([
     { id: Math.random(), name: 'Bitcoin', value: 0.222, symbol: 'BTC' },
     { id: Math.random(), name: 'Dogecoin', value: 100.1212, symbol: 'Doge' },
@@ -47,7 +47,7 @@ const Transition = ({ isHoldings, data }) => {
                     <div
                       className="tr-icon tr-card-icon text-primary tr-card-bg-primary"
                       style={
-                        isHoldings
+                        title === 'Current Holdings'
                           ? {
                               display: 'grid',
                               placeItems: 'center',
@@ -56,7 +56,7 @@ const Transition = ({ isHoldings, data }) => {
                           : {}
                       }
                     >
-                      {isHoldings ? (
+                      {title === 'Current Holdings' ? (
                         <img
                           src={`https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/32/${item?.contract_ticker_symbol.toLowerCase()}.webp`}
                           alt="Coin"
@@ -66,13 +66,39 @@ const Transition = ({ isHoldings, data }) => {
                       )}
                     </div>
                     <div className="tr-text">
-                      <h4>{item?.contract_name}</h4>
-                      <p>
-                        {calculateBalance(
-                          item?.balance,
-                          item?.contract_decimals
-                        )}
-                      </p>
+                      {title === 'Current Holdings' && (
+                        <h4>{item?.contract_name}</h4>
+                      )}
+
+                      {title === 'Your Transactions' && (
+                        <a
+                          href={`https://etherscan.io/tx/${item?.id}`}
+                          target="_blank"
+                          rel="noreferrer nofollow"
+                        >
+                          <h4>{item?.type?.toUpperCase()}</h4>
+                          <p>{new Date(item?.date * 1000).toDateString()}</p>
+                        </a>
+                      )}
+
+                      {title === 'Current Holdings' && (
+                        <p>
+                          {calculateBalance(
+                            item?.balance,
+                            item?.contract_decimals
+                          )}
+                        </p>
+                      )}
+
+                      {title === 'Your Transactions' && (
+                        <a
+                          href={`https://etherscan.io/tx/${item?.id}`}
+                          target="_blank"
+                          rel="noreferrer nofollow"
+                        >
+                          <p>{item?.description}</p>
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

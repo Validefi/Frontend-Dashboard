@@ -13,10 +13,10 @@ const Loading = ({ color }) => (
     }}
   >
     <div
-      class={`spinner-border ${color ? color : 'text-primary'}`}
+      className={`spinner-border ${color ? color : 'text-primary'}`}
       role="status"
     >
-      <span class="visually-hidden">Loading...</span>
+      <span className="visually-hidden">Loading...</span>
     </div>
   </div>
 );

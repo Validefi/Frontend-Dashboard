@@ -15,7 +15,7 @@ const PrivateRouteComponent = (props) => (
   <Route
     {...props.routeProps}
     render={(renderProps) => {
-      if (!props.isAuthenticated) {
+      if (!props.isAuthenticated || typeof window.ethereum == undefined) {
         return (
           <Redirect
             to={{

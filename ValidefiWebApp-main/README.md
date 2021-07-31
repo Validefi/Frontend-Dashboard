@@ -5,7 +5,7 @@
         2. /login
         3. /register
 
-    ## Private Route:
+    ## Private Route and should have metamask installed:
         1. /dashboard
 
     1. /404

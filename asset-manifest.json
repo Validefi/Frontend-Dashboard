@@ -2,7 +2,7 @@
   "files": {
     "main.css": "/Frontend-Dashboard/static/css/main.fb9e5759.chunk.css",
     "main.js": "/Frontend-Dashboard/static/js/main.b9373bf4.chunk.js",
-    "runtime-main.js": "/Frontend-Dashboard/static/js/runtime-main.e338a37e.js",
+    "runtime-main.js": "/Frontend-Dashboard/static/js/runtime-main.751a36a9.js",
     "static/css/2.d61b33e5.chunk.css": "/Frontend-Dashboard/static/css/2.d61b33e5.chunk.css",
     "static/js/2.5c7a7326.chunk.js": "/Frontend-Dashboard/static/js/2.5c7a7326.chunk.js",
     "static/js/3.24e72e49.chunk.js": "/Frontend-Dashboard/static/js/3.24e72e49.chunk.js",
@@ -12,7 +12,7 @@
     "static/js/6.546e9846.chunk.js": "/Frontend-Dashboard/static/js/6.546e9846.chunk.js",
     "static/js/7.da103795.chunk.js": "/Frontend-Dashboard/static/js/7.da103795.chunk.js",
     "static/js/8.8d620352.chunk.js": "/Frontend-Dashboard/static/js/8.8d620352.chunk.js",
-    "static/js/9.8a388a38.chunk.js": "/Frontend-Dashboard/static/js/9.8a388a38.chunk.js",
+    "static/js/9.2b350d18.chunk.js": "/Frontend-Dashboard/static/js/9.2b350d18.chunk.js",
     "static/js/10.f381669e.chunk.js": "/Frontend-Dashboard/static/js/10.f381669e.chunk.js",
     "static/js/11.299d99c1.chunk.js": "/Frontend-Dashboard/static/js/11.299d99c1.chunk.js",
     "static/js/12.198df8f6.chunk.js": "/Frontend-Dashboard/static/js/12.198df8f6.chunk.js",
@@ -24,7 +24,7 @@
     "static/media/metamask.53f2bee2.svg": "/Frontend-Dashboard/static/media/metamask.53f2bee2.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.e338a37e.js",
+    "static/js/runtime-main.751a36a9.js",
     "static/css/2.d61b33e5.chunk.css",
     "static/js/2.5c7a7326.chunk.js",
     "static/css/main.fb9e5759.chunk.css",

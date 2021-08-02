@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import MetamaskLogo from '../../assets/metamask.svg';
 import { connect } from 'react-redux';
-import { setAddress } from '../../Store/actionCreatos/auth';
+import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
 import { showAlert } from '../../Utils/Alert';
 
-const Auth = ({ setAddr }) => {
+const Auth = ({ setAddr, setChainId }) => {
   const [isMetamask, setIsMetamask] = useState(true);
   useEffect(() => {
     if (typeof window.ethereum == undefined) {
@@ -28,6 +28,13 @@ const Auth = ({ setAddr }) => {
         if (accounts.length > 0) {
           setAddr(accounts[0]);
           sessionStorage.setItem('wallet_address', accounts[0]);
+        }
+        const chainId = await window.ethereum.request({
+          method: 'eth_chainId',
+        });
+        if (chainId) {
+          setChainId(chainId);
+          sessionStorage.setItem('chain_id', chainId);
         }
       } catch (error) {
         if (error.code === 4001) {
@@ -80,6 +87,9 @@ const mapstateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setAddr: (address) => {
     dispatch(setAddress(address));
+  },
+  setChainId: (chainId) => {
+    dispatch(setChainId(chainId));
   },
 });
 

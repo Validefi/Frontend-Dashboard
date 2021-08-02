@@ -8,3 +8,10 @@ export const toggleSidebar = (isSidebarVisible) => {
     isSidebarVisible: isSidebarVisible,
   };
 };
+
+export const toggleThemeMode = (mode) => {
+  return {
+    type: ActionTypes.TOGGLE_THEME_MODE,
+    mode: mode,
+  };
+};

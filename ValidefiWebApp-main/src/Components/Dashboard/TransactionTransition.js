@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Info } from 'react-feather';
+import {
+  Activity,
+  AlertTriangle,
+  ArrowDownLeft,
+  ArrowUpRight,
+  CheckCircle,
+  CheckSquare,
+  ChevronsRight,
+  Code,
+  Copy,
+  Info,
+  MinusCircle,
+  PlusCircle,
+} from 'react-feather';
 
 const Transition = ({ title, data }) => {
   const [items, setItems] = useState([
@@ -33,8 +46,33 @@ const Transition = ({ title, data }) => {
       setItems(() => [{ id: Math.random(), name, value: 10 }].concat(temp));
     }
   };
-  const calculateBalance = (balance, decimal) =>
-    balance / Math.pow(10, decimal);
+  const icon = (type) => {
+    switch (type) {
+      case 'send':
+        return <ArrowUpRight />;
+      case 'receive':
+        return <ArrowDownLeft />;
+      case 'swap':
+        return <ChevronsRight />;
+      case 'claim_reward':
+        return <CheckCircle />;
+      case 'approve':
+        return <CheckCircle />;
+      case 'staked':
+        return <PlusCircle />;
+      case 'unstaked':
+        return <MinusCircle />;
+      case 'mint':
+        return <Activity />;
+      case 'burn':
+        return <AlertTriangle />;
+      case 'contract_execution':
+        return <Copy />;
+
+      default:
+        return <Code />;
+    }
+  };
   return (
     <div>
       <TransitionGroup className="todo-list">
@@ -44,40 +82,28 @@ const Transition = ({ title, data }) => {
               <div className="transactions-list">
                 <div className="tr-item">
                   <div className="tr-company-name">
-                    <div
-                      className="tr-icon tr-card-icon text-primary tr-card-bg-primary"
-                      style={
-                        title === 'Current Holdings'
-                          ? {
-                              display: 'grid',
-                              placeItems: 'center',
-                              padding: 0,
-                            }
-                          : {}
-                      }
-                    >
-                      {title === 'Current Holdings' ? (
-                        <img
-                          src={`https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/32/${item?.contract_ticker_symbol.toLowerCase()}.webp`}
-                          alt="Coin"
-                        />
-                      ) : (
-                        <Info />
-                      )}
+                    <div className="tr-icon tr-card-icon text-primary tr-card-bg-primary">
+                      {icon(item?.type)}
                     </div>
                     <div className="tr-text">
-                      {title === 'Current Holdings' && (
-                        <h4>{item?.contract_name}</h4>
-                      )}
-
-                      {title === 'Current Holdings' && (
-                        <p>
-                          {calculateBalance(
-                            item?.balance,
-                            item?.contract_decimals
-                          )}
+                      <a
+                        href={`https://etherscan.io/tx/${item?.id}`}
+                        target="_blank"
+                        rel="noreferrer nofollow"
+                      >
+                        <h4>{item?.type?.toUpperCase().replace('_', ' ')}</h4>
+                        <p style={{ width: '100%' }}>
+                          {new Date(item?.date * 1000).toDateString()}
                         </p>
-                      )}
+                      </a>
+
+                      <a
+                        href={`https://etherscan.io/tx/${item?.id}`}
+                        target="_blank"
+                        rel="noreferrer nofollow"
+                      >
+                        <p>{item?.description}</p>
+                      </a>
                     </div>
                   </div>
                 </div>

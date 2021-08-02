@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import TransitionGroup from './TransitionGroup';
+import TransactionTransition from './TransactionTransition';
 import { useQuery, useQueryClient } from 'react-query';
 import Loading from '../Loading';
+import { connect } from 'react-redux';
 
-const LongBox = ({ title, url }) => {
+const LongBox = ({ title, url, wallet_address }) => {
   const queryClient = useQueryClient();
 
-  const { isLoading, error, data } = useQuery(
+  const { isLoading, error, data, refetch } = useQuery(
     title,
     async () => {
       const CancelToken = axios.CancelToken;
@@ -25,10 +27,12 @@ const LongBox = ({ title, url }) => {
     }
   );
   useEffect(() => {
+    refetch();
     return () => {
       queryClient.cancelQueries(title);
     };
-  }, [queryClient, title]);
+  }, [queryClient, refetch, title, wallet_address]);
+
   return (
     <>
       <div className="col-sm-6 col-xl-4 ">
@@ -63,7 +67,10 @@ const LongBox = ({ title, url }) => {
             )}
 
             {data && title === 'Your Transactions' && (
-              <TransitionGroup title={title} data={data?.data?.transactions} />
+              <TransactionTransition
+                title={title}
+                data={data?.data?.transactions}
+              />
             )}
           </div>
         </div>
@@ -72,4 +79,8 @@ const LongBox = ({ title, url }) => {
   );
 };
 
-export default LongBox;
+const mapStateToProps = (state) => ({
+  wallet_address: state.auth.wallet_address,
+});
+
+export default connect(mapStateToProps)(LongBox);

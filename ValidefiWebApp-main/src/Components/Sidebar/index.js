@@ -7,10 +7,12 @@ import {
   Monitor,
   User,
   Search,
+  LogOut,
 } from 'react-feather';
 
 const Sidebar = () => {
   const [text, setText] = useState('');
+
   return (
     <div className="page-sidebar">
       <ul className="list-unstyled accordion-menu">
@@ -42,7 +44,7 @@ const Sidebar = () => {
         <li className="sidebar-title">
           <a href="calendar.html">Wallets</a>
         </li>
-        <li>
+        <li className="active-page">
           <a href="calendar.html">
             <Grid />
             Dashboard
@@ -54,7 +56,7 @@ const Sidebar = () => {
             Explorer
           </a>
         </li>
-        <li className="active-page">
+        <li>
           <a href="calendar.html">
             <Monitor />
             Monitor
@@ -76,6 +78,12 @@ const Sidebar = () => {
           <a href="calendar.html">
             <User />
             Profile
+          </a>
+        </li>
+        <li onClick={() => sessionStorage.clear()}>
+          <a href="calendar.html">
+            <LogOut />
+            Logout
           </a>
         </li>
       </ul>

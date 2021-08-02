@@ -1,12 +1,12 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ArrowLeft, Moon, Search, Sun } from 'react-feather';
 import { connect } from 'react-redux';
 import { toggleSidebar } from '../../Store/actionCreatos/settings';
 import { setNetwork } from '../../Store/actionCreatos/auth';
 import Select from 'react-select';
 import Logo from '../../assets/logo1.svg';
-import { toggleThemeMode } from '../../Store/actionCreatos/settings';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
+import Loading from '../Loading';
 
 const TopHeader = ({
   network,
@@ -14,31 +14,35 @@ const TopHeader = ({
   isSidebarVisible,
   toggleSidebar,
   wallet_address,
-  toggleMode,
-  mode,
 }) => {
   const [text, setText] = useState('');
   const { switcher, themes, currentTheme, status } = useThemeSwitcher();
   const [isDarkMode, setIsDarkMode] = useState(currentTheme === 'dark');
 
   if (status === 'loading') {
-    return <></>;
+    return <Loading />;
   }
-  // const [mode, setMode] = useState('light');
-
-  // useLayoutEffect(() => {
-  //   if (
-  //     localStorage.getItem('theme') === 'light' ||
-  //     localStorage.getItem('theme') === 'dark'
-  //   ) {
-  //     setMode(localStorage.getItem('theme'));
-  //   }
-  // }, []);
   const customStyles = {
+    menu: (provided, state) => ({
+      ...provided,
+      backgroundColor: isDarkMode ? '#253345' : '#fff',
+    }),
     option: (provided, state) => ({
       ...provided,
-      color: state.isSelected ? 'white' : '#5b5b5b',
-      backgroundColor: state.isSelected ? '#7888fc' : '#fff',
+      color: isDarkMode
+        ? state.isSelected
+          ? 'rgba(225, 235, 245, 0.87)'
+          : 'rgba(225, 235, 245, 0.4)'
+        : state.isSelected
+        ? 'white'
+        : '#5b5b5b',
+      backgroundColor: isDarkMode
+        ? state.isSelected
+          ? '#212d3d'
+          : '#253345'
+        : state.isSelected
+        ? '#7888fc'
+        : '#fff',
     }),
   };
   const options = [
@@ -49,17 +53,11 @@ const TopHeader = ({
     toggleSidebar(!isSidebarVisible);
   };
 
-  // const toggleTheme = () => {
-  //   const newMode = mode === 'light' ? 'dark' : 'light';
-  //   localStorage.setItem('theme', newMode);
-  //   // setMode(newMode);
-  //   toggleMode(newMode);
-  // };
   const toggleTheme = (isDarkMode) => {
     switcher({ theme: isDarkMode ? themes.light : themes.dark });
     setIsDarkMode(!isDarkMode);
   };
-  console.log(currentTheme, isDarkMode);
+
   return (
     <div className="page-header">
       <nav className="navbar navbar-expand-lg d-flex justify-content-between">
@@ -97,7 +95,7 @@ const TopHeader = ({
                   <button
                     className="input-group-text nav-link search-icon"
                     aria-expanded="false"
-                    style={{ backgroundColor: '#fff' }}
+                    style={{ backgroundColor: isDarkMode ? '#2b3b52' : '#fff' }}
                   >
                     <Search />
                   </button>
@@ -122,7 +120,7 @@ const TopHeader = ({
             >
               <div className="d-flex justify-content-center">
                 <span
-                  className="form-control accordion-flush"
+                  className="form-control form-text"
                   style={{
                     overflow: 'hidden',
                     whiteSpace: 'nowrap',
@@ -150,7 +148,6 @@ const TopHeader = ({
 
 const mapStateToProps = (state) => ({
   isSidebarVisible: state.settings.isSidebarVisible,
-  mode: state.settings.mode,
   network: state.auth.network,
   wallet_address: state.auth.wallet_address,
 });
@@ -161,9 +158,6 @@ const mapDispatchToProps = (dispatch) => ({
   },
   setNetwork: (network) => {
     dispatch(setNetwork(network));
-  },
-  toggleMode: (mode) => {
-    dispatch(toggleThemeMode(mode));
   },
 });
 

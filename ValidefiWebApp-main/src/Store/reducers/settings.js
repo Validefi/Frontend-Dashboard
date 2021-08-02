@@ -2,7 +2,6 @@ import * as ActionTypes from '../ActionTypes';
 
 const initState = {
   isSidebarVisible: true,
-  mode: 'light',
 };
 
 const settingsReducer = (state = initState, action) => {
@@ -11,12 +10,6 @@ const settingsReducer = (state = initState, action) => {
       return {
         ...state,
         isSidebarVisible: action.isSidebarVisible,
-      };
-
-    case ActionTypes.TOGGLE_THEME_MODE:
-      return {
-        ...state,
-        mode: action.mode,
       };
 
     default:

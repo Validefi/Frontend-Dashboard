@@ -2784,16 +2784,21 @@ body {
 .invoice-details p.info,
 .invoice-table svg,
 .dropdown-header,
-.form-text {
-  color: rgba(225, 235, 245, 0.87);
+.form-text,
+.css-1uccc91-singleValue,
+::placeholder,
+.apexcharts-legend-text {
+  color: rgba(225, 235, 245, 0.87) !important;
 }
 
 .text-muted {
   color: rgba(225, 235, 245, 0.87) !important;
 }
 
-.page-sidebar .accordion-menu > li.active-page > a {
-  background-color: #2b3b52;
+.page-sidebar .accordion-menu > li.active-page > a,
+.css-yk16xz-control,
+.css-1pahdxg-control {
+  background-color: #2b3b52 !important;
 }
 
 .dropdown-menu {
@@ -3433,6 +3438,11 @@ table.dataTable th {
 .page-header .navbar #headerNav > ul > li > a.notifications-dropdown {
   background: #ee6e83;
   color: #fff;
+}
+
+.css-yk16xz-control,
+.css-1pahdxg-control {
+  border-color: transparent !important ;
 }
 
 @media (max-width: 1200px) {

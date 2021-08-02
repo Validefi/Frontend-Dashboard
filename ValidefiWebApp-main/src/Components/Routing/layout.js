@@ -41,7 +41,7 @@ const Layout = (params) => {
       });
     }
     listenAccount();
-  }, []);
+  }, [setAddress, setChainId]);
 
   return (
     <>

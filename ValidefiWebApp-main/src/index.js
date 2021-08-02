@@ -14,7 +14,7 @@ const customThemes = {
 };
 
 ReactDOM.render(
-  <ThemeSwitcherProvider themeMap={customThemes} defaultTheme="light">
+  <ThemeSwitcherProvider themeMap={customThemes} defaultTheme="dark">
     <Provider store={store}>
       <React.StrictMode>
         <App />

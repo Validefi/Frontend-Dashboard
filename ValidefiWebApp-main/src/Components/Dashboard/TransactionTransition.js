@@ -6,11 +6,9 @@ import {
   ArrowDownLeft,
   ArrowUpRight,
   CheckCircle,
-  CheckSquare,
   ChevronsRight,
   Code,
   Copy,
-  Info,
   MinusCircle,
   PlusCircle,
 } from 'react-feather';

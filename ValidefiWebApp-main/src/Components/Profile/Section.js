@@ -29,15 +29,6 @@ const Section = ({ title, data }) => {
           ? '#7888fc'
           : '#fff',
     }),
-    // placeholder: (provided, state) => ({
-    //   ...provided,
-    //   color: '#fff',
-    // }),
-    // control: (provided, state) => ({
-    //   ...provided,
-    //   backgroundColor: 'blue',
-    //   borderRadius: '10px',
-    // }),
   };
   return (
     <div className="mb-4">

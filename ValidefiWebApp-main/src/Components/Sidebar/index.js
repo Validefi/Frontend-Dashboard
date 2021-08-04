@@ -4,7 +4,6 @@ import {
   FileText,
   Grid,
   Maximize2,
-  Monitor,
   User,
   Search,
   LogOut,

@@ -22,7 +22,7 @@ const Layout = (params) => {
 
   useEffect(() => {
     async function listenAccount() {
-      window.ethereum.on('accountsChanged', function (accounts) {
+      window.ethereum?.on('accountsChanged', function (accounts) {
         if (accounts.length === 0) {
           setAddress(null);
           sessionStorage.removeItem('wallet_address');
@@ -32,7 +32,7 @@ const Layout = (params) => {
         }
       });
 
-      window.ethereum.on('chainChanged', function (chainId) {
+      window.ethereum?.on('chainChanged', function (chainId) {
         if (chainId.length > 0) {
           setChainId(chainId);
           sessionStorage.setItem('chain_id', chainId);
@@ -40,7 +40,9 @@ const Layout = (params) => {
         }
       });
     }
-    listenAccount();
+    if (window.ethereum !== undefined) {
+      listenAccount();
+    }
   }, [setAddress, setChainId]);
 
   return (

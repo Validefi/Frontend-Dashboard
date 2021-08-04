@@ -36,11 +36,7 @@ const LongBox = ({ title, url, wallet_address }) => {
   return (
     <>
       <div className="col-sm-6 col-xl-4 ">
-        <div
-          className={`card stat-widget ${
-            title === 'Current Holdings' ? 'bg-primary text-white' : ''
-          }`}
-        >
+        <div className="card stat-widget ">
           <div
             className="card-body"
             style={{
@@ -51,11 +47,7 @@ const LongBox = ({ title, url, wallet_address }) => {
               <h5 className="card-title">{title}</h5>
               <p className="card-title-view">View All</p>
             </div>
-            {isLoading && (
-              <Loading
-                color={title === 'Current Holdings' ? 'text-white' : ''}
-              />
-            )}
+            {isLoading && <Loading />}
             {!isLoading && error && (
               <p>
                 There seems to be some problem while fetching the data. Please

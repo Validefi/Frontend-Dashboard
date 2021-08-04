@@ -4,6 +4,7 @@ const Dashboard = lazy(() => import('../Dashboard'));
 const Auth = lazy(() => import('../Auth'));
 const NotFound = lazy(() => import('../NotFound'));
 const Contact = lazy(() => import('../Contact'));
+const Profile = lazy(() => import('../Profile'));
 // private => Route requires authentication
 // layout => header should be visible or not
 // restricted => authenticated user cannot visit login type restriction
@@ -34,6 +35,12 @@ export const RouteList = [
     private: false,
     layout: true,
     render: () => <Contact />,
+  },
+  {
+    link: '/profile',
+    private: true,
+    layout: true,
+    render: () => <Profile />,
   },
   {
     link: '/',

@@ -9,12 +9,12 @@ import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
 
 const store = configureStore();
 const customThemes = {
-  light: './index.css',
-  dark: './dark.css',
+  light: 'Frontend-Dashboard/public/index.css',
+  dark: 'Frontend-Dashboard/public/dark.css',
 };
 
 ReactDOM.render(
-  <ThemeSwitcherProvider themeMap={customThemes} defaultTheme="dark">
+  <ThemeSwitcherProvider themeMap={customThemes} defaultTheme="light">
     <Provider store={store}>
       <React.StrictMode>
         <App />

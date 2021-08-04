@@ -4,17 +4,18 @@ import { connect } from 'react-redux';
 import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
 import { showAlert } from '../../Utils/Alert';
 
-const Auth = ({ setAddr, setChainId }) => {
+const Auth = (props) => {
+  const { setAddr, setChainId } = props;
   const [isMetamask, setIsMetamask] = useState(true);
   useEffect(() => {
-    if (typeof window.ethereum == undefined) {
+    if (window.ethereum === undefined) {
       setIsMetamask(false);
       showAlert('Please install MetaMask', 'error');
     }
   }, []);
 
   const connectMetamask = async () => {
-    if (typeof window.ethereum == undefined) {
+    if (window.ethereum === undefined) {
       setIsMetamask(false);
       showAlert('Please install MetaMask', 'error');
       return;

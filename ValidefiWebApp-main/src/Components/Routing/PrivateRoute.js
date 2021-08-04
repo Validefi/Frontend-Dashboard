@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import Web3 from 'web3';
 
 const updateChildrenWithProps = (props, children) =>
   React.Children.map(children, (child, i) => {
@@ -15,7 +16,11 @@ const PrivateRouteComponent = (props) => (
   <Route
     {...props.routeProps}
     render={(renderProps) => {
-      if (!props.isAuthenticated || typeof window.ethereum == undefined) {
+      if (
+        !props.isAuthenticated ||
+        window.ethereum === undefined ||
+        !Web3.utils.isAddress(sessionStorage.getItem('wallet_address'))
+      ) {
         return (
           <Redirect
             to={{

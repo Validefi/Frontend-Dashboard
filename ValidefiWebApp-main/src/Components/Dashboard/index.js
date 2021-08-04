@@ -6,21 +6,32 @@ import { connect } from 'react-redux';
 // import Transactions from './Transactions';
 
 const Dashboard = ({ wallet_address }) => {
+  // showAlert('Please install MetaMask', 'error');
+
   return (
     <div className="page-content">
       <div className="main-wrapper">
         <div
           className="alert alert-danger"
           role="alert"
-          style={{ textAlign: 'center' }}
+          style={{
+            display: 'grid',
+            placeItems: 'center',
+            height: '6rem',
+            fontSize: '22px',
+          }}
         >
           Advertisement
         </div>
         <div className="row">
           <Box title="Portfolio Value" data="100k" color="success" />
           <Box title="Monthly Profit" data={10} color="danger" />
-          <Box title="Growth" data={10} color="info" />
-          <Box title="Market Status" data="-10%" color="danger" />
+          <Box
+            title="Wallet Balance"
+            data={'$480.99'}
+            color="info"
+            isCurrentValue
+          />
         </div>
         <div className="row">
           <Chart />
@@ -34,7 +45,7 @@ const Dashboard = ({ wallet_address }) => {
         </div> */}
         <div className="row">
           <LongBox
-            title="Current Events"
+            title="Monitored Wallets"
             url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
           />
           <LongBox
@@ -43,8 +54,8 @@ const Dashboard = ({ wallet_address }) => {
           />
           <LongBox
             title="Your Transactions"
-            // url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/transactions?page=1&pageSize=5&auth_key=VGVtcEtleQ%3D%3D`}
-            url="https://stg-api.unmarshal.io/v1/ethereum/address/0x48ba8eef1010be5dbf25f18a7cdb576ac66ca3c4/transactions?page=1&pageSize=5&auth_key=VGVtcEtleQ%3D%3D"
+            url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/transactions?page=1&pageSize=5&auth_key=VGVtcEtleQ%3D%3D`}
+            // url="https://stg-api.unmarshal.io/v1/ethereum/address/0x48ba8eef1010be5dbf25f18a7cdb576ac66ca3c4/transactions?page=1&pageSize=5&auth_key=VGVtcEtleQ%3D%3D"
           />
         </div>
       </div>

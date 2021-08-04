@@ -9,6 +9,7 @@ import {
   Search,
   LogOut,
 } from 'react-feather';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   const [text, setText] = useState('');
@@ -42,49 +43,48 @@ const Sidebar = () => {
         </li>
 
         <li className="sidebar-title">
-          <a href="calendar.html">Wallets</a>
+          <Link to="calendar.html">Wallets</Link>
         </li>
         <li className="active-page">
-          <a href="calendar.html">
+          <Link to="/dashboard">
             <Grid />
             Dashboard
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="calendar.html">
+          <Link to="/explorer">
             <Maximize2 />
             Explorer
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="calendar.html">
-            <Monitor />
-            Monitor
-          </a>
-        </li>
-        <li>
-          <a href="calendar.html">
+          <Link to="/coins">
             <Circle />
             Coins
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="calendar.html">
+          <Link to="/portfolio">
             <FileText />
             Portfolio
-          </a>
+          </Link>
         </li>
         <li>
-          <a href="calendar.html">
+          <Link to="/profile">
             <User />
             Profile
-          </a>
+          </Link>
         </li>
-        <li onClick={() => sessionStorage.clear()}>
-          <a href="calendar.html">
+        <li
+          onClick={() => {
+            sessionStorage.clear();
+            window.location.reload();
+          }}
+        >
+          <Link to="/">
             <LogOut />
             Logout
-          </a>
+          </Link>
         </li>
       </ul>
     </div>

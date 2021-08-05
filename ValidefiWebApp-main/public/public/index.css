@@ -2612,6 +2612,16 @@ ul.profile-about-list li.profile-about-list-buttons {
   border-radius: 10px !important;
   padding: 1px;
 }
+.active-sidebar-item {
+  border-radius: 10px;
+  background-color: #f3f6f9 !important;
+  color: #7888fc !important;
+  font-weight: 500;
+}
+
+.active-sidebar-item > svg {
+  color: rgb(120, 136, 252) !important;
+}
 
 @media (max-width: 1350px) {
   .page-header .navbar #navbarNav {

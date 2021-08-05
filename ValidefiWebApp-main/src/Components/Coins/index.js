@@ -146,7 +146,26 @@ const Coins = () => {
       pairs: 'ETH/USDT',
     },
   ];
+  const customStyles = {
+    title: {
+      style: {
+        fontColor: '#f00',
+        fontWeight: '900',
+      },
+    },
 
+    headCells: {
+      style: {
+        fontSize: '15px',
+        fontWeight: '500',
+      },
+    },
+    cells: {
+      style: {
+        fontSize: '13px',
+      },
+    },
+  };
   return (
     <div class="page-content">
       <div class="main-wrapper">
@@ -159,6 +178,7 @@ const Coins = () => {
                   columns={columns}
                   data={data}
                   filterHeading="Find Coin"
+                  customStyles={customStyles}
                 />
               </div>
             </div>

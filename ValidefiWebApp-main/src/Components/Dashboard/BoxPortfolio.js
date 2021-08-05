@@ -9,12 +9,12 @@ const Box = ({ title, data, color }) => {
   ]);
   return (
     <div className="col-xl-6 col-md-12">
-      <div className="card stat-widget" style={{ height: '12rem' }}>
+      <div className="card stat-widget box-portfolio-value">
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
           <div className="dashboard-portfolio-card">
             <h2 className="dashboard-portfolio-card-heading">{data}</h2>
-            <SmallChart series={series} color={color} width={150} height={40} />
+            <SmallChart series={series} color={color} width={260} height={40} />
           </div>
         </div>
       </div>

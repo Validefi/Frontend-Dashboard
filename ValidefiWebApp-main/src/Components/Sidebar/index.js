@@ -41,9 +41,6 @@ const Sidebar = () => {
           </div>
         </li>
 
-        <li className="sidebar-title">
-          <NavLink to="/">Wallets</NavLink>
-        </li>
         <li>
           <NavLink to="/dashboard" activeClassName="active-sidebar-item">
             <Grid />

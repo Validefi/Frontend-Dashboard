@@ -11,7 +11,7 @@ const TextField = styled.input`
   }
 `;
 
-const Table = ({ title, columns, data, filterHeading }) => {
+const Table = ({ title, columns, data, filterHeading, customStyles }) => {
   const { currentTheme } = useThemeSwitcher();
   const [filterText, setFilterText] = useState('');
   const filteredItems = data?.filter(
@@ -72,6 +72,7 @@ const Table = ({ title, columns, data, filterHeading }) => {
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
       persistTableHead
+      customStyles={customStyles}
     />
   );
 };

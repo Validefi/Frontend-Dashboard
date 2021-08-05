@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from './Box';
+import BoxPortfolio from './BoxPortfolio';
 import LongBox from './LongBox';
 import Chart from './Chart';
 import { connect } from 'react-redux';
@@ -26,11 +27,10 @@ const Dashboard = ({ wallet_address }) => {
         <div className="row">
           <Box title="Portfolio Value" data="100k" color="success" />
           <Box title="Monthly Profit" data={10} color="danger" />
-          <Box
+          <BoxPortfolio
             title="Wallet Balance"
             data={'$480.99'}
-            color="info"
-            isCurrentValue
+            color="#FF1654"
           />
         </div>
         <div className="row">

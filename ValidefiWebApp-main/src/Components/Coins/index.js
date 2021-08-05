@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './table.css';
 import Table from '../../Utils/Table';
+import SmallChart from '../../Utils/SmallChart';
 
 const Coins = () => {
+  const [series] = useState([
+    {
+      data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54],
+    },
+  ]);
   const columns = [
     {
       name: 'Rank',
@@ -37,7 +43,13 @@ const Coins = () => {
     {
       name: 'Graph',
       cell: (row) => (
-        <button onClick={() => console.log('')} id={row.ID}></button>
+        <SmallChart
+          series={series}
+          color={'#f00'}
+          width={100}
+          height={20}
+          strokeWidth={3}
+        />
       ),
       ignoreRowClick: true,
       allowOverflow: true,

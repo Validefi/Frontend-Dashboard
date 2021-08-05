@@ -112,11 +112,30 @@ input:checked + .slider:before {
 .active-sidebar-item > svg {
   color: rgb(120, 136, 252) !important;
 }
+.dashboard-portfolio-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.dashboard-portfolio-card-heading {
+  font-size: 45px !important;
+  float: left;
+}
+
 @media (max-width: 1350px) {
   .form-section {
     margin-bottom: 40px;
   }
   .profile--section-title {
     padding: 0rem 0.2rem;
+  }
+}
+@media (max-width: 350px) {
+  .dashboard-portfolio-card {
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard-portfolio-card-heading {
+    font-size: 28px !important;
   }
 }

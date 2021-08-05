@@ -2757,11 +2757,7 @@ body {
 
 .page-header .navbar #navbarNav #leftNav > li > a,
 .page-header .navbar #headerNav > ul > li > a,
-.page-sidebar .accordion-menu > li > a,
-.page-sidebar .accordion-menu > li > a > svg,
 .card-title,
-.page-sidebar .accordion-menu li ul li a,
-.page-sidebar .accordion-menu li.sidebar-title,
 .dropdown-item,
 .page-header .header-notif .notif-text,
 .table,
@@ -2789,6 +2785,13 @@ body {
 ::placeholder,
 .apexcharts-legend-text {
   color: rgba(225, 235, 245, 0.87) !important;
+}
+
+.page-sidebar .accordion-menu > li > a,
+.page-sidebar .accordion-menu > li > a > svg,
+.page-sidebar .accordion-menu li ul li a,
+.page-sidebar .accordion-menu li.sidebar-title {
+  color: rgba(225, 235, 245, 0.87);
 }
 
 .text-muted {
@@ -3443,6 +3446,16 @@ table.dataTable th {
 .css-yk16xz-control,
 .css-1pahdxg-control {
   border-color: transparent !important ;
+}
+.active-sidebar-item {
+  border-radius: 10px;
+  background-color: #2b3b52;
+  color: #7888fc !important;
+  font-weight: 500;
+}
+
+.active-sidebar-item > svg {
+  color: rgb(120, 136, 252) !important;
 }
 
 @media (max-width: 1200px) {

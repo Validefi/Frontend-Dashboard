@@ -8,7 +8,7 @@ import {
   Search,
   LogOut,
 } from 'react-feather';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   const [text, setText] = useState('');
@@ -42,37 +42,37 @@ const Sidebar = () => {
         </li>
 
         <li className="sidebar-title">
-          <Link to="calendar.html">Wallets</Link>
+          <NavLink to="/">Wallets</NavLink>
         </li>
-        <li className="active-page">
-          <Link to="/dashboard">
+        <li>
+          <NavLink to="/dashboard" activeClassName="active-sidebar-item">
             <Grid />
             Dashboard
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/explorer">
+          <NavLink to="/explorer" activeClassName="active-sidebar-item">
             <Maximize2 />
             Explorer
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/coins">
+          <NavLink to="/coins" activeClassName="active-sidebar-item">
             <Circle />
             Coins
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/portfolio">
+          <NavLink to="/portfolio" activeClassName="active-sidebar-item">
             <FileText />
             Portfolio
-          </Link>
+          </NavLink>
         </li>
         <li>
-          <Link to="/profile">
+          <NavLink to="/profile" activeClassName="active-sidebar-item">
             <User />
             Profile
-          </Link>
+          </NavLink>
         </li>
         <li
           onClick={() => {
@@ -80,10 +80,10 @@ const Sidebar = () => {
             window.location.reload();
           }}
         >
-          <Link to="/">
+          <NavLink to="/">
             <LogOut />
             Logout
-          </Link>
+          </NavLink>
         </li>
       </ul>
     </div>

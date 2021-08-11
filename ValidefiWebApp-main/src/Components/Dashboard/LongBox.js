@@ -5,8 +5,9 @@ import TransactionTransition from './TransactionTransition';
 import { useQuery, useQueryClient } from 'react-query';
 import Loading from '../Loading';
 import { connect } from 'react-redux';
+import { Plus } from 'react-feather';
 
-const LongBox = ({ title, url, wallet_address }) => {
+const LongBox = ({ title, url, wallet_address, isAddIcon, toggleModal }) => {
   const queryClient = useQueryClient();
 
   const { isLoading, error, data, refetch } = useQuery(
@@ -45,7 +46,16 @@ const LongBox = ({ title, url, wallet_address }) => {
           >
             <div className="card-body-header">
               <h5 className="card-title">{title}</h5>
-              <p className="card-title-view">View All</p>
+              {isAddIcon ? (
+                <p
+                  className="card-title-view d-flex align-items-center"
+                  onClick={toggleModal}
+                >
+                  Add <Plus size={15} />
+                </p>
+              ) : (
+                <p className="card-title-view">View All</p>
+              )}
             </div>
             {isLoading && <Loading />}
             {!isLoading && error && (

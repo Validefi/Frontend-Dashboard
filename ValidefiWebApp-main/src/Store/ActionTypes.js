@@ -15,3 +15,5 @@ export const SET_CHAIN_ID = 'SET_CHAIN_ID';
 export const SET_NETWORK = 'SET_NETWORK';
 
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
+
+export const SET_MONITOR_WALLET = 'SET_MONITOR_WALLET';

@@ -91,7 +91,7 @@ const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
         handleClose={() => toggle(false)}
         width={isMobile ? 85 : 30}
         height={isMobile ? 20 : 15}
-        title="Monitored Wallet"
+        title="Monitor Wallet"
       >
         <ModalContent>
           <TextInput handleSubmit={handleMonitorWallet} icon={<ArrowRight />} />

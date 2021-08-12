@@ -11,10 +11,10 @@ import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
 
 const store = configureStore();
 const customThemes = {
-  // light: 'Frontend-Dashboard/public/index.css',
-  // dark: 'Frontend-Dashboard/public/dark.css',
-  light: './public/index.css',
-  dark: './public/dark.css',
+  light: 'Frontend-Dashboard/public/index.css',
+  dark: 'Frontend-Dashboard/public/dark.css',
+  // light: './public/index.css',
+  // dark: './public/dark.css',
 };
 // const Web3ProviderNetwork = createWeb3ReactRoot('NETWORK');
 

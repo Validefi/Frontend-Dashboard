@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const TextInput = ({ handleSubmit, icon }) => {
+  const { currentTheme } = useThemeSwitcher();
+
   const [text, setText] = useState('');
   const handleKeypress = (e) => {
     if (e.key === 'Enter') {
@@ -21,7 +24,9 @@ const TextInput = ({ handleSubmit, icon }) => {
       <button
         className="input-group-text nav-link search-icon"
         aria-expanded="false"
-        style={{ backgroundColor: '#fff' }}
+        style={{
+          backgroundColor: currentTheme === 'dark' ? '#2B3B52' : '#fff',
+        }}
         onClick={() => handleSubmit(text)}
       >
         {icon}

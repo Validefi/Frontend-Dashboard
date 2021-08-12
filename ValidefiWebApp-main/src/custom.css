@@ -120,6 +120,9 @@ input:checked + .slider:before {
   font-size: 26px;
   font-weight: 500 !important;
 }
+#modal-close-button:hover line {
+  stroke: #7888fc;
+}
 
 @media (max-width: 1350px) {
   .form-section {

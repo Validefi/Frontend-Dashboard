@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const Modal = ({
   title,
@@ -12,6 +13,8 @@ const Modal = ({
   if (width <= 0 || width > 100 || height <= 0 || height > 100) {
     console.error('Modal height and width should be in range of [0,100]');
   }
+  const { currentTheme } = useThemeSwitcher();
+
   const Container = styled.div`
     position: fixed;
     z-index: 12;
@@ -36,7 +39,7 @@ const Modal = ({
     width: ${width}%;
     height: ${height}%;
     z-index: 13;
-    background-color: white;
+    background-color: ${currentTheme === 'dark' ? '#253347' : '#fff'};
     position: absolute;
     top: 50%;
     left: 50%;
@@ -49,7 +52,7 @@ const Modal = ({
     width: 15px;
     height: 15px;
     position: absolute;
-    right: 22px;
+    right: 25px;
     top: 21px;
     cursor: pointer;
   `;
@@ -82,6 +85,7 @@ const Modal = ({
               onClick={handleClose}
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20.39 20.39"
+              id="modal-close-button"
             >
               <title>close</title>
               <line
@@ -90,10 +94,10 @@ const Modal = ({
                 x2="1"
                 y2="1"
                 fill="none"
-                stroke="#0d6efd"
+                stroke={currentTheme === 'dark' ? '#fff' : 'currentcolor'}
                 strokeLinecap="round"
                 strokeMiterlimit="10"
-                strokeWidth="2"
+                strokeWidth="3"
               />
               <line
                 x1="1"
@@ -101,10 +105,10 @@ const Modal = ({
                 x2="19.39"
                 y2="1"
                 fill="none"
-                stroke="#0d6efd"
+                stroke={currentTheme === 'dark' ? '#fff' : 'currentcolor'}
                 strokeLinecap="round"
                 strokeMiterlimit="10"
-                strokeWidth="2"
+                strokeWidth="3"
               />
             </CloseButton>
             <H5>{title}</H5>

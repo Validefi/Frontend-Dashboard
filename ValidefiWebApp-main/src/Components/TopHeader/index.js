@@ -7,6 +7,7 @@ import Select from 'react-select';
 import Logo from '../../assets/logo1.svg';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Loading from '../Loading';
+import TextInput from '../../Utils/TextInput';
 
 const TopHeader = ({
   network,
@@ -58,6 +59,8 @@ const TopHeader = ({
     setIsDarkMode(!isDarkMode);
   };
 
+  const handleSubmit = (text) => console.log(text);
+
   return (
     <div className="page-header">
       <nav className="navbar navbar-expand-lg d-flex justify-content-between">
@@ -83,23 +86,7 @@ const TopHeader = ({
               style={{ flex: 1 }}
             >
               <div className="d-flex justify-content-center">
-                <div className="input-group flex-nowrap">
-                  <input
-                    type="text"
-                    className="form-control accordion-flush"
-                    placeholder="Search..."
-                    aria-label="Search"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                  />
-                  <button
-                    className="input-group-text nav-link search-icon"
-                    aria-expanded="false"
-                    style={{ backgroundColor: isDarkMode ? '#2b3b52' : '#fff' }}
-                  >
-                    <Search />
-                  </button>
-                </div>
+                <TextInput handleSubmit={handleSubmit} icon={<Search />} />
               </div>
             </li>
             <li

@@ -9,9 +9,12 @@ import {
   LogOut,
 } from 'react-feather';
 import { NavLink } from 'react-router-dom';
+import TextInput from '../../Utils/TextInput';
 
 const Sidebar = () => {
-  const [text, setText] = useState('');
+  const handleSubmit = (text) => {
+    console.log(text);
+  };
 
   return (
     <div className="page-sidebar">
@@ -20,24 +23,8 @@ const Sidebar = () => {
           className="nav-item dropdown m-r-xs sidebar-search"
           style={{ flex: 1 }}
         >
-          <div className="d-flex justify-content-center">
-            <div className="input-group flex-nowrap">
-              <input
-                type="text"
-                className="form-control accordion-flush"
-                placeholder="Search..."
-                aria-label="Search"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-              <button
-                className="input-group-text nav-link search-icon"
-                aria-expanded="false"
-                style={{ backgroundColor: '#fff' }}
-              >
-                <Search />
-              </button>
-            </div>
+          <div className="d-flex justify-content-center mb-4">
+            <TextInput handleSubmit={handleSubmit} icon={<Search />} />
           </div>
         </li>
 

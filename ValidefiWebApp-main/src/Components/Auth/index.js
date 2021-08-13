@@ -3,16 +3,30 @@ import MetamaskLogo from '../../assets/metamask.svg';
 import { connect } from 'react-redux';
 import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
 import { showAlert } from '../../Utils/Alert';
+import Modal from '../../Utils/Modal';
+import { isMobile } from 'react-device-detect';
+import styled from 'styled-components';
+import WalletModal from './WalletModal';
 
 const Auth = (props) => {
   const { setAddr, setChainId } = props;
   const [isMetamask, setIsMetamask] = useState(true);
+  const [isOpen, toggle] = useState(false);
+
   useEffect(() => {
     if (window.ethereum === undefined) {
       setIsMetamask(false);
       showAlert('Please install MetaMask', 'error');
     }
   }, []);
+
+  const ModalContent = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 1.6rem 0 1.6rem;
+  `;
 
   const connectMetamask = async () => {
     if (window.ethereum === undefined) {
@@ -66,9 +80,10 @@ const Auth = (props) => {
                   <div className="d-grid">
                     <button
                       className="btn btn-danger m-b-xs"
-                      onClick={connectMetamask}
+                      onClick={() => toggle(true)}
+                      // onClick={connectMetamask}
                     >
-                      Connect your wallet
+                      Connect to a wallet
                     </button>
                   </div>
                 )}
@@ -77,6 +92,24 @@ const Auth = (props) => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        handleClose={() => toggle(false)}
+        width={isMobile ? 85 : 35}
+        height={isMobile ? 60 : 80}
+        title="Connect to a wallet"
+      >
+        <ModalContent>
+          {/* <TextInput handleSubmit={handleMonitorWallet} icon={<ArrowRight />} /> */}
+          <p className="form-control text-secondary">
+            By connecting a wallet, you agree to{' '}
+            <span className="text-primary">ValiDefi's Terms of Service</span>{' '}
+            and acknowledge that you have read and understood the{' '}
+            <span className="text-primary">ValiDefi protocol disclaimer.</span>
+          </p>
+          <WalletModal />
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

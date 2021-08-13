@@ -33,11 +33,12 @@ const Modal = ({
     background: rgba(0, 0, 0, 0.3);
   `;
   const H5 = styled.h5`
-    margin: 18px 2rem 0 2rem;
+    margin: 0 2rem 0 2rem;
   `;
   const ModalContainer = styled.div`
+    padding: 18px 0;
     width: ${width}%;
-    height: ${height}%;
+    max-height: ${height}%;
     z-index: 13;
     background-color: ${currentTheme === 'dark' ? '#253347' : '#fff'};
     position: absolute;

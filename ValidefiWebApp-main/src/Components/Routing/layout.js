@@ -9,33 +9,34 @@ const Sidebar = lazy(() => import('../Sidebar'));
 
 const Layout = (params) => {
   const { children, layout, setAddress, setChainId, ...props } = params;
-
+  const wallet_address = localStorage.getItem('wallet_address');
+  console.log(wallet_address);
   useEffect(() => {
     if (
-      sessionStorage.getItem('wallet_address') &&
-      Web3.utils.isAddress(sessionStorage.getItem('wallet_address'))
+      localStorage.getItem('wallet_address') &&
+      Web3.utils.isAddress(localStorage.getItem('wallet_address'))
     ) {
-      setAddress(sessionStorage.getItem('wallet_address'));
+      setAddress(localStorage.getItem('wallet_address'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [wallet_address]);
 
   useEffect(() => {
     async function listenAccount() {
       window.ethereum?.on('accountsChanged', function (accounts) {
         if (accounts.length === 0) {
           setAddress(null);
-          sessionStorage.removeItem('wallet_address');
+          localStorage.removeItem('wallet_address');
         } else if (Web3.utils.isAddress(accounts[0])) {
           setAddress(accounts[0]);
-          sessionStorage.setItem('wallet_address', accounts[0]);
+          localStorage.setItem('wallet_address', accounts[0]);
         }
       });
 
       window.ethereum?.on('chainChanged', function (chainId) {
         if (chainId.length > 0) {
           setChainId(chainId);
-          sessionStorage.setItem('chain_id', chainId);
+          localStorage.setItem('chain_id', chainId);
           window.location.reload();
         }
       });

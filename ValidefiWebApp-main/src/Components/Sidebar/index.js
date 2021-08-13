@@ -58,9 +58,9 @@ const Sidebar = () => {
             Profile
           </NavLink>
         </li>
-        <li
+        {/* <li
           onClick={() => {
-            sessionStorage.clear();
+            localStorage.clear();
             window.location.reload();
           }}
         >
@@ -68,7 +68,7 @@ const Sidebar = () => {
             <LogOut />
             Logout
           </NavLink>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

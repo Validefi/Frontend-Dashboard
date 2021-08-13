@@ -1,50 +1,95 @@
 import React, { useEffect, useState } from 'react';
-import MetamaskLogo from '../../assets/metamask.svg';
+import Logo from '../../assets/sidewaysLogo.png';
 import { connect } from 'react-redux';
 import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
 import { showAlert } from '../../Utils/Alert';
+import Modal from '../../Utils/Modal';
+import { isMobile } from 'react-device-detect';
+import styled from 'styled-components';
+import WalletModal from './WalletModal';
 
 const Auth = (props) => {
   const { setAddr, setChainId } = props;
-  const [isMetamask, setIsMetamask] = useState(true);
-  useEffect(() => {
-    if (window.ethereum === undefined) {
-      setIsMetamask(false);
-      showAlert('Please install MetaMask', 'error');
-    }
-  }, []);
+  // const [isMetamask, setIsMetamask] = useState(true);
+  const [isOpen, toggle] = useState(false);
 
-  const connectMetamask = async () => {
-    if (window.ethereum === undefined) {
-      setIsMetamask(false);
-      showAlert('Please install MetaMask', 'error');
-      return;
-    }
+  // useEffect(() => {
+  //   if (window.ethereum === undefined) {
+  //     setIsMetamask(false);
+  //     showAlert('Please install MetaMask', 'error');
+  //   }
+  // }, []);
 
-    if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        if (accounts.length > 0) {
-          setAddr(accounts[0]);
-          sessionStorage.setItem('wallet_address', accounts[0]);
-        }
-        const chainId = await window.ethereum.request({
-          method: 'eth_chainId',
-        });
-        if (chainId) {
-          setChainId(chainId);
-          sessionStorage.setItem('chain_id', chainId);
-        }
-      } catch (error) {
-        if (error.code === 4001) {
-          showAlert('Please connect MetaMask', 'error');
-        }
-      }
-    }
+  const ModalContent = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 1.6rem 0 1.6rem;
+  `;
+
+  // const connectMetamask = async () => {
+  //   if (window.ethereum === undefined) {
+  //     setIsMetamask(false);
+  //     showAlert('Please install MetaMask', 'error');
+  //     return;
+  //   }
+
+  //   if (window.ethereum) {
+  //     try {
+  //       const accounts = await window.ethereum.request({
+  //         method: 'eth_requestAccounts',
+  //       });
+  //       if (accounts.length > 0) {
+  //         setAddr(accounts[0]);
+  //         sessionStorage.setItem('wallet_address', accounts[0]);
+  //       }
+  //       const chainId = await window.ethereum.request({
+  //         method: 'eth_chainId',
+  //       });
+  //       if (chainId) {
+  //         setChainId(chainId);
+  //         sessionStorage.setItem('chain_id', chainId);
+  //       }
+  //     } catch (error) {
+  //       if (error.code === 4001) {
+  //         showAlert('Please connect MetaMask', 'error');
+  //       }
+  //     }
+  //   }
+  // };
+  const config = {
+    supportedChainIds: [1, 100],
+    connectors: {
+      walletconnect: {
+        rpc: {
+          1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
+          // 100: 'https://dai.poa.network',
+        },
+        bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+        pollingInterval: 15000,
+      },
+      walletlink: {
+        rpc: {
+          1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
+          // 100: 'https://dai.poa.network',
+        },
+        bridge: 'https://bridge.walletconnect.org',
+        qrcode: true,
+        pollingInterval: 15000,
+      },
+      // portris: {
+      //   rpc: {
+      //     1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
+      //     // 100: 'https://dai.poa.network',
+      //   },
+      //   bridge: 'https://bridge.walletconnect.org',
+      //   qrcode: true,
+      //   pollingInterval: 15000,
+      // },
+    },
   };
-
   return (
     <div className="login-page">
       <div className="container">
@@ -53,30 +98,48 @@ const Auth = (props) => {
             <div className="card login-box-container">
               <div className="card-body">
                 <div className="authent-logo">
-                  <img src={MetamaskLogo} alt="MetaMask" />
+                  <img src={Logo} alt="ValiDefi" width="70%" />
                 </div>
                 <div className="authent-text">
-                  <p>
-                    {isMetamask
-                      ? 'Please connect your MetaMask wallet'
-                      : 'Please install MetaMask in your browser'}
-                  </p>
+                  <p>Please connect your wallet</p>
                 </div>
-                {isMetamask && (
-                  <div className="d-grid">
-                    <button
-                      className="btn btn-danger m-b-xs"
-                      onClick={connectMetamask}
-                    >
-                      Connect your wallet
-                    </button>
-                  </div>
-                )}
+                {/* {isMetamask && ( */}
+                <div className="d-grid">
+                  <button
+                    className="btn btn-danger m-b-xs"
+                    onClick={() => toggle(true)}
+                    // onClick={connectMetamask}
+                  >
+                    Connect to a wallet
+                  </button>
+                </div>
+                {/* )} */}
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        handleClose={() => toggle(false)}
+        width={isMobile ? 85 : 35}
+        height={isMobile ? 60 : 80}
+        title="Connect to a wallet"
+      >
+        <ModalContent className="flex-column">
+          <p className="form-control text-secondary">
+            By connecting a wallet, you agree to{' '}
+            <span className="text-primary">ValiDefi's Terms of Service</span>{' '}
+            and acknowledge that you have read and understood the{' '}
+            <span className="text-primary">ValiDefi protocol disclaimer.</span>
+          </p>
+          <WalletModal
+            isOpen={isOpen}
+            onClose={() => toggle(false)}
+            config={config}
+          />
+        </ModalContent>
+      </Modal>
     </div>
   );
 };

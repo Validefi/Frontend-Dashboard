@@ -19,7 +19,7 @@ const PrivateRouteComponent = (props) => (
       if (
         !props.isAuthenticated ||
         window.ethereum === undefined ||
-        !Web3.utils.isAddress(sessionStorage.getItem('wallet_address'))
+        !Web3.utils.isAddress(localStorage.getItem('wallet_address'))
       ) {
         return (
           <Redirect

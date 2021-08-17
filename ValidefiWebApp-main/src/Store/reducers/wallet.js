@@ -2,6 +2,7 @@ import * as ActionTypes from '../ActionTypes';
 
 const initState = {
   monitored_wallet: null,
+  balance: 0,
 };
 
 const settingsReducer = (state = initState, action) => {
@@ -10,6 +11,11 @@ const settingsReducer = (state = initState, action) => {
       return {
         ...state,
         monitored_wallet: action.wallet,
+      };
+    case ActionTypes.SET_WALLET_BALANCE:
+      return {
+        ...state,
+        balance: action.balance,
       };
 
     default:

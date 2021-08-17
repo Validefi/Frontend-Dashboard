@@ -83,19 +83,14 @@ const WALLET_VIEWS = {
 export default function WalletModal({ config, isOpen, onClose }) {
   // important that these are destructed from the account-specific web3-react context
   const { active, account, connector, activate, error } = useWeb3React();
-
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT);
-
   const [pendingWallet, setPendingWallet] = useState();
-
   const [pendingError, setPendingError] = useState();
-
   const previousAccount = usePrevious(account);
-
   const [supportedWallets, setSupportedWallets] = useState({});
-
   const { fortmatic, portis, injected } = supportedWallets;
   const dispatch = useDispatch();
+
   useEffect(() => {
     const supportedWallets = getSupportedWallets(config);
     setSupportedWallets(supportedWallets);

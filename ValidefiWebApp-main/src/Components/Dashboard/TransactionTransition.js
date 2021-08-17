@@ -72,50 +72,48 @@ const Transition = ({ title, data }) => {
     }
   };
   return (
-    <div>
-      <TransitionGroup className="todo-list">
-        {data?.length > 0 ? (
-          data?.map((item, index) => (
-            <CSSTransition key={index} timeout={500} classNames="item">
-              <div className="transactions-list">
-                <div className="tr-item">
-                  <div className="tr-company-name">
-                    <div className="tr-icon tr-card-icon text-primary tr-card-bg-primary">
-                      {icon(item?.type)}
-                    </div>
-                    <div className="tr-text">
-                      <a
-                        href={`https://etherscan.io/tx/${item?.id}`}
-                        target="_blank"
-                        rel="noreferrer nofollow"
-                      >
-                        <h4>{item?.type?.toUpperCase().replace('_', ' ')}</h4>
-                        <p style={{ width: '100%' }}>
-                          {new Date(item?.date * 1000).toDateString()}
-                        </p>
-                      </a>
+    <TransitionGroup className="todo-list">
+      {data?.length > 0 ? (
+        data?.map((item, index) => (
+          <CSSTransition key={index} timeout={500} classNames="item">
+            <div className="transactions-list">
+              <div className="tr-item">
+                <div className="tr-company-name">
+                  <div className="tr-icon tr-card-icon text-primary tr-card-bg-primary">
+                    {icon(item?.type)}
+                  </div>
+                  <div className="tr-text">
+                    <a
+                      href={`https://etherscan.io/tx/${item?.id}`}
+                      target="_blank"
+                      rel="noreferrer nofollow"
+                    >
+                      <h4>{item?.type?.toUpperCase().replace('_', ' ')}</h4>
+                      <p style={{ width: '100%' }}>
+                        {new Date(item?.date * 1000).toDateString()}
+                      </p>
+                    </a>
 
-                      <a
-                        href={`https://etherscan.io/tx/${item?.id}`}
-                        target="_blank"
-                        rel="noreferrer nofollow"
-                      >
-                        <p>{item?.description}</p>
-                      </a>
-                    </div>
+                    <a
+                      href={`https://etherscan.io/tx/${item?.id}`}
+                      target="_blank"
+                      rel="noreferrer nofollow"
+                    >
+                      <p>{item?.description}</p>
+                    </a>
                   </div>
                 </div>
               </div>
-            </CSSTransition>
-          ))
-        ) : (
-          <p>No data to display</p>
-        )}
-      </TransitionGroup>
+            </div>
+          </CSSTransition>
+        ))
+      ) : (
+        <p>You don't have any transactions</p>
+      )}
       {/* <button className="btn btn-primary w-100" onClick={addItemHandler}>
         Add Item
       </button> */}
-    </div>
+    </TransitionGroup>
   );
 };
 

@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Logo from '../../assets/sidewaysLogo.png';
-import { connect } from 'react-redux';
-import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
-import { showAlert } from '../../Utils/Alert';
 import Modal from '../../Utils/Modal';
 import { isMobile } from 'react-device-detect';
 import styled from 'styled-components';
 import WalletModal from './WalletModal';
 
-const Auth = (props) => {
-  const { setAddr, setChainId } = props;
-  // const [isMetamask, setIsMetamask] = useState(true);
+const Auth = () => {
   const [isOpen, toggle] = useState(false);
-
-  // useEffect(() => {
-  //   if (window.ethereum === undefined) {
-  //     setIsMetamask(false);
-  //     showAlert('Please install MetaMask', 'error');
-  //   }
-  // }, []);
 
   const ModalContent = styled.div`
     width: 100%;
@@ -28,43 +16,12 @@ const Auth = (props) => {
     padding: 20px 1.6rem 0 1.6rem;
   `;
 
-  // const connectMetamask = async () => {
-  //   if (window.ethereum === undefined) {
-  //     setIsMetamask(false);
-  //     showAlert('Please install MetaMask', 'error');
-  //     return;
-  //   }
-
-  //   if (window.ethereum) {
-  //     try {
-  //       const accounts = await window.ethereum.request({
-  //         method: 'eth_requestAccounts',
-  //       });
-  //       if (accounts.length > 0) {
-  //         setAddr(accounts[0]);
-  //         sessionStorage.setItem('wallet_address', accounts[0]);
-  //       }
-  //       const chainId = await window.ethereum.request({
-  //         method: 'eth_chainId',
-  //       });
-  //       if (chainId) {
-  //         setChainId(chainId);
-  //         sessionStorage.setItem('chain_id', chainId);
-  //       }
-  //     } catch (error) {
-  //       if (error.code === 4001) {
-  //         showAlert('Please connect MetaMask', 'error');
-  //       }
-  //     }
-  //   }
-  // };
   const config = {
-    supportedChainIds: [1, 100],
+    supportedChainIds: [1, 56], // 1 - ethereum mainnet, 56 - binance smart chain
     connectors: {
       walletconnect: {
         rpc: {
           1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
-          // 100: 'https://dai.poa.network',
         },
         bridge: 'https://bridge.walletconnect.org',
         qrcode: true,
@@ -73,21 +30,11 @@ const Auth = (props) => {
       walletlink: {
         rpc: {
           1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
-          // 100: 'https://dai.poa.network',
         },
         bridge: 'https://bridge.walletconnect.org',
         qrcode: true,
         pollingInterval: 15000,
       },
-      // portris: {
-      //   rpc: {
-      //     1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
-      //     // 100: 'https://dai.poa.network',
-      //   },
-      //   bridge: 'https://bridge.walletconnect.org',
-      //   qrcode: true,
-      //   pollingInterval: 15000,
-      // },
     },
   };
   return (
@@ -103,17 +50,14 @@ const Auth = (props) => {
                 <div className="authent-text">
                   <p>Please connect your wallet</p>
                 </div>
-                {/* {isMetamask && ( */}
                 <div className="d-grid">
                   <button
                     className="btn btn-danger m-b-xs"
                     onClick={() => toggle(true)}
-                    // onClick={connectMetamask}
                   >
                     Connect to a wallet
                   </button>
                 </div>
-                {/* )} */}
               </div>
             </div>
           </div>
@@ -144,17 +88,4 @@ const Auth = (props) => {
   );
 };
 
-const mapstateToProps = (state) => ({
-  address: state.auth.wallet_address,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setAddr: (address) => {
-    dispatch(setAddress(address));
-  },
-  setChainId: (chainId) => {
-    dispatch(setChainId(chainId));
-  },
-});
-
-export default connect(mapstateToProps, mapDispatchToProps)(Auth);
+export default Auth;

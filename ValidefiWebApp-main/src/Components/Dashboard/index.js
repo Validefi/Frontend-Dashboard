@@ -14,7 +14,12 @@ import { isMobile } from 'react-device-detect';
 import { ArrowRight } from 'react-feather';
 import Web3 from 'web3';
 
-const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
+const Dashboard = ({
+  wallet_address,
+  wallet_balance,
+  chainId,
+  setMonitoredWallet,
+}) => {
   const [isOpen, toggle] = useState(false);
   const ModalContent = styled.div`
     width: 100%;
@@ -28,7 +33,7 @@ const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
       setMonitoredWallet(wallet);
       toggle(false);
     } else {
-      showAlert('Please enter valid wallet address', 'error');
+      showAlert('Please enter a valid wallet address', 'error');
     }
   };
   return (
@@ -52,7 +57,7 @@ const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
             <Box title="Monthly Profit" data={10} color="danger" />
             <BoxPortfolio
               title="Wallet Balance"
-              data={'$480.99'}
+              data={`$${wallet_balance.toFixed(2)}`}
               color="#FF1654"
             />
           </div>
@@ -60,7 +65,14 @@ const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
             <Chart />
             <LongBox
               title="Current Holdings"
-              url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+              url={`${process.env.REACT_APP_BASE_URL}/${
+                chainId === '0x1' ? 'ethTokenBalance/' : 'bscTokenBalance/'
+              }`}
+              refetchInterval={3000}
+              reqBody={{
+                address: '0x5AB868EF45e3E366F03fadBd3729902422799152',
+                // address: wallet_address,
+              }}
             />
           </div>
           {/* <div className="row">
@@ -72,16 +84,33 @@ const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
               isOpen={isOpen}
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
-              url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+              url={`${process.env.REACT_APP_BASE_URL}/${
+                chainId === '0x1' ? 'ethTokenBalance/' : 'bscTokenBalance/'
+              }`}
+              refetchInterval={3000}
+              reqBody={{
+                address: '0x5AB868EF45e3E366F03fadBd3729902422799152',
+                // address: wallet_address,
+              }}
             />
             <LongBox
               title="News &#38; Updates"
-              url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/assets?auth_key=VGVtcEtleQ%3D%3D`}
+              url={`${process.env.REACT_APP_BASE_URL}/news`}
+              isGetRequest
+              refetchInterval={30000}
             />
             <LongBox
               title="Your Transactions"
-              url={`https://stg-api.unmarshal.io/v1/ethereum/address/${wallet_address}/transactions?page=1&pageSize=5&auth_key=VGVtcEtleQ%3D%3D`}
-              // url="https://stg-api.unmarshal.io/v1/ethereum/address/0x48ba8eef1010be5dbf25f18a7cdb576ac66ca3c4/transactions?page=1&pageSize=5&auth_key=VGVtcEtleQ%3D%3D"
+              url={`${process.env.REACT_APP_BASE_URL}/${
+                chainId === '0x1'
+                  ? 'ethTransactionsLatest/'
+                  : 'bscTransactionsLatest/'
+              }`}
+              refetchInterval={3000}
+              reqBody={{
+                address: '0x5AB868EF45e3E366F03fadBd3729902422799152',
+                // address: wallet_address,
+              }}
             />
           </div>
         </div>
@@ -91,7 +120,7 @@ const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
         handleClose={() => toggle(false)}
         width={isMobile ? 85 : 30}
         height={isMobile ? 20 : 15}
-        title="Monitored Wallet"
+        title="Monitor Wallet"
       >
         <ModalContent>
           <TextInput handleSubmit={handleMonitorWallet} icon={<ArrowRight />} />
@@ -103,6 +132,8 @@ const Dashboard = ({ wallet_address, setMonitoredWallet }) => {
 
 const mapStateToProps = (state) => ({
   wallet_address: state.auth.wallet_address,
+  chainId: state.auth.chainId,
+  wallet_balance: state.wallet.balance,
 });
 
 const mapDispatchToProps = (dispatch) => ({

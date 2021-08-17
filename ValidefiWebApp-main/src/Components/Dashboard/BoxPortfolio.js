@@ -13,7 +13,7 @@ const Box = ({ title, data, color }) => {
         <div className="card-body">
           <h5 className="card-title">{title}</h5>
           <div className="dashboard-portfolio-card">
-            <h2 className="dashboard-portfolio-card-heading">{data}</h2>
+            <h3 className="dashboard-portfolio-card-heading">{data}</h3>
             <SmallChart series={series} color={color} width={260} height={40} />
           </div>
         </div>

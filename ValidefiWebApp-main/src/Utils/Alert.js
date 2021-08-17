@@ -2,7 +2,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
 const config = {
-  position: 'bottom-center',
+  position: 'top-center',
   autoClose: 5000,
   hideProgressBar: true,
   closeOnClick: true,

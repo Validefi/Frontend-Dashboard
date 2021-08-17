@@ -2,12 +2,22 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import TransitionGroup from './TransitionGroup';
 import TransactionTransition from './TransactionTransition';
+import NewsTransitionGroup from './NewsTransitionGroup';
 import { useQuery, useQueryClient } from 'react-query';
 import Loading from '../Loading';
 import { connect } from 'react-redux';
 import { Plus } from 'react-feather';
 
-const LongBox = ({ title, url, wallet_address, isAddIcon, toggleModal }) => {
+const LongBox = ({
+  title,
+  url,
+  wallet_address,
+  isAddIcon,
+  toggleModal,
+  refetchInterval,
+  isGetRequest,
+  reqBody,
+}) => {
   const queryClient = useQueryClient();
 
   const { isLoading, error, data, refetch } = useQuery(
@@ -16,15 +26,22 @@ const LongBox = ({ title, url, wallet_address, isAddIcon, toggleModal }) => {
       const CancelToken = axios.CancelToken;
       const source = CancelToken.source();
 
-      const promise = await axios.get(url, { cancelToken: source.token });
+      let promise;
+      if (isGetRequest) {
+        promise = await axios.get(url, { cancelToken: source.token });
+      } else {
+        promise = await axios.post(url, reqBody, { cancelToken: source.token });
+      }
+
       promise.cancel = () => {
         source.cancel('Aborting the request');
       };
       return promise;
     },
     {
-      retry: 2,
-      // refetchInterval: 1000,
+      retry: (count, { message: status }) =>
+        status !== '404' && status !== '401',
+      refetchInterval: refetchInterval,
     }
   );
   useEffect(() => {
@@ -32,8 +49,7 @@ const LongBox = ({ title, url, wallet_address, isAddIcon, toggleModal }) => {
     return () => {
       queryClient.cancelQueries(title);
     };
-  }, [queryClient, refetch, title, wallet_address]);
-
+  }, [wallet_address]);
   return (
     <>
       <div className="col-sm-6 col-xl-4 ">
@@ -41,10 +57,13 @@ const LongBox = ({ title, url, wallet_address, isAddIcon, toggleModal }) => {
           <div
             className="card-body"
             style={{
-              minHeight: title === 'Current Holdings' ? '476px' : '573px',
+              height: title === 'Current Holdings' ? '462px' : '573px',
             }}
           >
-            <div className="card-body-header">
+            <div
+              className="card-body-header"
+              style={{ position: 'sticky', top: 0, height: '10%' }}
+            >
               <h5 className="card-title">{title}</h5>
               {isAddIcon ? (
                 <p
@@ -54,26 +73,43 @@ const LongBox = ({ title, url, wallet_address, isAddIcon, toggleModal }) => {
                   Add <Plus size={15} />
                 </p>
               ) : (
-                <p className="card-title-view">View All</p>
+                <>
+                  {title !== 'Current Holdings' && (
+                    <p className="card-title-view">View All</p>
+                  )}
+                </>
               )}
             </div>
-            {isLoading && <Loading />}
+            {isLoading && !error && <Loading />}
             {!isLoading && error && (
               <p>
                 There seems to be some problem while fetching the data. Please
                 try again.
               </p>
             )}
-            {data && title !== 'Your Transactions' && (
-              <TransitionGroup title={title} data={data?.data} />
-            )}
-
-            {data && title === 'Your Transactions' && (
-              <TransactionTransition
-                title={title}
-                data={data?.data?.transactions}
-              />
-            )}
+            <div
+              style={{
+                height: '90%',
+                overflow: 'hidden scroll',
+                scrollbarWidth: 'thin',
+              }}
+            >
+              {data && title === 'Current Holdings' && (
+                <TransitionGroup title={title} data={data?.data} />
+              )}
+              {data && title === 'Monitored Wallets' && (
+                <TransitionGroup title={title} data={data?.data} />
+              )}
+              {data && title === 'News & Updates' && (
+                <NewsTransitionGroup title={title} data={data?.data?.results} />
+              )}
+              {data && title === 'Your Transactions' && (
+                <TransactionTransition
+                  title={title}
+                  data={data?.data?.transactions}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

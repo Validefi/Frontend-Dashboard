@@ -8,3 +8,9 @@ export const setMonitorWallet = (wallet) => {
     wallet: wallet,
   };
 };
+export const setWalletBalance = (balance) => {
+  return {
+    type: ActionTypes.SET_WALLET_BALANCE,
+    balance: balance,
+  };
+};

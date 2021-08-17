@@ -9,14 +9,18 @@ const Sidebar = lazy(() => import('../Sidebar'));
 
 const Layout = (params) => {
   const { children, layout, setAddress, setChainId, ...props } = params;
-  const wallet_address = localStorage.getItem('wallet_address');
-  console.log(wallet_address);
+
+  const wallet_address = localStorage.getItem('wallet_address') || '';
+
   useEffect(() => {
     if (
       localStorage.getItem('wallet_address') &&
       Web3.utils.isAddress(localStorage.getItem('wallet_address'))
     ) {
       setAddress(localStorage.getItem('wallet_address'));
+    }
+    if (localStorage.getItem('chain_id')) {
+      setChainId(localStorage.getItem('chain_id'));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallet_address]);
@@ -35,7 +39,6 @@ const Layout = (params) => {
 
       window.ethereum?.on('chainChanged', function (chainId) {
         if (chainId.length > 0) {
-          setChainId(chainId);
           localStorage.setItem('chain_id', chainId);
           window.location.reload();
         }
@@ -44,7 +47,7 @@ const Layout = (params) => {
     if (window.ethereum !== undefined) {
       listenAccount();
     }
-  }, [setAddress, setChainId]);
+  }, []);
 
   return (
     <>

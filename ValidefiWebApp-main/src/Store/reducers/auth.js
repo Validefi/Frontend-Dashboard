@@ -104,6 +104,8 @@ const authReducer = (state = initState, action) => {
           label: 'Ethereum Mainnet',
         },
       };
+    case ActionTypes.SET_CHAIN_ID:
+      return { ...state, chainId: action.chainId };
 
     default:
       return state;

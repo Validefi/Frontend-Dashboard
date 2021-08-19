@@ -15,10 +15,11 @@ const connectors = {
   portis: PortisConnector,
 };
 
+export const injected = new InjectedConnector({
+  supportedNetworks: [1, 56],
+});
+
 export function getSupportedWallets(config) {
-  const injected = new connectors['injected']({
-    supportedChainIds: config.supportedChainIds,
-  });
   const supportedWallets = {
     injected: {
       connector: injected,

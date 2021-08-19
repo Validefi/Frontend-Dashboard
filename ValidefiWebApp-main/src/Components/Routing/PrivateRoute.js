@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import { isAddress } from '../../Utils';
 
 const updateChildrenWithProps = (props, children) =>
   React.Children.map(children, (child, i) => {
@@ -16,11 +15,7 @@ const PrivateRouteComponent = (props) => (
   <Route
     {...props.routeProps}
     render={(renderProps) => {
-      if (
-        !props.isAuthenticated ||
-        window.ethereum === undefined ||
-        !isAddress(localStorage.getItem('wallet_address'))
-      ) {
+      if (!props.isAuthenticated) {
         return (
           <Redirect
             to={{

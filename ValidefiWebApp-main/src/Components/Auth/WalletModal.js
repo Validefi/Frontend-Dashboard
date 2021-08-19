@@ -112,10 +112,8 @@ export default function WalletModal({ config, isOpen, onClose }) {
   //Set wallet address and chainId on change of account
   useEffect(() => {
     if (account && chainId) {
-      localStorage.setItem('wallet_address', account);
-      localStorage.setItem('chain_id', chainId || 1);
       dispatch(setAddress(account));
-      dispatch(setChainId(chainId || 1));
+      dispatch(setChainId(chainId || '0x1'));
     }
   }, [account, chainId, dispatch, walletView]);
 
@@ -283,10 +281,8 @@ export default function WalletModal({ config, isOpen, onClose }) {
       );
     }
     if (account && chainId) {
-      localStorage.setItem('wallet_address', account);
-      localStorage.setItem('chain_id', chainId || 1);
       dispatch(setAddress(account));
-      dispatch(setChainId(chainId || 1));
+      dispatch(setChainId(chainId || '0x1'));
       return;
     }
     return (

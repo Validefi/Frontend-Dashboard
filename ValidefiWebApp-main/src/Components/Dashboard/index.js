@@ -17,7 +17,7 @@ import { ArrowRight } from 'react-feather';
 const Dashboard = ({
   wallet_address,
   wallet_balance,
-  chainId,
+  isEthereum,
   setMonitoredWallet,
 }) => {
   const [isOpen, toggle] = useState(false);
@@ -66,7 +66,7 @@ const Dashboard = ({
             <LongBox
               title="Current Holdings"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 ? 'ethTokenBalance/' : 'bscTokenBalance/'
+                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
               }`}
               refetchInterval={3000}
               reqBody={{
@@ -85,7 +85,7 @@ const Dashboard = ({
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 ? 'ethTokenBalance/' : 'bscTokenBalance/'
+                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
               }`}
               refetchInterval={3000}
               reqBody={{
@@ -102,9 +102,7 @@ const Dashboard = ({
             <LongBox
               title="Your Transactions"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1
-                  ? 'ethTransactionsLatest/'
-                  : 'bscTransactionsLatest/'
+                isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
               }`}
               refetchInterval={3000}
               reqBody={{
@@ -131,8 +129,7 @@ const Dashboard = ({
 };
 
 const mapStateToProps = (state) => ({
-  wallet_address: state.auth.wallet_address,
-  chainId: state.auth.chainId,
+  isEthereum: state.auth.isEthereum,
   wallet_balance: state.wallet.balance,
 });
 

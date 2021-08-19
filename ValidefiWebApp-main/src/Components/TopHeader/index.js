@@ -8,6 +8,7 @@ import Logo from '../../assets/logo1.svg';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Loading from '../Loading';
 import TextInput from '../../Utils/TextInput';
+import { showAlert } from '../../Utils/Alert';
 
 const TopHeader = ({
   isEthereum,
@@ -60,6 +61,21 @@ const TopHeader = ({
 
   const handleSubmit = (text) => console.log(text);
 
+  const changeNetwork = async (option) => {
+    setChainId(option.value === 'ETH' ? '0x1' : '0x38');
+    if (window.ethereum) {
+      try {
+        await window.ethereum.enable();
+        window.ethereum._handleChainChanged({
+          chainId: option.value === 'ETH' ? 0x1 : 0x38,
+          networkVersion: option.value === 'ETH' ? 1 : 56,
+        });
+      } catch (error) {
+        showAlert('Please try again', 'error');
+      }
+    }
+  };
+
   return (
     <div className="page-header">
       <nav className="navbar navbar-expand-lg d-flex justify-content-between">
@@ -96,9 +112,7 @@ const TopHeader = ({
                 styles={customStyles}
                 defaultValue={options[isEthereum ? 0 : 1]}
                 isSearchable={false}
-                onChange={(option) => {
-                  setChainId(option.value === 'ETH' ? 1 : 56);
-                }}
+                onChange={changeNetwork}
                 options={options}
               />
             </li>

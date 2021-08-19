@@ -1,7 +1,13 @@
 import React, { lazy, useEffect, useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
-import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
+import {
+  setAddress,
+  setChainId,
+  setNetwork,
+} from '../../Store/actionCreatos/auth';
+import { injected } from '../Connectors';
 import { isAddress } from '../../Utils';
+import { useWeb3React } from '@web3-react/core';
 
 const TopHeader = lazy(() => import('../TopHeader'));
 // const BottomHeader = lazy(() => import('../BottomHeader'));
@@ -9,44 +15,66 @@ const Sidebar = lazy(() => import('../Sidebar'));
 
 const Layout = (params) => {
   const { children, layout, setAddress, setChainId, ...props } = params;
+  const { active, error, activate, account, chainId } = useWeb3React();
 
-  const wallet_address = localStorage.getItem('wallet_address') || '';
-
-  // useLayoutEffect(() => {
-  //   if (
-  //     localStorage.getItem('wallet_address') &&
-  //     isAddress(localStorage.getItem('wallet_address'))
-  //   ) {
-  //     setAddress(localStorage.getItem('wallet_address'));
-  //   }
-  //   if (localStorage.getItem('chain_id')) {
-  //     setChainId(localStorage.getItem('chain_id'));
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [wallet_address]);
-
-  useEffect(() => {
-    async function listenAccount() {
-      window?.ethereum?.on('accountsChanged', function (accounts) {
-        if (accounts?.length === 0) {
-          setAddress(null);
-          localStorage.removeItem('wallet_address');
-        } else if (isAddress(accounts[0])) {
-          setAddress(accounts[0]);
-          localStorage.setItem('wallet_address', accounts[0]);
+  useLayoutEffect(() => {
+    injected
+      ?.isAuthorized()
+      .then((isAuthorized) => {
+        setAddress(account);
+        setChainId(chainId);
+        if (isAuthorized && !active && !error) {
+          activate(injected);
         }
+      })
+      .catch(() => {
+        setAddress(null);
+        setChainId(null);
       });
+  }, [activate, active, error]);
 
-      window?.ethereum?.on('chainChanged', function (chainId) {
-        if (chainId?.length > 0) {
-          localStorage.setItem('chain_id', chainId);
-        }
-      });
-    }
-    if (window.ethereum !== undefined) {
-      listenAccount();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const { ethereum } = window;
+
+  //   if (ethereum && ethereum.on && !error) {
+  //     const handleConnect = () => {
+  //       activate(injected);
+  //     };
+
+  //     const handleAccountsChanged = (accounts) => {
+  //       if (accounts?.length === 0) {
+  //         setAddress(null);
+  //       } else if (isAddress(accounts[0])) {
+  //         setAddress(accounts[0]);
+  //         activate(injected);
+  //       }
+  //     };
+
+  //     const handleChainChanged = (chainId) => {
+  //       setChainId(chainId);
+  //       activate(injected);
+  //     };
+
+  //     const handleNetworkChanged = (networkId) => {
+  //       setNetwork(networkId);
+  //       activate(injected);
+  //     };
+
+  //     ethereum?.on('connect', handleConnect);
+  //     ethereum?.on('accountsChanged', handleAccountsChanged);
+  //     ethereum?.on('chainChanged', handleChainChanged);
+  //     ethereum.on('networkChanged', handleNetworkChanged);
+
+  //     return () => {
+  //       if (ethereum.removeListener) {
+  //         ethereum.removeListener('connect', handleConnect);
+  //         ethereum.removeListener('accountsChanged', handleAccountsChanged);
+  //         ethereum.removeListener('chainChanged', handleChainChanged);
+  //         ethereum.removeListener('networkChanged', handleNetworkChanged);
+  //       }
+  //     };
+  //   }
+  // }, []);
 
   return (
     <>

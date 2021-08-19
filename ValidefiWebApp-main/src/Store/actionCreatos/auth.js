@@ -57,3 +57,9 @@ export const setChainId = (chainId) => {
     chainId: chainId,
   };
 };
+export const setNetwork = (networkId) => {
+  return {
+    type: ActionTypes.SET_NETWORK_ID,
+    networkId: networkId,
+  };
+};

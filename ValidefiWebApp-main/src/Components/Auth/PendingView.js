@@ -69,19 +69,21 @@ export default function PendingView({
 
   return (
     <PendingSection>
-      <LoadingMessage error={error}>
+      <LoadingMessage>
         <LoadingWrapper>
           {error ? (
             <ErrorGroup>
               <p>Error in connecting with the wallet</p>
-              <ErrorButton
-                onClick={() => {
-                  setPendingError(false);
-                  connector && tryActivation(connector);
-                }}
-              >
-                Try again
-              </ErrorButton>
+              {connector && (
+                <ErrorButton
+                  onClick={() => {
+                    setPendingError(false);
+                    tryActivation(connector);
+                  }}
+                >
+                  Try again
+                </ErrorButton>
+              )}
             </ErrorGroup>
           ) : (
             <p className="text-muted">Initializing...</p>

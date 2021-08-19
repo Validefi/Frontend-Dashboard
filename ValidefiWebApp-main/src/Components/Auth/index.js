@@ -45,7 +45,7 @@ const Auth = () => {
             <div className="card login-box-container">
               <div className="card-body">
                 <div className="authent-logo">
-                  <img src={Logo} alt="ValiDefi" width="70%" />
+                  <img src={Logo} alt="ValiDefi" width="60%" />
                 </div>
                 <div className="authent-text">
                   <p>Please connect your wallet</p>

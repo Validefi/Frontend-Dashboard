@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import Web3 from 'web3';
+import { isAddress } from '../../Utils';
 
 const updateChildrenWithProps = (props, children) =>
   React.Children.map(children, (child, i) => {
@@ -19,7 +19,7 @@ const PrivateRouteComponent = (props) => (
       if (
         !props.isAuthenticated ||
         window.ethereum === undefined ||
-        !Web3.utils.isAddress(localStorage.getItem('wallet_address'))
+        !isAddress(localStorage.getItem('wallet_address'))
       ) {
         return (
           <Redirect

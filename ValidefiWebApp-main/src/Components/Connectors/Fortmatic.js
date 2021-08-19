@@ -4,9 +4,7 @@ export const OVERLAY_READY = 'OVERLAY_READY';
 
 const CHAIN_ID_NETWORK_ARGUMENT = {
   1: undefined,
-  3: 'ropsten',
-  4: 'rinkeby',
-  42: 'kovan',
+  56: 'binance smart chain',
 };
 
 export class FortmaticConnector extends FortmaticConnectorCore {

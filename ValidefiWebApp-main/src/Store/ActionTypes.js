@@ -12,7 +12,6 @@ export const REGISTER_FAILED = 'REGISTER_FAILED';
 
 export const SET_WALLET_ADDRESS = 'SET_WALLET_ADDRESS';
 export const SET_CHAIN_ID = 'SET_CHAIN_ID';
-export const SET_NETWORK = 'SET_NETWORK';
 
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
 

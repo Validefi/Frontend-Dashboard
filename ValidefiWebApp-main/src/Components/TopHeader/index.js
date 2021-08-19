@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ArrowLeft, Moon, Search, Sun } from 'react-feather';
 import { connect } from 'react-redux';
 import { toggleSidebar } from '../../Store/actionCreatos/settings';
-import { setNetwork } from '../../Store/actionCreatos/auth';
+import { setChainId } from '../../Store/actionCreatos/auth';
 import Select from 'react-select';
 import Logo from '../../assets/logo1.svg';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
@@ -10,13 +10,12 @@ import Loading from '../Loading';
 import TextInput from '../../Utils/TextInput';
 
 const TopHeader = ({
-  network,
-  setNetwork,
+  isEthereum,
   isSidebarVisible,
+  setChainId,
   toggleSidebar,
   wallet_address,
 }) => {
-  const [text, setText] = useState('');
   const { switcher, themes, currentTheme, status } = useThemeSwitcher();
   const [isDarkMode, setIsDarkMode] = useState(currentTheme === 'dark');
 
@@ -47,8 +46,8 @@ const TopHeader = ({
     }),
   };
   const options = [
-    { value: 'Ethereum Mainnet', label: 'Ethereum Mainnet' },
-    { value: 'Binance Smart Chain', label: 'Binance Smart Chain' },
+    { value: 'ETH', label: 'Ethereum Mainnet' },
+    { value: 'BSC', label: 'Binance Smart Chain' },
   ];
   const toggle = () => {
     toggleSidebar(!isSidebarVisible);
@@ -95,9 +94,11 @@ const TopHeader = ({
             >
               <Select
                 styles={customStyles}
-                defaultValue={network}
+                defaultValue={options[isEthereum ? 0 : 1]}
                 isSearchable={false}
-                onChange={setNetwork}
+                onChange={(option) => {
+                  setChainId(option.value === 'ETH' ? 1 : 56);
+                }}
                 options={options}
               />
             </li>
@@ -135,7 +136,7 @@ const TopHeader = ({
 
 const mapStateToProps = (state) => ({
   isSidebarVisible: state.settings.isSidebarVisible,
-  network: state.auth.network,
+  isEthereum: state.auth.isEthereum,
   wallet_address: state.auth.wallet_address,
 });
 
@@ -143,8 +144,8 @@ const mapDispatchToProps = (dispatch) => ({
   toggleSidebar: (isSidebarVisible) => {
     dispatch(toggleSidebar(isSidebarVisible));
   },
-  setNetwork: (network) => {
-    dispatch(setNetwork(network));
+  setChainId: (chainId) => {
+    dispatch(setChainId(chainId));
   },
 });
 

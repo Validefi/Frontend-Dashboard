@@ -120,6 +120,7 @@ export default function Option({
       </IconWrapper>
     </OptionCardClickable>
   );
+
   if (link) {
     return <a href={link}>{content}</a>;
   }

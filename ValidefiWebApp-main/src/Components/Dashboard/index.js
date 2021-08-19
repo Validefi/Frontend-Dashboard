@@ -8,11 +8,11 @@ import { connect } from 'react-redux';
 import Modal from '../../Utils/Modal';
 import { showAlert } from '../../Utils/Alert';
 import TextInput from '../../Utils/TextInput';
+import { isAddress } from '../../Utils';
 import { setMonitorWallet } from '../../Store/actionCreatos/wallets';
 import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
 import { ArrowRight } from 'react-feather';
-import Web3 from 'web3';
 
 const Dashboard = ({
   wallet_address,
@@ -29,7 +29,7 @@ const Dashboard = ({
     padding: 20px 1.6rem 0 1.6rem;
   `;
   const handleMonitorWallet = (wallet) => {
-    if (Web3.utils.isAddress(wallet)) {
+    if (isAddress(wallet)) {
       setMonitoredWallet(wallet);
       toggle(false);
     } else {
@@ -66,7 +66,7 @@ const Dashboard = ({
             <LongBox
               title="Current Holdings"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === '0x1' ? 'ethTokenBalance/' : 'bscTokenBalance/'
+                chainId === 1 ? 'ethTokenBalance/' : 'bscTokenBalance/'
               }`}
               refetchInterval={3000}
               reqBody={{
@@ -85,7 +85,7 @@ const Dashboard = ({
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === '0x1' ? 'ethTokenBalance/' : 'bscTokenBalance/'
+                chainId === 1 ? 'ethTokenBalance/' : 'bscTokenBalance/'
               }`}
               refetchInterval={3000}
               reqBody={{
@@ -102,7 +102,7 @@ const Dashboard = ({
             <LongBox
               title="Your Transactions"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === '0x1'
+                chainId === 1
                   ? 'ethTransactionsLatest/'
                   : 'bscTransactionsLatest/'
               }`}

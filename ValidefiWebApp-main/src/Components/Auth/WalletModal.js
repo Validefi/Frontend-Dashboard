@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import MetamaskIcon from '../../assets/metamask.png';
 import { OVERLAY_READY } from '../Connectors/Fortmatic';
 import usePrevious from '../Hooks/usePrevious';
-import { setAddress } from '../../Store/actionCreatos/auth';
+import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
 
 // import AccountDetails from './AccountDetails';
 import { getSupportedWallets } from '../Connectors';
@@ -74,15 +74,13 @@ const HoverText = styled.div`
 `;
 
 const WALLET_VIEWS = {
-  OPTIONS: 'options',
-  OPTIONS_SECONDARY: 'options_secondary',
   ACCOUNT: 'account',
   PENDING: 'pending',
 };
 
 export default function WalletModal({ config, isOpen, onClose }) {
-  // important that these are destructed from the account-specific web3-react context
-  const { active, account, connector, activate, error } = useWeb3React();
+  const { active, account, connector, activate, error, chainId } =
+    useWeb3React();
   const [walletView, setWalletView] = useState(WALLET_VIEWS.ACCOUNT);
   const [pendingWallet, setPendingWallet] = useState();
   const [pendingError, setPendingError] = useState();
@@ -111,13 +109,15 @@ export default function WalletModal({ config, isOpen, onClose }) {
     }
   }, [isOpen]);
 
-  //Set wallet address on change of account
+  //Set wallet address and chainId on change of account
   useEffect(() => {
-    if (account && walletView === WALLET_VIEWS.ACCOUNT) {
+    if (account && chainId) {
       localStorage.setItem('wallet_address', account);
+      localStorage.setItem('chain_id', chainId || 1);
       dispatch(setAddress(account));
+      dispatch(setChainId(chainId || 1));
     }
-  }, [account, dispatch, walletView]);
+  }, [account, chainId, dispatch, walletView]);
 
   // close modal when a connection is successful
   const activePrevious = usePrevious(active);
@@ -139,6 +139,13 @@ export default function WalletModal({ config, isOpen, onClose }) {
     activePrevious,
     connectorPrevious,
   ]);
+
+  // close wallet modal if fortmatic modal is active
+  useEffect(() => {
+    fortmatic?.connector.on(OVERLAY_READY, () => {
+      onClose();
+    });
+  }, [onClose, fortmatic]);
 
   const tryActivation = async (connector) => {
     Object.keys(supportedWallets).map((key) => {
@@ -167,13 +174,6 @@ export default function WalletModal({ config, isOpen, onClose }) {
         }
       });
   };
-
-  // close wallet modal if fortmatic modal is active
-  useEffect(() => {
-    fortmatic?.connector.on(OVERLAY_READY, () => {
-      onClose();
-    });
-  }, [onClose, fortmatic]);
 
   // get wallets user can switch too, depending on device/browser
   function getOptions() {
@@ -227,9 +227,8 @@ export default function WalletModal({ config, isOpen, onClose }) {
                 size={28}
               />
             );
-          } else {
-            return null; //dont want to return install twice
           }
+          return null; //dont want to return install twice
         }
         // don't return metamask if injected provider isn't metamask
         else if (option.name === 'MetaMask' && !isMetamask) {
@@ -272,18 +271,22 @@ export default function WalletModal({ config, isOpen, onClose }) {
         <UpperSection>
           <HeaderRow>
             {error instanceof UnsupportedChainIdError
-              ? 'Wrong Network'
+              ? 'Unsupported Network'
               : 'Error in connection'}
           </HeaderRow>
           <ContentWrapper className="text-muted">
             {error instanceof UnsupportedChainIdError
-              ? 'Please connect to the appropriate Ethereum network.'
+              ? 'Please connect either to Ethereum Mainnet or Binance Smart Chain'
               : 'There seems to be something wrong while connecting with the wallet. Try refreshing the page.'}
           </ContentWrapper>
         </UpperSection>
       );
     }
-    if (account && walletView === WALLET_VIEWS.ACCOUNT) {
+    if (account && chainId) {
+      localStorage.setItem('wallet_address', account);
+      localStorage.setItem('chain_id', chainId || 1);
+      dispatch(setAddress(account));
+      dispatch(setChainId(chainId || 1));
       return;
     }
     return (

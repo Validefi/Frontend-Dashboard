@@ -13,13 +13,10 @@ import { setMonitorWallet } from '../../Store/actionCreatos/wallets';
 import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
 import { ArrowRight } from 'react-feather';
+import { useWeb3React } from '@web3-react/core';
 
-const Dashboard = ({
-  wallet_address,
-  wallet_balance,
-  isEthereum,
-  setMonitoredWallet,
-}) => {
+const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
+  const { account, chainId } = useWeb3React();
   const [isOpen, toggle] = useState(false);
   const ModalContent = styled.div`
     width: 100%;
@@ -66,12 +63,13 @@ const Dashboard = ({
             <LongBox
               title="Current Holdings"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
+                chainId === 1 || chainId === 0x1
+                  ? 'ethTokenBalance/'
+                  : 'bscTokenBalance/'
               }`}
               refetchInterval={3000}
               reqBody={{
-                address: '0x5AB868EF45e3E366F03fadBd3729902422799152',
-                // address: wallet_address,
+                address: account,
               }}
             />
           </div>
@@ -85,12 +83,13 @@ const Dashboard = ({
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
+                chainId === 1 || chainId === 0x1
+                  ? 'ethTokenBalance/'
+                  : 'bscTokenBalance/'
               }`}
               refetchInterval={3000}
               reqBody={{
-                address: '0x5AB868EF45e3E366F03fadBd3729902422799152',
-                // address: wallet_address,
+                address: account,
               }}
             />
             <LongBox
@@ -102,12 +101,13 @@ const Dashboard = ({
             <LongBox
               title="Your Transactions"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
+                chainId === 1 || chainId === 0x1
+                  ? 'ethTransactionsLatest/'
+                  : 'bscTransactionsLatest/'
               }`}
               refetchInterval={3000}
               reqBody={{
-                address: '0x5AB868EF45e3E366F03fadBd3729902422799152',
-                // address: wallet_address,
+                address: account,
               }}
             />
           </div>
@@ -129,7 +129,6 @@ const Dashboard = ({
 };
 
 const mapStateToProps = (state) => ({
-  isEthereum: state.auth.isEthereum,
   wallet_balance: state.wallet.balance,
 });
 

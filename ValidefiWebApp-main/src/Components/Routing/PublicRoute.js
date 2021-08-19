@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
 
 const updateChildrenWithProps = (props, children) =>
   React.Children.map(children, (child, i) => {
@@ -12,6 +13,8 @@ const updateChildrenWithProps = (props, children) =>
   });
 
 const PublicRouteComponent = (props) => {
+  const { active } = useWeb3React();
+
   if (props.render) {
     return props.render({ match: props.computedMatch });
   }
@@ -21,7 +24,7 @@ const PublicRouteComponent = (props) => {
     <Route
       {...props.routeProps}
       render={(renderProps) =>
-        props.isAuthenticated && props.restricted ? (
+        active && props.restricted ? (
           <Redirect to="/dashboard" />
         ) : (
           <>{updateChildrenWithProps(renderProps, props.children)}</>
@@ -33,7 +36,6 @@ const PublicRouteComponent = (props) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: state.auth.isAuthenticated,
     restricted: ownProps.restricted,
     location: ownProps.path,
     routeProps: {

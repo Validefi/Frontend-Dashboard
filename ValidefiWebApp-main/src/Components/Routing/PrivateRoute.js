@@ -1,3 +1,4 @@
+import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
@@ -11,33 +12,36 @@ const updateChildrenWithProps = (props, children) =>
     });
   });
 
-const PrivateRouteComponent = (props) => (
-  <Route
-    {...props.routeProps}
-    render={(renderProps) => {
-      if (!props.isAuthenticated) {
-        return (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: props.computedMatch.url },
-            }}
-          />
-        );
-      }
+const PrivateRouteComponent = (props) => {
+  const { active, account } = useWeb3React();
 
-      if (props.render) {
-        return props.render({ match: props.computedMatch });
-      }
+  return (
+    <Route
+      {...props.routeProps}
+      render={(renderProps) => {
+        if (!account || !active) {
+          return (
+            <Redirect
+              to={{
+                pathname: '/login',
+                state: { from: props.computedMatch.url },
+              }}
+            />
+          );
+        }
 
-      return <>{updateChildrenWithProps(renderProps, props.children)}</>;
-    }}
-  />
-);
+        if (props.render) {
+          return props.render({ match: props.computedMatch });
+        }
+
+        return <>{updateChildrenWithProps(renderProps, props.children)}</>;
+      }}
+    />
+  );
+};
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    isAuthenticated: state.auth.isAuthenticated,
     location: ownProps.path,
     routeProps: {
       exact: ownProps.exact,

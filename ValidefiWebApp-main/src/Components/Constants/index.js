@@ -1,5 +1,3 @@
-export const WEB3_CONNECT_MODAL_ID = 'web3-connect-modal';
-
 export const SUPPORTED_WALLETS = {
   injected: {
     name: 'Injected',

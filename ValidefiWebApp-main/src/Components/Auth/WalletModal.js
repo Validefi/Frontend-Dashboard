@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import MetamaskIcon from '../../assets/metamask.png';
 import { OVERLAY_READY } from '../Connectors/Fortmatic';
 import usePrevious from '../Hooks/usePrevious';
-import { setAddress, setChainId } from '../../Store/actionCreatos/auth';
 
 // import AccountDetails from './AccountDetails';
 import { getSupportedWallets } from '../Connectors';
@@ -14,7 +13,6 @@ import { getWalletIcon } from '../../Utils';
 
 import Option from './Option';
 import PendingView from './PendingView';
-import { useDispatch } from 'react-redux';
 
 const Wrapper = styled.div`
   display: flex;
@@ -87,7 +85,6 @@ export default function WalletModal({ config, isOpen, onClose }) {
   const previousAccount = usePrevious(account);
   const [supportedWallets, setSupportedWallets] = useState({});
   const { fortmatic, portis, injected } = supportedWallets;
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const supportedWallets = getSupportedWallets(config);
@@ -108,14 +105,6 @@ export default function WalletModal({ config, isOpen, onClose }) {
       setWalletView(WALLET_VIEWS.ACCOUNT);
     }
   }, [isOpen]);
-
-  //Set wallet address and chainId on change of account
-  useEffect(() => {
-    if (account && chainId) {
-      dispatch(setAddress(account));
-      dispatch(setChainId(chainId || '0x1'));
-    }
-  }, [account, chainId, dispatch, walletView]);
 
   // close modal when a connection is successful
   const activePrevious = usePrevious(active);
@@ -281,8 +270,8 @@ export default function WalletModal({ config, isOpen, onClose }) {
       );
     }
     if (account && chainId) {
-      dispatch(setAddress(account));
-      dispatch(setChainId(chainId || '0x1'));
+      // dispatch(setAddress(account));
+      // dispatch(setChainId(chainId || 0x1));
       return;
     }
     return (

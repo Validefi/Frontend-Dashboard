@@ -2,23 +2,18 @@ import React, { useState } from 'react';
 import { ArrowLeft, Moon, Search, Sun } from 'react-feather';
 import { connect } from 'react-redux';
 import { toggleSidebar } from '../../Store/actionCreatos/settings';
-import { setChainId } from '../../Store/actionCreatos/auth';
 import Select from 'react-select';
 import Logo from '../../assets/logo1.svg';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Loading from '../Loading';
 import TextInput from '../../Utils/TextInput';
 import { showAlert } from '../../Utils/Alert';
+import { useWeb3React } from '@web3-react/core';
 
-const TopHeader = ({
-  isEthereum,
-  isSidebarVisible,
-  setChainId,
-  toggleSidebar,
-  wallet_address,
-}) => {
+const TopHeader = ({ isSidebarVisible, toggleSidebar }) => {
   const { switcher, themes, currentTheme, status } = useThemeSwitcher();
   const [isDarkMode, setIsDarkMode] = useState(currentTheme === 'dark');
+  const { account, chainId } = useWeb3React();
 
   if (status === 'loading') {
     return <Loading />;
@@ -62,7 +57,6 @@ const TopHeader = ({
   const handleSubmit = (text) => console.log(text);
 
   const changeNetwork = async (option) => {
-    setChainId(option.value === 'ETH' ? '0x1' : '0x38');
     if (window.ethereum) {
       try {
         await window.ethereum.enable();
@@ -110,7 +104,7 @@ const TopHeader = ({
             >
               <Select
                 styles={customStyles}
-                defaultValue={options[isEthereum ? 0 : 1]}
+                defaultValue={options[chainId === 1 || chainId === 0x1 ? 0 : 1]}
                 isSearchable={false}
                 onChange={changeNetwork}
                 options={options}
@@ -129,9 +123,7 @@ const TopHeader = ({
                     textAlign: 'center',
                   }}
                 >
-                  {`${wallet_address?.slice(0, 8)}...${wallet_address?.slice(
-                    -3
-                  )}`}
+                  {`${account?.slice(0, 8)}...${account?.slice(-3)}`}
                 </span>
               </div>
             </li>
@@ -150,16 +142,11 @@ const TopHeader = ({
 
 const mapStateToProps = (state) => ({
   isSidebarVisible: state.settings.isSidebarVisible,
-  isEthereum: state.auth.isEthereum,
-  wallet_address: state.auth.wallet_address,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   toggleSidebar: (isSidebarVisible) => {
     dispatch(toggleSidebar(isSidebarVisible));
-  },
-  setChainId: (chainId) => {
-    dispatch(setChainId(chainId));
   },
 });
 

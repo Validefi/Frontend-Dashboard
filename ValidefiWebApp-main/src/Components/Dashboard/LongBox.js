@@ -5,19 +5,20 @@ import TransactionTransition from './TransactionTransition';
 import NewsTransitionGroup from './NewsTransitionGroup';
 import { useQuery, useQueryClient } from 'react-query';
 import Loading from '../Loading';
-import { connect } from 'react-redux';
 import { Plus } from 'react-feather';
+import { useWeb3React } from '@web3-react/core';
 
 const LongBox = ({
   title,
   url,
-  wallet_address,
   isAddIcon,
   toggleModal,
   refetchInterval,
   isGetRequest,
   reqBody,
 }) => {
+  const { account } = useWeb3React();
+
   const queryClient = useQueryClient();
 
   const { isLoading, error, data, refetch } = useQuery(
@@ -49,7 +50,7 @@ const LongBox = ({
     return () => {
       queryClient.cancelQueries(title);
     };
-  }, [wallet_address]);
+  }, [account]);
   return (
     <>
       <div className="col-sm-6 col-xl-4 ">
@@ -117,8 +118,4 @@ const LongBox = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  wallet_address: state.auth.wallet_address,
-});
-
-export default connect(mapStateToProps)(LongBox);
+export default LongBox;

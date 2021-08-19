@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Circle,
-  FileText,
-  Grid,
-  Maximize2,
-  User,
-  Search,
-  LogOut,
-} from 'react-feather';
+import React from 'react';
+import { Circle, FileText, Grid, Maximize2, User, Search } from 'react-feather';
 import { NavLink } from 'react-router-dom';
 import TextInput from '../../Utils/TextInput';
 

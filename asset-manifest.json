@@ -8,7 +8,7 @@
     "static/js/5.593fc1cf.chunk.js": "/Frontend-Dashboard/static/js/5.593fc1cf.chunk.js",
     "main.css": "/Frontend-Dashboard/static/css/main.d5316dbc.chunk.css",
     "main.js": "/Frontend-Dashboard/static/js/main.9c2ce8c3.chunk.js",
-    "runtime-main.js": "/Frontend-Dashboard/static/js/runtime-main.810880df.js",
+    "runtime-main.js": "/Frontend-Dashboard/static/js/runtime-main.799ec4e3.js",
     "static/js/8.818fe285.chunk.js": "/Frontend-Dashboard/static/js/8.818fe285.chunk.js",
     "static/js/9.f31f341b.chunk.js": "/Frontend-Dashboard/static/js/9.f31f341b.chunk.js",
     "static/css/10.0a0a0bb0.chunk.css": "/Frontend-Dashboard/static/css/10.0a0a0bb0.chunk.css",
@@ -16,7 +16,7 @@
     "static/js/11.20602d59.chunk.js": "/Frontend-Dashboard/static/js/11.20602d59.chunk.js",
     "static/js/12.dbbf93c1.chunk.js": "/Frontend-Dashboard/static/js/12.dbbf93c1.chunk.js",
     "static/js/13.7cd2b271.chunk.js": "/Frontend-Dashboard/static/js/13.7cd2b271.chunk.js",
-    "static/js/14.b9c98ddb.chunk.js": "/Frontend-Dashboard/static/js/14.b9c98ddb.chunk.js",
+    "static/js/14.9322ca75.chunk.js": "/Frontend-Dashboard/static/js/14.9322ca75.chunk.js",
     "static/js/15.c7848b64.chunk.js": "/Frontend-Dashboard/static/js/15.c7848b64.chunk.js",
     "static/js/16.2b92c92c.chunk.js": "/Frontend-Dashboard/static/js/16.2b92c92c.chunk.js",
     "static/css/17.3797f56e.chunk.css": "/Frontend-Dashboard/static/css/17.3797f56e.chunk.css",
@@ -47,7 +47,7 @@
     "static/media/walletConnectIcon.1e5a2e2f.svg": "/Frontend-Dashboard/static/media/walletConnectIcon.1e5a2e2f.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.810880df.js",
+    "static/js/runtime-main.799ec4e3.js",
     "static/css/10.0a0a0bb0.chunk.css",
     "static/js/10.5ecdcaec.chunk.js",
     "static/css/main.d5316dbc.chunk.css",

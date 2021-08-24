@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import TextInput from '../../Utils/TextInput';
 
 const Sidebar = () => {
+  // const { deactivate } = useWeb3React();
+
   const handleSubmit = (text) => {
     console.log(text);
   };
@@ -50,15 +52,10 @@ const Sidebar = () => {
             Profile
           </NavLink>
         </li>
-        {/* <li
-          onClick={() => {
-            localStorage.clear();
-            window.location.reload();
-          }}
-        >
+        {/* <li onClick={deactivate}>
           <NavLink to="/">
             <LogOut />
-            Logout
+            Disconnect
           </NavLink>
         </li> */}
       </ul>

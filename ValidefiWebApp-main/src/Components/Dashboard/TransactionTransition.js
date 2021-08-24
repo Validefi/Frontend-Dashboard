@@ -12,8 +12,11 @@ import {
   MinusCircle,
   PlusCircle,
 } from 'react-feather';
+import { useWeb3React } from '@web3-react/core';
 
 const Transition = ({ title, data }) => {
+  const { chainId } = useWeb3React();
+
   const [items, setItems] = useState([
     { id: Math.random(), name: 'Bitcoin', value: 0.222, symbol: 'BTC' },
     { id: Math.random(), name: 'Dogecoin', value: 100.1212, symbol: 'Doge' },
@@ -84,7 +87,11 @@ const Transition = ({ title, data }) => {
                   </div>
                   <div className="tr-text">
                     <a
-                      href={`https://etherscan.io/tx/${item?.id}`}
+                      href={
+                        chainId === 1 || chainId === '0x1'
+                          ? `https://etherscan.io/tx/${item?.id}`
+                          : `https://bscscan.com/tx/${item?.id}`
+                      }
                       target="_blank"
                       rel="noreferrer nofollow"
                     >
@@ -95,7 +102,11 @@ const Transition = ({ title, data }) => {
                     </a>
 
                     <a
-                      href={`https://etherscan.io/tx/${item?.id}`}
+                      href={
+                        chainId === 1 || chainId === '0x1'
+                          ? `https://etherscan.io/tx/${item?.id}`
+                          : `https://bscscan.com/tx/${item?.id}`
+                      }
                       target="_blank"
                       rel="noreferrer nofollow"
                     >

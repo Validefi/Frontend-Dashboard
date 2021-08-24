@@ -1,6 +1,5 @@
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Info } from 'react-feather';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 const NewsTransition = ({ title, data }) => {
@@ -10,11 +9,15 @@ const NewsTransition = ({ title, data }) => {
       {data?.length > 0 ? (
         data?.map((item, index) => (
           <CSSTransition key={index} timeout={500} classNames="item">
-            <div className="transactions-list">
+            <div className="transactions-list box-shadow">
               <div className="tr-item">
                 <div className="tr-company-name">
                   <div className="tr-icon tr-card-icon text-primary tr-card-bg-primary">
-                    <Info />
+                    <img
+                      alt="Favicon"
+                      src={`https://www.google.com/s2/favicons?sz=32&domain_url=${item?.source?.domain}`}
+                      width="25px"
+                    />
                   </div>
                   <a
                     className="tr-text"
@@ -28,17 +31,28 @@ const NewsTransition = ({ title, data }) => {
                         currentTheme === 'dark' ? 'text-white' : 'text-dark'
                       }
                     >
-                      {item?.title.length > 50
+                      {/* {item?.title.length > 50
                         ? `${item?.title?.slice(0, 50)}...`
-                        : item?.title}
+                        : item?.title} */}
+                      {item?.title}
                     </h6>
-                    <p className="text-muted">
-                      {new Date(item?.published_at)
-                        .toDateString()
-                        .split(' ')
-                        .slice(1)
-                        .join(' ')}
-                    </p>
+                    <div className="d-flex justify-content-between align-items-center">
+                      <p className="text-muted">
+                        {new Date(item?.published_at)
+                          .toDateString()
+                          .split(' ')
+                          .slice(1)
+                          .join(' ')}
+                      </p>
+                      <p
+                        style={{
+                          color: currentTheme === 'dark' ? '#fff' : '#1a1a1a',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {item?.source?.domain}
+                      </p>
+                    </div>
                   </a>
                 </div>
               </div>

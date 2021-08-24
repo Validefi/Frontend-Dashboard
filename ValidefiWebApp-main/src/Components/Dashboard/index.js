@@ -63,13 +63,14 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
             <LongBox
               title="Current Holdings"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 || chainId === 0x1
+                chainId === 1 || chainId === '0x1'
                   ? 'ethTokenBalance/'
                   : 'bscTokenBalance/'
               }`}
-              refetchInterval={3000}
+              refetchInterval={30000}
               reqBody={{
-                address: account,
+                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
+                // address: account,
               }}
             />
           </div>
@@ -83,31 +84,33 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 || chainId === 0x1
+                chainId === 1 || chainId === '0x1'
                   ? 'ethTokenBalance/'
                   : 'bscTokenBalance/'
               }`}
-              refetchInterval={3000}
+              refetchInterval={30000}
               reqBody={{
                 address: account,
+                // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
             <LongBox
               title="News &#38; Updates"
-              url={`${process.env.REACT_APP_BASE_URL}/news`}
+              url={`${process.env.REACT_APP_BASE_URL}/news/`}
               isGetRequest
-              refetchInterval={30000}
+              refetchInterval={60000}
             />
             <LongBox
               title="Your Transactions"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 || chainId === 0x1
+                chainId === 1 || chainId === '0x1'
                   ? 'ethTransactionsLatest/'
                   : 'bscTransactionsLatest/'
               }`}
-              refetchInterval={3000}
+              refetchInterval={30000}
               reqBody={{
-                address: account,
+                // address: account,
+                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
           </div>
@@ -121,7 +124,11 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
         title="Monitor Wallet"
       >
         <ModalContent>
-          <TextInput handleSubmit={handleMonitorWallet} icon={<ArrowRight />} />
+          <TextInput
+            autoFocus={true}
+            handleSubmit={handleMonitorWallet}
+            icon={<ArrowRight />}
+          />
         </ModalContent>
       </Modal>
     </>

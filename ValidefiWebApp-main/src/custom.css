@@ -128,6 +128,14 @@ input:checked + .slider:before {
 #modal-close-button:hover line {
   stroke: #7888fc;
 }
+.box-shadow {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1); */
+  transition: 0.3s;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 5px;
+}
 
 @media (max-width: 1350px) {
   .form-section {

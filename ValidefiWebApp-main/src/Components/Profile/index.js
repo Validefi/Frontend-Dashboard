@@ -1,7 +1,10 @@
+// import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 import Section from './Section';
 
 const Profile = () => {
+  // const { deactivate } = useWeb3React();
+
   const sections = {
     Subscription: {
       title: ['Current Plan', 'Your Alerts'],
@@ -46,15 +49,16 @@ const Profile = () => {
                 {Object.keys(sections)?.map((section) => (
                   <Section title={section} data={sections[section]} />
                 ))}
-                <div className="row d-inline-block">
+                {/* <div className="row d-inline-block">
                   <button
                     type="button"
                     class="btn btn-danger m-b-xs"
                     style={{ marginLeft: '1rem' }}
+                    onClick={deactivate}
                   >
-                    Delete Account
+                    Disconnect Account
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -17,7 +17,7 @@ const LongBox = ({
   isGetRequest,
   reqBody,
 }) => {
-  const { account } = useWeb3React();
+  const { account, chainId } = useWeb3React();
 
   const queryClient = useQueryClient();
 
@@ -50,7 +50,7 @@ const LongBox = ({
     return () => {
       queryClient.cancelQueries(title);
     };
-  }, [account]);
+  }, [account, chainId]);
   return (
     <>
       <div className="col-sm-6 col-xl-4 ">
@@ -59,11 +59,17 @@ const LongBox = ({
             className="card-body"
             style={{
               height: title === 'Current Holdings' ? '462px' : '573px',
+              padding: title === 'News & Updates' ? '20px' : '30px',
             }}
           >
             <div
               className="card-body-header"
-              style={{ position: 'sticky', top: 0, height: '10%' }}
+              style={{
+                position: 'sticky',
+                top: 0,
+                height: '10%',
+                padding: title === 'News & Updates' ? '10px' : '0px',
+              }}
             >
               <h5 className="card-title">{title}</h5>
               {isAddIcon ? (
@@ -82,7 +88,7 @@ const LongBox = ({
               )}
             </div>
             {isLoading && !error && <Loading />}
-            {!isLoading && error && (
+            {error && (
               <p>
                 There seems to be some problem while fetching the data. Please
                 try again.
@@ -101,14 +107,14 @@ const LongBox = ({
               {data && title === 'Monitored Wallets' && (
                 <TransitionGroup title={title} data={data?.data} />
               )}
-              {data && title === 'News & Updates' && (
-                <NewsTransitionGroup title={title} data={data?.data?.results} />
-              )}
               {data && title === 'Your Transactions' && (
                 <TransactionTransition
                   title={title}
                   data={data?.data?.transactions}
                 />
+              )}
+              {data && title === 'News & Updates' && (
+                <NewsTransitionGroup title={title} data={data?.data?.results} />
               )}
             </div>
           </div>
@@ -118,4 +124,4 @@ const LongBox = ({
   );
 };
 
-export default LongBox;
+export default React.memo(LongBox);

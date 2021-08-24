@@ -59,17 +59,33 @@ const TopHeader = ({ isSidebarVisible, toggleSidebar }) => {
   const changeNetwork = async (option) => {
     if (window.ethereum) {
       try {
-        await window.ethereum.enable();
-        window.ethereum._handleChainChanged({
-          chainId: option.value === 'ETH' ? 0x1 : 0x38,
-          networkVersion: option.value === 'ETH' ? 1 : 56,
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: option.value === 'ETH' ? '0x1' : '0x38' }],
         });
       } catch (error) {
+        if (error.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: option.value === 'ETH' ? '0x1' : '0x38',
+                  rpcUrl: 'https://bsc-dataseed.binance.org/',
+                },
+              ],
+            });
+          } catch (addError) {
+            showAlert(
+              'There is some problem while adding the chain. Please try again later',
+              'error'
+            );
+          }
+        }
         showAlert('Please try again', 'error');
       }
     }
   };
-
   return (
     <div className="page-header">
       <nav className="navbar navbar-expand-lg d-flex justify-content-between">
@@ -104,7 +120,7 @@ const TopHeader = ({ isSidebarVisible, toggleSidebar }) => {
             >
               <Select
                 styles={customStyles}
-                defaultValue={options[chainId === 1 || chainId === 0x1 ? 0 : 1]}
+                defaultValue={options[chainId === 1 ? 0 : 1]}
                 isSearchable={false}
                 onChange={changeNetwork}
                 options={options}

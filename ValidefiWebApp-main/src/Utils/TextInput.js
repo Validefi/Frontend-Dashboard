@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
-const TextInput = ({ handleSubmit, icon }) => {
+const TextInput = ({ handleSubmit, icon, autoFocus = false }) => {
   const { currentTheme } = useThemeSwitcher();
 
   const [text, setText] = useState('');
@@ -20,6 +20,7 @@ const TextInput = ({ handleSubmit, icon }) => {
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyPress={handleKeypress}
+        autoFocus={autoFocus}
       />
       <button
         className="input-group-text nav-link search-icon"

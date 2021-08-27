@@ -14,7 +14,7 @@ import {
 } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
 
-const Transition = ({ title, data }) => {
+const Transition = ({ data }) => {
   const { chainId } = useWeb3React();
 
   const [items, setItems] = useState([

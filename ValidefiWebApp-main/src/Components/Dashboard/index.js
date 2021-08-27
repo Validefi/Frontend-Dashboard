@@ -69,8 +69,8 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
               }`}
               refetchInterval={30000}
               reqBody={{
-                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
-                // address: account,
+                // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
+                address: account,
               }}
             />
           </div>

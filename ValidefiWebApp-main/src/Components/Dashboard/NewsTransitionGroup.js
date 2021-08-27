@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
-const NewsTransition = ({ title, data }) => {
+const NewsTransition = ({ data }) => {
   const { currentTheme } = useThemeSwitcher();
+  // const [data, setData] = useState(props.data);
+
+  // const addItemHandler = () => {
+  //   const name = prompt('Enter some text');
+  //   const temp = items;
+  //   if (name) {
+  //     temp.pop();
+  //   }
+  // };
+  // useEffect(() => {
+
+  //     setData(() => [{ id: Math.random(), name, value: 10 }].concat(temp));
+
+  // }, [data]);
+
   return (
     <TransitionGroup className="todo-list">
       {data?.length > 0 ? (

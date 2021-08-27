@@ -50,11 +50,16 @@ const Transition = ({ title, data }) => {
     const quantity = balance * Math.pow(10, -decimal);
     return parseFloat(quantity.toFixed(4));
   };
-
+  if (data.length === 0)
+    return (
+      <div className="todo-list">
+        <p>No data to display</p>
+      </div>
+    );
   return (
     <TransitionGroup className="todo-list">
-      {data?.length > 0 ? (
-        data?.map((item, index) => (
+      {data?.length > 0 &&
+        data.map((item, index) => (
           <CSSTransition key={index} timeout={500} classNames="item">
             <div className="transactions-list">
               <div className="tr-item align-items-center">
@@ -101,10 +106,7 @@ const Transition = ({ title, data }) => {
               </div>
             </div>
           </CSSTransition>
-        ))
-      ) : (
-        <p>No data to display</p>
-      )}
+        ))}
       {/* <button className="btn btn-primary w-100" onClick={addItemHandler}>
         Add Item
       </button> */}

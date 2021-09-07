@@ -9,7 +9,14 @@ const Sidebar = () => {
   const handleSubmit = (text) => {
     console.log(text);
   };
-
+  const navItems = {
+    Dashboard: { to: '/dashboard', icon: <Grid /> },
+    Explorer: { to: '/explorer', icon: <Maximize2 /> },
+    Coins: { to: '/coins', icon: <Circle /> },
+    Portfolio: { to: '/portfolio', icon: <FileText /> },
+    Profile: { to: '/profile', icon: <User /> },
+    // LogOut: { to: '/', icon: <Logout /> },
+  };
   return (
     <div className="page-sidebar">
       <ul className="list-unstyled accordion-menu">
@@ -21,43 +28,17 @@ const Sidebar = () => {
             <TextInput handleSubmit={handleSubmit} icon={<Search />} />
           </div>
         </li>
-
-        <li>
-          <NavLink to="/dashboard" activeClassName="active-sidebar-item">
-            <Grid />
-            Dashboard
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/explorer" activeClassName="active-sidebar-item">
-            <Maximize2 />
-            Explorer
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/coins" activeClassName="active-sidebar-item">
-            <Circle />
-            Coins
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/portfolio" activeClassName="active-sidebar-item">
-            <FileText />
-            Portfolio
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/profile" activeClassName="active-sidebar-item">
-            <User />
-            Profile
-          </NavLink>
-        </li>
-        {/* <li onClick={deactivate}>
-          <NavLink to="/">
-            <LogOut />
-            Disconnect
-          </NavLink>
-        </li> */}
+        {Object.keys(navItems).map((navItem) => (
+          <li key={navItem}>
+            <NavLink
+              to={navItems[navItem]['to']}
+              activeClassName="active-sidebar-item"
+            >
+              {navItems[navItem]['icon']}
+              {navItem}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </div>
   );

@@ -1,23 +1,34 @@
 import React, { useState } from 'react';
-import Box from './Box';
-import BoxPortfolio from './BoxPortfolio';
-import LongBox from './LongBox';
-import Chart from './Chart';
 import { connect } from 'react-redux';
-// import Transactions from './Transactions';
-import Modal from '../../Utils/Modal';
-import { showAlert } from '../../Utils/Alert';
-import TextInput from '../../Utils/TextInput';
-import { isAddress } from '../../Utils';
-import { setMonitorWallet } from '../../Store/actionCreatos/wallets';
 import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
 import { ArrowRight } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
 
-const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
-  const { account, chainId } = useWeb3React();
+import { setMonitorWallet } from '../../Store/actionCreatos/wallets';
+import Box from './Box';
+import BoxPortfolio from './BoxPortfolio';
+import LongBox from './LongBox';
+import BigChart from '../../Utils/BigChart';
+// import Transactions from './Transactions';
+import Modal from '../../Utils/Modal';
+import { showAlert } from '../../Utils/Alert';
+import TextInput from '../../Utils/TextInput';
+import { isAddress } from '../../Utils';
+
+const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
+  const { account } = useWeb3React();
   const [isOpen, toggle] = useState(false);
+  const [series] = useState([
+    {
+      name: 'profit',
+      data: [70, 79, 42, 51, 28, 40, 37],
+    },
+    {
+      name: 'market growth',
+      data: [41, 52, 14, 32, 45, 32, 21],
+    },
+  ]);
   const ModalContent = styled.div`
     width: 100%;
     display: flex;
@@ -59,13 +70,26 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
             />
           </div>
           <div className="row">
-            <Chart />
+            <BigChart
+              title="Portfolio value"
+              series={series}
+              height={350}
+              tooltipFormat="dd/MM/yy HH:mm"
+              color={['#b3baff', '#90e0db']}
+              Xcategories={[
+                '2018-09-19T00:00:00',
+                '2018-09-19T01:30:00',
+                '2018-09-19T02:30:00',
+                '2018-09-19T03:30:00',
+                '2018-09-19T04:30:00',
+                '2018-09-19T05:30:00',
+                '2018-09-19T06:30:00',
+              ]}
+            />
             <LongBox
               title="Current Holdings"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 || chainId === '0x1'
-                  ? 'ethTokenBalance/'
-                  : 'bscTokenBalance/'
+                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
               }`}
               refetchInterval={30000}
               reqBody={{
@@ -80,13 +104,10 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
           <div className="row">
             <LongBox
               isAddIcon
-              isOpen={isOpen}
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 || chainId === '0x1'
-                  ? 'ethTokenBalance/'
-                  : 'bscTokenBalance/'
+                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
               }`}
               refetchInterval={30000}
               reqBody={{
@@ -103,14 +124,12 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
             <LongBox
               title="Your Transactions"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                chainId === 1 || chainId === '0x1'
-                  ? 'ethTransactionsLatest/'
-                  : 'bscTransactionsLatest/'
+                isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
               }`}
               refetchInterval={30000}
               reqBody={{
-                // address: account,
-                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
+                address: account,
+                // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
           </div>
@@ -137,6 +156,7 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet }) => {
 
 const mapStateToProps = (state) => ({
   wallet_balance: state.wallet.balance,
+  isEthereum: state.auth.isEthereum,
 });
 
 const mapDispatchToProps = (dispatch) => ({

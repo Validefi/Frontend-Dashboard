@@ -8,15 +8,32 @@ export const registerUser = (data) => {
     return await axios
       .post(apiUrl + '/api/user/register', data)
       .then((response) => {
-        dispatch({
-          type: ActionTypes.REGISTER_USER_SUCCESS,
-        });
+        if (response.status === 200) {
+          dispatch({
+            type: ActionTypes.REGISTER_USER_SUCCESS,
+            message: response.data?.mssg || 'User registed successfully.',
+          });
+        }
       })
       .catch((error) => {
         dispatch({
           type: ActionTypes.REGISTER_USER_FAILED,
-          errmess: 'Something went wrong. Please try again',
+          message:
+            error?.data?.response || 'Something went wrong. Please try again',
         });
       });
+  };
+};
+
+export const toggleNetwork = (isEthereum) => {
+  return {
+    type: ActionTypes.TOGGLE_NETWORK,
+    isEthereum: isEthereum,
+  };
+};
+export const toggleLoading = (isLoading) => {
+  return {
+    type: ActionTypes.TOGGLE_LOADING,
+    isLoading: isLoading,
   };
 };

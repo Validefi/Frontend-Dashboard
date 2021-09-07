@@ -58,30 +58,12 @@ const Modal = ({
     cursor: pointer;
   `;
 
-  // const modalVariant = {
-  //   initial: { opacity: 0 },
-  //   isOpen: { opacity: 1 },
-  //   exit: { opacity: 0 },
-  // };
-  // const containerVariant = {
-  //   initial: { top: '-50%', transition: { type: 'spring' } },
-  //   isOpen: { top: '50%' },
-  //   exit: { top: '-50%' },
-  // };
   return (
     <>
       {isOpen && (
         <Container>
-          <Overlay
-            // initial={'initial'}
-            // animate={'isOpen'}
-            // exit={'exit'}
-            // variants={modalVariant}
-            onClick={handleClose}
-          ></Overlay>
-
+          <Overlay onClick={handleClose}></Overlay>
           <ModalContainer>
-            {/* <ModalContainer variants={containerVariant}> */}
             <CloseButton
               onClick={handleClose}
               xmlns="http://www.w3.org/2000/svg"

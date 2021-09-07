@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 import { ArrowLeft, Moon, Search, Sun } from 'react-feather';
 import { connect } from 'react-redux';
 import { toggleSidebar } from '../../Store/actionCreatos/settings';
+import { toggleNetwork } from '../../Store/actionCreatos/auth';
 import Select from 'react-select';
 import Logo from '../../assets/logo1.svg';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Loading from '../Loading';
 import TextInput from '../../Utils/TextInput';
-import { showAlert } from '../../Utils/Alert';
 import { useWeb3React } from '@web3-react/core';
 
-const TopHeader = ({ isSidebarVisible, toggleSidebar }) => {
+const TopHeader = ({
+  isSidebarVisible,
+  toggleSidebar,
+  isEthereum,
+  toggleNetwork,
+}) => {
   const { switcher, themes, currentTheme, status } = useThemeSwitcher();
   const [isDarkMode, setIsDarkMode] = useState(currentTheme === 'dark');
-  const { account, chainId } = useWeb3React();
+  const { account } = useWeb3React();
 
   if (status === 'loading') {
     return <Loading />;
@@ -56,36 +61,14 @@ const TopHeader = ({ isSidebarVisible, toggleSidebar }) => {
 
   const handleSubmit = (text) => console.log(text);
 
-  const changeNetwork = async (option) => {
-    if (window.ethereum) {
-      try {
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: option.value === 'ETH' ? '0x1' : '0x38' }],
-        });
-      } catch (error) {
-        if (error.code === 4902) {
-          try {
-            await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: option.value === 'ETH' ? '0x1' : '0x38',
-                  rpcUrl: 'https://bsc-dataseed.binance.org/',
-                },
-              ],
-            });
-          } catch (addError) {
-            showAlert(
-              'There is some problem while adding the chain. Please try again later',
-              'error'
-            );
-          }
-        }
-        showAlert('Please try again', 'error');
-      }
+  const changeNetwork = (option) => {
+    if (option.value === 'ETH') {
+      toggleNetwork(true);
+    } else {
+      toggleNetwork(false);
     }
   };
+
   return (
     <div className="page-header">
       <nav className="navbar navbar-expand-lg d-flex justify-content-between">
@@ -120,9 +103,9 @@ const TopHeader = ({ isSidebarVisible, toggleSidebar }) => {
             >
               <Select
                 styles={customStyles}
-                defaultValue={options[chainId === 1 ? 0 : 1]}
+                defaultValue={options[isEthereum ? 0 : 1]}
                 isSearchable={false}
-                onChange={changeNetwork}
+                onChange={(option) => changeNetwork(option)}
                 options={options}
               />
             </li>
@@ -158,11 +141,15 @@ const TopHeader = ({ isSidebarVisible, toggleSidebar }) => {
 
 const mapStateToProps = (state) => ({
   isSidebarVisible: state.settings.isSidebarVisible,
+  isEthereum: state.auth.isEthereum,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   toggleSidebar: (isSidebarVisible) => {
     dispatch(toggleSidebar(isSidebarVisible));
+  },
+  toggleNetwork: (isEthereum) => {
+    dispatch(toggleNetwork(isEthereum));
   },
 });
 

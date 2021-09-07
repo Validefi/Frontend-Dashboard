@@ -7,6 +7,19 @@ import fortmaticIcon from '../assets/fortmaticIcon.png';
 import portisIcon from '../assets/portisIcon.png';
 import injectedIcon from '../assets/arrow-right.svg';
 
+import {
+  Activity,
+  AlertTriangle,
+  ArrowDownLeft,
+  ArrowUpRight,
+  CheckCircle,
+  ChevronsRight,
+  Code,
+  Copy,
+  MinusCircle,
+  PlusCircle,
+} from 'react-feather';
+
 export function isAddress(value) {
   try {
     return getAddress(value);
@@ -64,3 +77,30 @@ export function getWalletIcon(wallet) {
       return injectedIcon;
   }
 }
+
+export const getIcon = (type) => {
+  switch (type) {
+    case 'send':
+      return <ArrowUpRight />;
+    case 'receive':
+      return <ArrowDownLeft />;
+    case 'swap':
+      return <ChevronsRight />;
+    case 'claim_reward':
+      return <CheckCircle />;
+    case 'approve':
+      return <CheckCircle />;
+    case 'staked':
+      return <PlusCircle />;
+    case 'unstaked':
+      return <MinusCircle />;
+    case 'mint':
+      return <Activity />;
+    case 'burn':
+      return <AlertTriangle />;
+    case 'contract_execution':
+      return <Copy />;
+    default:
+      return <Code />;
+  }
+};

@@ -20,20 +20,10 @@ const Auth = () => {
     supportedChainIds: [1, 56], // 1 - ethereum mainnet, 56 - binance smart chain
     connectors: {
       walletconnect: {
-        rpc: {
-          1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
-        },
-        bridge: 'https://bridge.walletconnect.org',
         qrcode: true,
-        pollingInterval: 15000,
       },
       walletlink: {
-        rpc: {
-          1: `https://mainnet.infura.io/v3/${process.env.REACT_APP_INFURA_ID}`,
-        },
-        bridge: 'https://bridge.walletconnect.org',
         qrcode: true,
-        pollingInterval: 15000,
       },
     },
   };

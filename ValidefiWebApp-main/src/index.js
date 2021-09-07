@@ -4,9 +4,9 @@ import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './custom.css';
 import { createWeb3ReactRoot, Web3ReactProvider } from '@web3-react/core';
-import { configureStore } from './Store/configureStore';
 import { Provider } from 'react-redux';
 import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
+import { configureStore } from './Store/configureStore';
 import getLibrary from './Utils/getLibrary';
 
 const store = configureStore();

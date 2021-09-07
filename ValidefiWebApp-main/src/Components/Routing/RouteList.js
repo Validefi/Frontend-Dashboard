@@ -33,7 +33,7 @@ export const RouteList = [
   },
   {
     link: '/contact',
-    private: false,
+    private: true,
     layout: true,
     render: () => <Contact />,
   },

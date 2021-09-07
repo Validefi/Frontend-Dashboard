@@ -22,7 +22,7 @@ const Layout = (params) => {
       })
       .catch(() => {
         showAlert(
-          'Please try switching the browser of try after sometime',
+          'Please try switching the browser or try after sometime',
           'error'
         );
       });
@@ -42,28 +42,17 @@ const Layout = (params) => {
         }
       };
 
-      const handleChainChanged = (chainId) => {
-        activate(injected);
-      };
-
-      const handleNetworkChanged = (networkId) => {
-        activate(injected);
-      };
-
       ethereum?.on('connect', handleConnect);
       ethereum?.on('accountsChanged', handleAccountsChanged);
-      ethereum?.on('chainChanged', handleChainChanged);
-      ethereum.on('networkChanged', handleNetworkChanged);
 
       return () => {
         if (ethereum.removeListener) {
           ethereum.removeListener('connect', handleConnect);
           ethereum.removeListener('accountsChanged', handleAccountsChanged);
-          ethereum.removeListener('chainChanged', handleChainChanged);
-          ethereum.removeListener('networkChanged', handleNetworkChanged);
         }
       };
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

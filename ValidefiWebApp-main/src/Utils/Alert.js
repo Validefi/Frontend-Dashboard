@@ -1,5 +1,5 @@
-import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const config = {
   position: 'top-center',

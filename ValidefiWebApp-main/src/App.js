@@ -16,7 +16,7 @@ const App = () => {
     if (active && !error) {
       dispatch(registerUser({ address: account }));
     }
-  }, [account]);
+  }, [account, active, dispatch, error]);
 
   return (
     <HashRouter>

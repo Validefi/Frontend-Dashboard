@@ -1,32 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { useWeb3React } from '@web3-react/core';
 import { getIcon } from '../../Utils';
 import { connect } from 'react-redux';
 
 const Transition = ({ data, isEthereum }) => {
-  const [items, setItems] = useState([
-    { id: Math.random(), name: 'Bitcoin', value: 0.222, symbol: 'BTC' },
-    { id: Math.random(), name: 'Dogecoin', value: 100.1212, symbol: 'Doge' },
-    {
-      id: Math.random(),
-      name: 'Cardano',
-      value: 10.1298312,
-      symbol: 'ADA',
-    },
-    {
-      id: Math.random(),
-      name: 'XRP',
-      value: 0.12312312,
-      symbol: 'XRP',
-    },
-    {
-      id: Math.random(),
-      name: 'Uniswap',
-      value: 12,
-      symbol: 'UNI',
-    },
-  ]);
+  // const [items, setItems] = useState([
+  //   { id: Math.random(), name: 'Bitcoin', value: 0.222, symbol: 'BTC' },
+  //   { id: Math.random(), name: 'Dogecoin', value: 100.1212, symbol: 'Doge' },
+  //   {
+  //     id: Math.random(),
+  //     name: 'Cardano',
+  //     value: 10.1298312,
+  //     symbol: 'ADA',
+  //   },
+  //   {
+  //     id: Math.random(),
+  //     name: 'XRP',
+  //     value: 0.12312312,
+  //     symbol: 'XRP',
+  //   },
+  //   {
+  //     id: Math.random(),
+  //     name: 'Uniswap',
+  //     value: 12,
+  //     symbol: 'UNI',
+  //   },
+  // ]);
   // const addItemHandler = () => {
   //   const name = prompt('Enter some text');
   //   const temp = items;

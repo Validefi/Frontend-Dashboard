@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
@@ -21,8 +21,8 @@ const NewsTransition = ({ data }) => {
 
   return (
     <TransitionGroup className="todo-list">
-      {data?.length > 0 ? (
-        data?.map((item, index) => (
+      {data.length > 0 ? (
+        data.map((item, index) => (
           <CSSTransition key={index} timeout={500} classNames="item">
             <div className="transactions-list box-shadow">
               <div className="tr-item">

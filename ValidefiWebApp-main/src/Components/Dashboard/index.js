@@ -9,6 +9,7 @@ import { setMonitorWallet } from '../../Store/actionCreatos/wallets';
 import Box from './Box';
 import BoxPortfolio from './BoxPortfolio';
 import LongBox from './LongBox';
+import Holdings from './Holdings';
 import BigChart from '../../Utils/BigChart';
 // import Transactions from './Transactions';
 import Modal from '../../Utils/Modal';
@@ -86,14 +87,13 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
                 '2018-09-19T06:30:00',
               ]}
             />
-            <LongBox
+            <Holdings
               title="Current Holdings"
               url={`${process.env.REACT_APP_BASE_URL}/${
                 isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
               }`}
               refetchInterval={30000}
               reqBody={{
-                // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
                 address: account,
               }}
             />
@@ -107,12 +107,11 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
               url={`${process.env.REACT_APP_BASE_URL}/${
-                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
+                isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
               }`}
               refetchInterval={30000}
               reqBody={{
-                address: account,
-                // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
+                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
             <LongBox

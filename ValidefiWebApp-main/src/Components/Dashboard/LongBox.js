@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import useAxios from 'axios-hooks';
 import { toggleLoading } from '../../Store/actionCreatos/auth';
-import TransitionGroup from './TransitionGroup';
 import TransactionTransition from './TransactionTransition';
 import NewsTransitionGroup from './NewsTransitionGroup';
 import MonitorWallet from './MonitorWallet';
@@ -63,9 +62,10 @@ const LongBox = ({
       toggleLoading(false);
     }
   }, [apiData, toggleLoading]);
+
   const shouldDisplay = useMemo(
-    () => !isLoading && !error && !isDataLoading && data,
-    [isLoading, error, isDataLoading, data]
+    () => !isLoading && !error && !isDataLoading && apiData,
+    [isLoading, error, isDataLoading, apiData]
   );
 
   return (
@@ -75,7 +75,7 @@ const LongBox = ({
           <div
             className="card-body"
             style={{
-              height: title === 'Current Holdings' ? '462px' : '573px',
+              height: '573px',
               padding: title === 'News & Updates' ? '20px' : '30px',
             }}
           >
@@ -119,28 +119,25 @@ const LongBox = ({
                 overflow: 'hidden scroll',
               }}
             >
-              {shouldDisplay && title === 'Current Holdings' && (
-                <TransitionGroup title={title} data={data} />
-              )}
-              {shouldDisplay && title === 'Monitored Wallets' && (
-                <MonitorWallet title={title} data={data} />
-              )}
+              {shouldDisplay &&
+                data.transactions &&
+                title === 'Monitored Wallets' && (
+                  // <MonitorWallet data={data.transactions} />
+                  <TransactionTransition data={data?.transactions} />
+                )}
               {shouldDisplay &&
                 data.transactions &&
                 title === 'Your Transactions' && (
-                  <TransactionTransition
-                    title={title}
-                    data={data?.transactions}
-                  />
+                  <TransactionTransition data={data?.transactions} />
                 )}
               {shouldDisplay && data.results && title === 'News & Updates' && (
-                <NewsTransitionGroup title={title} data={data.results} />
+                <NewsTransitionGroup data={data.results} />
               )}
             </div>
           </div>
         </div>
       </div>
-      {isOpen && !isAddIcon && title !== 'Current Holdings' && (
+      {isOpen && !isAddIcon && (
         <DashboardModal
           isOpen={isOpen}
           handleClose={() => toggle(false)}

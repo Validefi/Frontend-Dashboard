@@ -1,57 +1,59 @@
 import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
 
-const CustomChart = ({
+const BigChart = ({
   title,
   series,
-  height,
+  height = 350,
   colors,
   tooltipFormat,
   Xcategories,
 }) => {
   const [options] = useState({
     chart: {
-      height: height || 350,
+      height: height,
       toolbar: {
-        show: false,
+        show: true,
       },
       sparkline: {
         enabled: true,
       },
     },
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     stroke: {
       curve: 'smooth',
     },
     colors: colors,
-
     xaxis: {
       type: 'datetime',
       categories: Xcategories,
       labels: {
+        show: true,
         style: {
           colors: 'rgba(94, 96, 110, .5)',
         },
       },
     },
-    fill: {
-      type: 'gradient',
-      gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.8,
-        opacityTo: 0.6,
-        stops: [0, 99],
+    yaxis: {
+      color: '#000000',
+      axisBorder: { color: '#000000' },
+      crosshairs: {
+        show: true,
+        position: 'back',
+        stroke: {
+          color: '#000000',
+        },
       },
     },
-
     tooltip: {
       x: {
         format: tooltipFormat,
       },
     },
     grid: {
+      show: true,
       borderColor: 'rgba(94, 96, 110, .5)',
       strokeDashArray: 4,
     },
@@ -77,4 +79,4 @@ const CustomChart = ({
   );
 };
 
-export default CustomChart;
+export default BigChart;

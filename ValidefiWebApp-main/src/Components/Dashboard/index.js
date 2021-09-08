@@ -76,7 +76,7 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
               series={series}
               height={350}
               tooltipFormat="dd/MM/yy HH:mm"
-              color={['#b3baff', '#90e0db']}
+              colors={['#b3baff', '#90e0db']}
               Xcategories={[
                 '2018-09-19T00:00:00',
                 '2018-09-19T01:30:00',

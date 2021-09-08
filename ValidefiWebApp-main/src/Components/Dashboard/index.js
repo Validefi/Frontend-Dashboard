@@ -89,12 +89,10 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
             />
             <Holdings
               title="Current Holdings"
-              url={`${process.env.REACT_APP_BASE_URL}/${
-                isEthereum ? 'ethTokenBalance/' : 'bscTokenBalance/'
-              }`}
-              refetchInterval={30000}
+              refetchInterval={300000}
               reqBody={{
-                address: account,
+                // address: account,
+                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
           </div>

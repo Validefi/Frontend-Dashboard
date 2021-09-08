@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { isMobile } from 'react-device-detect';
 import styled from 'styled-components';
-import axios from 'axios';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
-import { useQuery } from 'react-query';
+import useAxios from 'axios-hooks';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { getIcon } from '../../Utils';
 import Modal from '../../Utils/Modal';
@@ -19,36 +18,24 @@ const DashboardModal = ({
   isEthereum,
 }) => {
   const [modalData, setModalData] = useState(null);
-  const { isLoading, error, data } = useQuery(
-    title,
-    async () => {
-      const CancelToken = axios.CancelToken;
-      const source = CancelToken.source();
-      const url =
-        title === 'News & Updates'
-          ? `${process.env.REACT_APP_BASE_URL}/news/`
-          : `${process.env.REACT_APP_BASE_URL}/${
-              isEthereum ? 'ethTransactionsAll/' : 'bscTransactionsAll/'
-            }`;
 
-      let promise;
-      if (title === 'News & Updates') {
-        promise = await axios.get(url, { cancelToken: source.token });
-      } else {
-        promise = await axios.post(url, reqBody, { cancelToken: source.token });
-      }
-
-      promise.cancel = () => {
-        source.cancel('Aborting the request');
-      };
-      return promise;
-    },
-    {
-      retry: (count, { message: status }) =>
-        status !== '404' && status !== '401',
-      refetchInterval: refetchInterval,
-    }
+  const url = React.useMemo(
+    () =>
+      title === 'News & Updates'
+        ? `${process.env.REACT_APP_BASE_URL}/news/`
+        : `${process.env.REACT_APP_BASE_URL}/${
+            isEthereum ? 'ethTransactionsAll/' : 'bscTransactionsAll/'
+          }`,
+    [title, isEthereum]
   );
+
+  const [{ data, loading: isLoading, error }, refetch] = useAxios({
+    url: url,
+    method: title === 'News & Updates' ? 'GET' : 'POST',
+    data: title === 'News & Updates' ? undefined : reqBody,
+    timeout: 20000,
+  });
+
   const ModalContent = styled.div`
     width: 100%;
     display: flex;
@@ -56,11 +43,21 @@ const DashboardModal = ({
     align-items: center;
     padding: 20px 1.6rem 0 1.6rem;
   `;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, refetchInterval);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   useEffect(() => {
     if (title === 'News & Updates') {
-      setModalData(data?.data?.results);
+      setModalData(data?.results);
     } else {
-      setModalData(data?.data?.transactions);
+      setModalData(data?.transactions);
     }
   }, [data, title]);
   return (

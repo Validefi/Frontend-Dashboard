@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
+import useAxios from 'axios-hooks';
 import { toggleLoading } from '../../Store/actionCreatos/auth';
 import TransitionGroup from './TransitionGroup';
 import TransactionTransition from './TransactionTransition';
 import NewsTransitionGroup from './NewsTransitionGroup';
-import { useQuery, useQueryClient } from 'react-query';
+import MonitorWallet from './MonitorWallet';
 import Loading from '../Loading';
 import { Plus } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
@@ -24,48 +24,49 @@ const LongBox = ({
   isDataLoading,
 }) => {
   const { account } = useWeb3React();
-  const queryClient = useQueryClient();
   const [isOpen, toggle] = useState(false);
-  const { isLoading, error, data, refetch } = useQuery(
-    ['data', title],
-    async () => {
-      const CancelToken = axios.CancelToken;
-      const source = CancelToken.source();
+  const [data, setData] = useState([]);
 
-      let promise;
-      if (isGetRequest) {
-        promise = await axios.get(url, {
-          cancelToken: source.token,
-        });
-      } else {
-        promise = await axios.post(url, reqBody, {
-          cancelToken: source.token,
-        });
-      }
+  const [{ data: apiData, loading: isLoading, error }, refetch, cancelRequest] =
+    useAxios({
+      url: url,
+      method: isGetRequest ? 'GET' : 'POST',
+      data: isGetRequest ? undefined : reqBody,
+      timeout: 20000,
+    });
 
-      promise.cancel = () => {
-        source.cancel('Aborting the request');
-      };
-      return promise;
-    },
-    {
-      retry: (count, { message: status }) =>
-        status !== '404' && status !== '401',
-      retryDelay: 6000,
-      refetchInterval: refetchInterval,
-    }
-  );
   useEffect(() => {
     async function fetchData() {
-      await queryClient.cancelQueries('data');
-      refetch();
+      await cancelRequest();
+      try {
+        setData([]);
+        await refetch();
+      } catch (e) {
+        console.error('Please try again');
+      }
     }
     fetchData();
   }, [account, isEthereum]);
 
   useEffect(() => {
-    if (data) toggleLoading(false);
-  }, [data, toggleLoading]);
+    const interval = setInterval(() => {
+      refetch();
+    }, refetchInterval);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (apiData) {
+      setData(apiData);
+      toggleLoading(false);
+    }
+  }, [apiData, toggleLoading]);
+  const shouldDisplay = useMemo(
+    () => !isLoading && !error && !isDataLoading && data,
+    [isLoading, error, isDataLoading, data]
+  );
 
   return (
     <>
@@ -118,21 +119,22 @@ const LongBox = ({
                 overflow: 'hidden scroll',
               }}
             >
-              {console.log(title === 'Current Holdings', data)}
-              {data && title === 'Current Holdings' && (
-                <TransitionGroup title={title} data={data?.data} />
+              {shouldDisplay && title === 'Current Holdings' && (
+                <TransitionGroup title={title} data={data} />
               )}
-              {data && title === 'Monitored Wallets' && (
-                <TransitionGroup title={title} data={data?.data} />
+              {shouldDisplay && title === 'Monitored Wallets' && (
+                <MonitorWallet title={title} data={data} />
               )}
-              {data && title === 'Your Transactions' && (
-                <TransactionTransition
-                  title={title}
-                  data={data?.data?.transactions}
-                />
-              )}
-              {data && title === 'News & Updates' && (
-                <NewsTransitionGroup title={title} data={data?.data?.results} />
+              {shouldDisplay &&
+                data.transactions &&
+                title === 'Your Transactions' && (
+                  <TransactionTransition
+                    title={title}
+                    data={data?.transactions}
+                  />
+                )}
+              {shouldDisplay && data.results && title === 'News & Updates' && (
+                <NewsTransitionGroup title={title} data={data.results} />
               )}
             </div>
           </div>

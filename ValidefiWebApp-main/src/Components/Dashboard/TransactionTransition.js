@@ -35,10 +35,9 @@ const Transition = ({ data, isEthereum }) => {
   //     setItems(() => [{ id: Math.random(), name, value: 10 }].concat(temp));
   //   }
   // };
-
   return (
     <TransitionGroup className="todo-list">
-      {data?.length > 0 ? (
+      {data.length > 0 ? (
         data.map((item, index) => (
           <CSSTransition key={index} timeout={500} classNames="item">
             <div className="transactions-list">

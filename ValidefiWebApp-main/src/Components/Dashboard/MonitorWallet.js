@@ -1,74 +1,147 @@
-import React from 'react';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Info } from 'react-feather';
+import React, { useEffect, useMemo, useState } from 'react';
+import { connect } from 'react-redux';
+import useAxios from 'axios-hooks';
+import { toggleLoading } from '../../Store/actionCreatos/auth';
+import TransactionTransition from './TransactionTransition';
+import Loading from '../Loading';
+import { useWeb3React } from '@web3-react/core';
+import DashboardModal from './DashboardModal';
+import { Plus } from 'react-feather';
 
-const Transition = ({ data }) => {
-  // const Transition = ({ data }) => {
-  //   const [data, setData] = useState([
-  //     { id: Math.random(), name: 'Bitcoin', value: 0.222, symbol: 'BTC' },
-  //     { id: Math.random(), name: 'Dogecoin', value: 100.1212, symbol: 'Doge' },
-  //     {
-  //       id: Math.random(),
-  //       name: 'Cardano',
-  //       value: 10.1298312,
-  //       symbol: 'ADA',
-  //     },
-  //     {
-  //       id: Math.random(),
-  //       name: 'XRP',
-  //       value: 0.12312312,
-  //       symbol: 'XRP',
-  //     },
-  //     {
-  //       id: Math.random(),
-  //       name: 'Uniswap',
-  //       value: 12,
-  //       symbol: 'UNI',
-  //     },
-  //   ]);
-  //   const addItemHandler = () => {
-  //     const name = prompt('Enter some text');
-  //     const temp = data;
-  //     if (name) {
-  //       setData(() =>
-  //         [
-  //           { id: Math.random(), name, value: 10 },
-  //           { id: Math.random(), name, value: 10 },
-  //         ].concat(temp)
-  //       );
-  //     }
-  //   };
+const LongBox = ({
+  title,
+  url,
+  isAddIcon,
+  refetchInterval,
+  reqBody,
+  isEthereum,
+  toggleLoading,
+  isDataLoading,
+  monitored_wallet,
+  toggleModal,
+}) => {
+  const { account } = useWeb3React();
+  const [isOpen, toggle] = useState(false);
+  const [data, setData] = useState([]);
+
+  const [{ data: apiData, loading: isLoading, error }, refetch, cancelRequest] =
+    useAxios({
+      url: url,
+      method: 'POST',
+      data: reqBody,
+      timeout: reqBody.address ? 20000 : 10,
+    });
+
+  useEffect(() => {
+    async function fetchData() {
+      await cancelRequest();
+      try {
+        setData([]);
+        await refetch();
+      } catch (e) {
+        console.error('Please try again');
+      }
+    }
+    fetchData();
+  }, [account, cancelRequest, isEthereum, refetch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, refetchInterval);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [refetch, refetchInterval]);
+
+  useEffect(() => {
+    if (apiData) {
+      setData(apiData);
+      toggleLoading(false);
+    }
+  }, [apiData, toggleLoading]);
+
+  const shouldDisplay = useMemo(
+    () => !isLoading && !error && !isDataLoading && apiData,
+    [isLoading, error, isDataLoading, apiData]
+  );
 
   return (
-    <TransitionGroup className="todo-list">
-      {data.length > 0 ? (
-        data.map((item, index) => (
-          <CSSTransition key={index} timeout={500} classNames="item">
-            <div className="transactions-list">
-              <div className="tr-item align-items-center">
-                <div className="tr-company-name">
-                  <div className="tr-icon tr-card-icon text-primary tr-card-bg-primary">
-                    <Info />
-                  </div>
-                  <div className="tr-text"></div>
-                </div>
-                <div>
-                  <h5>{item.name}</h5>
-                </div>
-              </div>
+    <>
+      <div className="col-sm-6 col-xl-4 ">
+        <div className="card stat-widget ">
+          <div
+            className="card-body"
+            style={{
+              height: '573px',
+              padding: '30px',
+            }}
+          >
+            <div
+              className="card-body-header"
+              style={{
+                position: 'sticky',
+                top: 0,
+                height: '10%',
+                padding: '0px',
+              }}
+            >
+              <h5 className="card-title">{title}</h5>
+              {data && (
+                <p
+                  className="card-title-view d-flex align-items-center"
+                  onClick={toggleModal}
+                >
+                  Add <Plus size={15} />
+                </p>
+              )}
             </div>
-          </CSSTransition>
-        ))
-      ) : (
-        <div className="todo-list">
-          <p>No data to display</p>
+            {(isLoading || isDataLoading) && !error && <Loading />}
+            {!reqBody.address && (
+              <p>You can monitor a specific wallet from here.</p>
+            )}
+            {error && reqBody.address && (
+              <p>
+                There seems to be some problem while fetching the data. Please
+                try again.
+              </p>
+            )}
+
+            <div
+              style={{
+                height: '90%',
+                overflow: 'hidden scroll',
+              }}
+            >
+              {shouldDisplay && monitored_wallet && data.transactions && (
+                <TransactionTransition data={data?.transactions} />
+              )}
+            </div>
+          </div>
         </div>
+      </div>
+      {isOpen && !isAddIcon && (
+        <DashboardModal
+          isOpen={isOpen}
+          handleClose={() => toggle(false)}
+          title={title}
+          reqBody={reqBody}
+          refetchInterval={refetchInterval}
+        />
       )}
-      {/* <button className="btn btn-primary w-100" onClick={addItemHandler}>
-        Add Item
-      </button> */}
-    </TransitionGroup>
+    </>
   );
 };
 
-export default Transition;
+const mapStateToProps = (state) => ({
+  isEthereum: state.auth.isEthereum,
+  isDataLoading: state.auth.isLoading,
+  monitored_wallet: state.wallet.monitored_wallet,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  toggleLoading: (isEthereum) => {
+    dispatch(toggleLoading(isEthereum));
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(LongBox);

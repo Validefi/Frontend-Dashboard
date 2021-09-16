@@ -4,24 +4,19 @@ import useAxios from 'axios-hooks';
 import { toggleLoading } from '../../Store/actionCreatos/auth';
 import TransactionTransition from './TransactionTransition';
 import NewsTransitionGroup from './NewsTransitionGroup';
-// import MonitorWallet from './MonitorWallet';
 import Loading from '../Loading';
-import { Plus } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
 import DashboardModal from './DashboardModal';
 
 const LongBox = ({
   title,
   url,
-  isAddIcon,
-  toggleModal,
   refetchInterval,
   isGetRequest,
   reqBody,
   isEthereum,
   toggleLoading,
   isDataLoading,
-  monitored_wallet,
 }) => {
   const { account } = useWeb3React();
   const [isOpen, toggle] = useState(false);
@@ -90,21 +85,10 @@ const LongBox = ({
               }}
             >
               <h5 className="card-title">{title}</h5>
-              {isAddIcon ? (
-                <p
-                  className="card-title-view d-flex align-items-center"
-                  onClick={toggleModal}
-                >
-                  Add <Plus size={15} />
+              {data && title !== 'Current Holdings' && (
+                <p className="card-title-view" onClick={() => toggle(true)}>
+                  View All
                 </p>
-              ) : (
-                <>
-                  {data && title !== 'Current Holdings' && (
-                    <p className="card-title-view" onClick={() => toggle(true)}>
-                      View All
-                    </p>
-                  )}
-                </>
               )}
             </div>
             {(isLoading || isDataLoading) && !error && <Loading />}
@@ -120,13 +104,13 @@ const LongBox = ({
                 overflow: 'hidden scroll',
               }}
             >
-              {shouldDisplay &&
+              {/* {shouldDisplay &&
                 monitored_wallet &&
                 data.transactions &&
                 title === 'Monitored Wallets' && (
                   // <MonitorWallet data={data.transactions} />
                   <TransactionTransition data={data?.transactions} />
-                )}
+                )} */}
               {shouldDisplay &&
                 data.transactions &&
                 title === 'Your Transactions' && (
@@ -139,7 +123,7 @@ const LongBox = ({
           </div>
         </div>
       </div>
-      {isOpen && !isAddIcon && (
+      {isOpen && (
         <DashboardModal
           isOpen={isOpen}
           handleClose={() => toggle(false)}
@@ -155,7 +139,6 @@ const LongBox = ({
 const mapStateToProps = (state) => ({
   isEthereum: state.auth.isEthereum,
   isDataLoading: state.auth.isLoading,
-  monitored_wallet: state.wallet.monitored_wallet,
 });
 
 const mapDispatchToProps = (dispatch) => ({

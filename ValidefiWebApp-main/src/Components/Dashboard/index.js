@@ -16,6 +16,7 @@ import Modal from '../../Utils/Modal';
 import { showAlert } from '../../Utils/Alert';
 import TextInput from '../../Utils/TextInput';
 import { isAddress } from '../../Utils';
+import MonitorWallet from './MonitorWallet';
 
 const Dashboard = ({
   wallet_balance,
@@ -105,8 +106,7 @@ const Dashboard = ({
           <Transactions />
         </div> */}
           <div className="row">
-            <LongBox
-              isAddIcon
+            <MonitorWallet
               toggleModal={() => toggle(true)}
               title="Monitored Wallets"
               url={`${process.env.REACT_APP_BASE_URL}/${

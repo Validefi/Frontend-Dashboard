@@ -4,7 +4,7 @@ import useAxios from 'axios-hooks';
 import { toggleLoading } from '../../Store/actionCreatos/auth';
 import TransactionTransition from './TransactionTransition';
 import NewsTransitionGroup from './NewsTransitionGroup';
-import MonitorWallet from './MonitorWallet';
+// import MonitorWallet from './MonitorWallet';
 import Loading from '../Loading';
 import { Plus } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
@@ -21,6 +21,7 @@ const LongBox = ({
   isEthereum,
   toggleLoading,
   isDataLoading,
+  monitored_wallet,
 }) => {
   const { account } = useWeb3React();
   const [isOpen, toggle] = useState(false);
@@ -45,7 +46,7 @@ const LongBox = ({
       }
     }
     fetchData();
-  }, [account, isEthereum]);
+  }, [account, cancelRequest, isEthereum, refetch]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -54,7 +55,7 @@ const LongBox = ({
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [refetch, refetchInterval]);
 
   useEffect(() => {
     if (apiData) {
@@ -120,6 +121,7 @@ const LongBox = ({
               }}
             >
               {shouldDisplay &&
+                monitored_wallet &&
                 data.transactions &&
                 title === 'Monitored Wallets' && (
                   // <MonitorWallet data={data.transactions} />
@@ -153,6 +155,7 @@ const LongBox = ({
 const mapStateToProps = (state) => ({
   isEthereum: state.auth.isEthereum,
   isDataLoading: state.auth.isLoading,
+  monitored_wallet: state.wallet.monitored_wallet,
 });
 
 const mapDispatchToProps = (dispatch) => ({

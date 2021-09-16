@@ -17,7 +17,12 @@ import { showAlert } from '../../Utils/Alert';
 import TextInput from '../../Utils/TextInput';
 import { isAddress } from '../../Utils';
 
-const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
+const Dashboard = ({
+  wallet_balance,
+  setMonitoredWallet,
+  isEthereum,
+  monitored_wallet,
+}) => {
   const { account } = useWeb3React();
   const [isOpen, toggle] = useState(false);
   const [series] = useState([
@@ -39,7 +44,7 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
   `;
   const handleMonitorWallet = (wallet) => {
     if (isAddress(wallet)) {
-      setMonitoredWallet(wallet);
+      setMonitoredWallet({ wallet: wallet });
       toggle(false);
     } else {
       showAlert('Please enter a valid wallet address', 'error');
@@ -91,8 +96,8 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
               title="Current Holdings"
               refetchInterval={300000}
               reqBody={{
-                // address: account,
-                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
+                address: account,
+                // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
           </div>
@@ -109,7 +114,7 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
               }`}
               refetchInterval={30000}
               reqBody={{
-                address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
+                address: monitored_wallet,
               }}
             />
             <LongBox
@@ -154,6 +159,7 @@ const Dashboard = ({ wallet_balance, setMonitoredWallet, isEthereum }) => {
 const mapStateToProps = (state) => ({
   wallet_balance: state.wallet.balance,
   isEthereum: state.auth.isEthereum,
+  monitored_wallet: state.wallet.monitored_wallet,
 });
 
 const mapDispatchToProps = (dispatch) => ({

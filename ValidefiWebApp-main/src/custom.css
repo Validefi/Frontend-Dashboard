@@ -137,6 +137,15 @@ input:checked + .slider:before {
   margin: 0 5px;
 }
 
+.holdings-tab {
+  border-radius: 10px;
+  color: #7888fc;
+  /* border-color: #fad7dd; */
+  margin-right: 10px;
+  padding: 5px 25px;
+  border: none;
+}
+
 @media (max-width: 1350px) {
   .form-section {
     margin-bottom: 40px;

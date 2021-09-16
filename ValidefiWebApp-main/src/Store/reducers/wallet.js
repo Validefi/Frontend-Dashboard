@@ -8,11 +8,6 @@ const initState = {
 
 const settingsReducer = (state = initState, action) => {
   switch (action.type) {
-    case ActionTypes.SET_MONITOR_WALLET:
-      return {
-        ...state,
-        monitored_wallet: action.wallet,
-      };
     case ActionTypes.SET_WALLET_BALANCE:
       return {
         ...state,
@@ -23,6 +18,7 @@ const settingsReducer = (state = initState, action) => {
       return {
         ...state,
         message: null,
+        monitored_wallet: action.wallet,
       };
 
     case ActionTypes.REGISTER_MONITOR_WALLET_SUCCESS:

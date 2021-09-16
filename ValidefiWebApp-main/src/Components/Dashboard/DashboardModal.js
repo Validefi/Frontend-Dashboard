@@ -51,7 +51,7 @@ const DashboardModal = ({
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [refetch, refetchInterval]);
 
   useEffect(() => {
     if (title === 'News & Updates') {

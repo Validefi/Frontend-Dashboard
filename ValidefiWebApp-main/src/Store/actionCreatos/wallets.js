@@ -4,7 +4,10 @@ import { apiUrl } from '../../Urls';
 
 export const setMonitorWallet = (data) => {
   return async (dispatch) => {
-    dispatch({ type: ActionTypes.REGISTER_MONITOR_WALLET_REQUEST });
+    dispatch({
+      type: ActionTypes.REGISTER_MONITOR_WALLET_REQUEST,
+      wallet: data.wallet || null,
+    });
     return await axios
       .post(apiUrl + '/api/wallet/monitor', data)
       .then((response) => {

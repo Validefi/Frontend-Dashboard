@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import useAxios from 'axios-hooks';
 import { useWeb3React } from '@web3-react/core';
 import { useDispatch } from 'react-redux';
-import { setWalletBalance } from '../../Store/actionCreatos/wallets';
-import DefaultCoin from '../../assets/default_coin.png';
-import { toggleLoading } from '../../Store/actionCreatos/auth';
-import Loading from '../Loading';
+import { setWalletBalance } from '../../../Store/actionCreatos/wallets';
+import { toggleLoading } from '../../../Store/actionCreatos/auth';
+import Loading from '../../Loading';
+import Item from './Item';
 
 const Holdings = ({
   title,
@@ -18,9 +18,11 @@ const Holdings = ({
 }) => {
   const { account } = useWeb3React();
   const dispatch = useDispatch();
+
   const [ethData, setETHData] = useState([]);
   const [bscData, setBSCData] = useState([]);
   const [showETH, setShowETH] = useState(true);
+
   const [balance, setBalance] = useState(0);
 
   const [
@@ -31,8 +33,9 @@ const Holdings = ({
     url: `${process.env.REACT_APP_BASE_URL}/ethTokenBalance/`,
     method: 'POST',
     data: reqBody,
-    timeout: 20000,
+    timeout: 25000,
   });
+
   const [
     { data: BSCData, loading: isBSCLoading, error: bscError },
     refetchBSC,
@@ -41,7 +44,7 @@ const Holdings = ({
     url: `${process.env.REACT_APP_BASE_URL}/bscTokenBalance/`,
     method: 'POST',
     data: reqBody,
-    timeout: 20000,
+    timeout: 25000,
   });
 
   useEffect(() => {
@@ -51,6 +54,7 @@ const Holdings = ({
       try {
         setETHData([]);
         setBSCData([]);
+        setBalance(0);
         await refetchETH();
         await refetchBSC();
       } catch (e) {
@@ -58,7 +62,7 @@ const Holdings = ({
       }
     }
     fetchData();
-  }, [account]);
+  }, [account, cancelRequestBSC, cancelRequestETH, refetchBSC, refetchETH]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -68,7 +72,7 @@ const Holdings = ({
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [refetchBSC, refetchETH, refetchInterval]);
 
   useEffect(() => {
     const getSum = (total, num) => {
@@ -131,14 +135,9 @@ const Holdings = ({
                 <li class="nav-item">
                   <button
                     onClick={() => setShowETH(true)}
+                    className="holdings-tab"
                     style={{
-                      borderRadius: '10px',
                       backgroundColor: showETH ? '#f3f6f9' : '#fff',
-                      color: '#7888fc',
-                      borderColor: '#fad7dd',
-                      marginRight: '10px',
-                      padding: '5px 25px',
-                      border: 'none',
                     }}
                   >
                     ETH
@@ -147,12 +146,9 @@ const Holdings = ({
                 <li class="nav-item">
                   <button
                     onClick={() => setShowETH(false)}
+                    className="holdings-tab"
                     style={{
-                      borderRadius: '10px',
                       backgroundColor: showETH ? '#fff' : '#f3f6f9',
-                      color: '#7888fc',
-                      padding: '5px 25px',
-                      border: 'none',
                     }}
                   >
                     BSC
@@ -161,6 +157,7 @@ const Holdings = ({
               </ul>
             </div>
           </div>
+
           {(isETHLoading || isBSCLoading || isDataLoading) &&
             !(ethError && bscError) && <Loading />}
 
@@ -233,55 +230,6 @@ const Holdings = ({
   );
 };
 
-const Image = ({ contract_ticker_symbol }) => {
-  const [src, setSrc] = useState(
-    `https://lcw.nyc3.cdn.digitaloceanspaces.com/production/currencies/32/${contract_ticker_symbol.toLowerCase()}.webp`
-  );
-  const onError = () => {
-    setSrc(DefaultCoin);
-  };
-  return <img src={src} alt="Coin" onError={onError} width={30} />;
-};
-
-const Item = ({ item, index }) => {
-  const calculateBalance = (quote) => {
-    return parseFloat(quote.toFixed(2));
-  };
-
-  const calculateQuantity = (balance, decimal) => {
-    const quantity = balance * Math.pow(10, -decimal);
-    return parseFloat(quantity.toFixed(4));
-  };
-  return (
-    <div className="transactions-list">
-      <div className="tr-item align-items-center">
-        <div className="tr-company-name">
-          <div
-            className="tr-icon tr-card-icon text-primary tr-card-bg-primary"
-            style={{
-              display: 'grid',
-              placeItems: 'center',
-              padding: 0,
-            }}
-          >
-            <Image contract_ticker_symbol={item?.contract_ticker_symbol} />
-          </div>
-          <div className="tr-text">
-            <h4>{item?.contract_name}</h4>
-
-            <p>
-              {calculateQuantity(item?.balance, item?.contract_decimals, index)}
-            </p>
-          </div>
-        </div>
-        <div>
-          <h5>${calculateBalance(item?.quote)}</h5>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const mapStateToProps = (state) => ({
   isEthereum: state.auth.isEthereum,
   isDataLoading: state.auth.isLoading,
@@ -292,4 +240,5 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(toggleLoading(isEthereum));
   },
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(Holdings);

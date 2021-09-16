@@ -11,7 +11,6 @@ import { Plus } from 'react-feather';
 const LongBox = ({
   title,
   url,
-  isAddIcon,
   refetchInterval,
   reqBody,
   isEthereum,
@@ -87,7 +86,14 @@ const LongBox = ({
               }}
             >
               <h5 className="card-title">{title}</h5>
-              {data && (
+              {reqBody.address && data ? (
+                <p
+                  className="card-title-view d-flex align-items-center"
+                  onClick={() => toggle(true)}
+                >
+                  View All
+                </p>
+              ) : (
                 <p
                   className="card-title-view d-flex align-items-center"
                   onClick={toggleModal}
@@ -120,7 +126,7 @@ const LongBox = ({
           </div>
         </div>
       </div>
-      {isOpen && !isAddIcon && (
+      {isOpen && (
         <DashboardModal
           isOpen={isOpen}
           handleClose={() => toggle(false)}

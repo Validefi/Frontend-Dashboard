@@ -77,22 +77,26 @@ const DashboardModal = ({
           </p>
         )}
         <TransitionGroup className="todo-list w-100">
-          {modalData?.length > 0 ? (
-            modalData?.map((item, index) => (
-              <CSSTransition key={index} timeout={500} classNames="item">
-                {title === 'News & Updates' ? (
-                  <News item={item} />
-                ) : (
-                  <Transactions item={item} />
-                )}
-              </CSSTransition>
-            ))
-          ) : (
-            <p>
-              {title === 'News & Updates'
-                ? 'No data to display'
-                : "You don't have any transactions"}
-            </p>
+          {!isLoading && !error && (
+            <>
+              {modalData?.length > 0 ? (
+                modalData?.map((item, index) => (
+                  <CSSTransition key={index} timeout={500} classNames="item">
+                    {title === 'News & Updates' ? (
+                      <News item={item} />
+                    ) : (
+                      <Transactions item={item} />
+                    )}
+                  </CSSTransition>
+                ))
+              ) : (
+                <p>
+                  {title === 'News & Updates'
+                    ? 'No data to display'
+                    : "You don't have any transactions"}
+                </p>
+              )}
+            </>
           )}
         </TransitionGroup>
       </ModalContent>

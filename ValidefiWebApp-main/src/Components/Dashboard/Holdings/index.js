@@ -23,8 +23,6 @@ const Holdings = ({
   const [bscData, setBSCData] = useState([]);
   const [showETH, setShowETH] = useState(true);
 
-  const [balance, setBalance] = useState(0);
-
   const [
     { data: ETHData, loading: isETHLoading, error: ethError },
     refetchETH,
@@ -54,7 +52,6 @@ const Holdings = ({
       try {
         setETHData([]);
         setBSCData([]);
-        setBalance(0);
         await refetchETH();
         await refetchBSC();
       } catch (e) {
@@ -74,27 +71,23 @@ const Holdings = ({
     };
   }, [refetchBSC, refetchETH, refetchInterval]);
 
-  useEffect(() => {
-    const getSum = (total, num) => {
-      return total + num;
-    };
-    if (ETHData) {
-      const ethBalance = ETHData.map((item) => item?.quote)?.reduce(getSum, 0);
-      setETHData(ETHData);
-      setBalance((prev) => prev + ethBalance);
-      toggleLoading(false);
-    }
-    if (BSCData) {
-      const bscBalance = BSCData.map((item) => item?.quote)?.reduce(getSum, 0);
-      setBSCData(BSCData);
-      setBalance((prev) => prev + bscBalance);
-      toggleLoading(false);
-    }
-  }, [BSCData, ETHData, toggleLoading]);
+  const getSum = (total, num) => {
+    return total + num;
+  };
 
   useEffect(() => {
+    let balance = 0;
+    if (ETHData) {
+      balance = balance + ETHData.map((item) => item?.quote)?.reduce(getSum, 0);
+      setETHData(ETHData);
+    }
+    if (BSCData) {
+      balance = balance + BSCData.map((item) => item?.quote)?.reduce(getSum, 0);
+      setBSCData(BSCData);
+    }
+    toggleLoading(false);
     dispatch(setWalletBalance(balance));
-  }, [balance, dispatch]);
+  }, [BSCData, ETHData, dispatch, toggleLoading]);
 
   const shouldETHDisplay = useMemo(
     () => showETH && !isETHLoading && !ethError && !isDataLoading,

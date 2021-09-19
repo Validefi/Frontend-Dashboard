@@ -25,7 +25,7 @@ const PublicRouteComponent = (props) => {
       {...props.routeProps}
       render={(renderProps) =>
         active && props.restricted ? (
-          <Redirect to="/dashboard" />
+          <Redirect to="/explorer" />
         ) : (
           <>{updateChildrenWithProps(renderProps, props.children)}</>
         )

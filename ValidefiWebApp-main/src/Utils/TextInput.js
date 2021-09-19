@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
-const TextInput = ({ handleSubmit, icon, autoFocus = false }) => {
+const TextInput = ({
+  label = 'Enter wallet address',
+  handleSubmit,
+  icon,
+  autoFocus = false,
+  style,
+}) => {
   const { currentTheme } = useThemeSwitcher();
 
   const [text, setText] = useState('');
@@ -11,12 +17,12 @@ const TextInput = ({ handleSubmit, icon, autoFocus = false }) => {
     }
   };
   return (
-    <div className="input-group flex-nowrap">
+    <div className="input-group flex-nowrap" style={{ ...style }}>
       <input
         type="text"
         className="form-control accordion-flush"
-        placeholder="Enter wallet address"
-        aria-label="Enter wallet address"
+        placeholder={label}
+        aria-label={label}
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyPress={handleKeypress}

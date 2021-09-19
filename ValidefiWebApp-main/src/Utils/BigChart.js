@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
+import Logo from '../assets/sidewaysLogo.png';
 
 const BigChart = ({
   title,
@@ -57,8 +58,20 @@ const BigChart = ({
       borderColor: 'rgba(94, 96, 110, .5)',
       strokeDashArray: 4,
     },
+    annotations: {
+      position: 'front',
+      images: [
+        {
+          path: Logo,
+          width: 120,
+          height: 120,
+          x: 530,
+          y: height - 80,
+          appendTo: '.apexcharts-annotations',
+        },
+      ],
+    },
   });
-
   return (
     <div className="col-sm-6 col-xl-8">
       <div className="card">
@@ -69,7 +82,7 @@ const BigChart = ({
               options={options}
               series={series}
               type="area"
-              //   width={500}
+              // width={'100%'}
               height={350}
             />
           </div>

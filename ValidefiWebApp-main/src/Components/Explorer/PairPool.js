@@ -1,10 +1,69 @@
-import React from 'react';
+import { useWeb3React } from '@web3-react/core';
+import useAxios from 'axios-hooks';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Search } from 'react-feather';
+import { connect } from 'react-redux';
+import { toggleLoading } from '../../Store/actionCreatos/auth';
 import TextInput from '../../Utils/TextInput';
 
-const PairPool = () => {
+const PairPool = ({
+  title,
+  isSearch,
+  url,
+  refetchInterval,
+  isGetRequest,
+  reqBody,
+  isEthereum,
+  toggleLoading,
+  isDataLoading,
+}) => {
+  const [data, setData] = useState([]);
+  const { account } = useWeb3React();
+
+  const [{ data: apiData, loading: isLoading, error }, refetch, cancelRequest] =
+    useAxios({
+      url: url,
+      method: isGetRequest ? 'GET' : 'POST',
+      data: isGetRequest ? undefined : reqBody,
+      timeout: 20000,
+    });
+
+  useEffect(() => {
+    async function fetchData() {
+      await cancelRequest();
+      try {
+        setData([]);
+        await refetch();
+      } catch (e) {
+        console.error('Please try again');
+      }
+    }
+    fetchData();
+  }, [account, cancelRequest, isEthereum, refetch]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, refetchInterval);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [refetch, refetchInterval]);
+
+  useEffect(() => {
+    if (apiData) {
+      setData(apiData);
+      toggleLoading(false);
+    }
+  }, [apiData, toggleLoading]);
+
+  const shouldDisplay = useMemo(
+    () => !isLoading && !error && !isDataLoading && apiData,
+    [isLoading, error, isDataLoading, apiData]
+  );
+
   const handleSearch = (e) => {};
-  const data = [
+  const sampledata = [
     {
       date: '12/11/2020',
       sender: 'Binance',
@@ -42,19 +101,21 @@ const PairPool = () => {
         <div className="card-body">
           <div className="d-flex" style={{ alignItems: 'center' }}>
             <h5 className="card-title" style={{ flex: 1 }}>
-              Pair/Pool Explorer
+              {title}
             </h5>
-            <TextInput
-              style={{
-                width: '30%',
-                height: '100%',
-                marginRight: '15px',
-                marginTop: '-15px',
-              }}
-              label="Search"
-              handleSubmit={handleSearch}
-              icon={<Search />}
-            />
+            {isSearch && (
+              <TextInput
+                style={{
+                  width: '30%',
+                  height: '100%',
+                  marginRight: '15px',
+                  marginTop: '-15px',
+                }}
+                label="Search"
+                handleSubmit={handleSearch}
+                icon={<Search />}
+              />
+            )}
           </div>
           <div className="table-responsive">
             <table className="table">
@@ -67,7 +128,7 @@ const PairPool = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((item) => (
+                {sampledata.map((item) => (
                   <tr>
                     <td>{item.date}</td>
                     <th scope="row">{item.sender}</th>
@@ -86,4 +147,14 @@ const PairPool = () => {
   );
 };
 
-export default PairPool;
+const mapStateToProps = (state) => ({
+  isEthereum: state.auth.isEthereum,
+  isDataLoading: state.auth.isLoading,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  toggleLoading: (isEthereum) => {
+    dispatch(toggleLoading(isEthereum));
+  },
+});
+export default connect(mapStateToProps, mapDispatchToProps)(PairPool);

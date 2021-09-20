@@ -5,6 +5,7 @@ import { isMobile } from 'react-device-detect';
 import { ArrowRight } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
 import Marquee from 'react-fast-marquee';
+import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import MonitorWallet from '../Dashboard/MonitorWallet';
 import LongBox from '../Dashboard/LongBox';
@@ -19,6 +20,7 @@ import CustomTicker from './Ticker';
 const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
   const [isOpen, toggle] = useState(false);
   const { account } = useWeb3React();
+  const { currentTheme } = useThemeSwitcher();
 
   const ModalContent = styled.div`
     width: 100%;
@@ -52,8 +54,33 @@ const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
           >
             Advertisement
           </div>
-          <div className="row">
-            <Marquee pauseOnHover pauseOnClick gradient={false}>
+          <div className="row" style={{ flexDirection: 'row' }}>
+            <div
+              className="mx-2 px-3 py-1 align-items-center text-center badge bg-info"
+              style={{
+                // backgroundColor:
+                // currentTheme === 'dark' ? '#2b3b52' : '#f3f6f9',
+                borderRadius: '8px',
+                flex: 0.1,
+                // color: 'rgb(120, 136, 252)',
+              }}
+            >
+              <p
+                className="mb-0"
+                style={{
+                  fontSize: '1.1rem',
+                  fontWeight: '500',
+                }}
+              >
+                Hot Pairs
+              </p>
+            </div>
+            <Marquee
+              pauseOnHover
+              pauseOnClick
+              gradient={false}
+              style={{ flex: 1 }}
+            >
               <CustomTicker />
             </Marquee>
           </div>
@@ -69,10 +96,9 @@ const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
                 address: monitored_wallet,
               }}
             />
-            <PairPool />
+            <PairPool title={'Pair/Pool Explorer'} isSearch />
           </div>
           <div className="row">
-            {' '}
             <LongBox
               title="Your Transactions"
               url={`${process.env.REACT_APP_BASE_URL}/${
@@ -84,6 +110,7 @@ const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
                 // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
+            <PairPool title="Whale Transactions" />
           </div>
         </div>
       </div>

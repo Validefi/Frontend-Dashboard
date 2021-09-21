@@ -16,6 +16,7 @@ import { showAlert } from '../../Utils/Alert';
 import TextInput from '../../Utils/TextInput';
 import { isAddress } from '../../Utils';
 import CustomTicker from './Ticker';
+import BigChart from '../../Utils/BigChart';
 
 const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
   const [isOpen, toggle] = useState(false);
@@ -37,7 +38,24 @@ const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
       showAlert('Please enter a valid wallet address', 'error');
     }
   };
-
+  const [series] = useState([
+    {
+      name: 'Transaction Value',
+      data: [70, 79, 42, 51, 28, 40, 37],
+    },
+    {
+      name: 'DeFi Market Capitalization',
+      data: [41, 52, 14, 32, 45, 32, 21],
+    },
+    {
+      name: 'BTC Dominance',
+      data: [12, 25, 41, 23, 54, 23, 12],
+    },
+    {
+      name: 'ETH Dominance',
+      data: [51, 72, 54, 38, 45, 26, 20],
+    },
+  ]);
   return (
     <>
       <div className="page-content">
@@ -96,7 +114,46 @@ const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
                 address: monitored_wallet,
               }}
             />
-            <PairPool title={'Pair/Pool Explorer'} isSearch />
+            <PairPool
+              title={'Pair/Pool Explorer'}
+              isSearch
+              url={`${process.env.REACT_APP_BASE_URL}/${
+                isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
+              }`}
+              refetchInterval={30000}
+              reqBody={{
+                address: monitored_wallet,
+              }}
+            />
+          </div>
+          <div className="row">
+            <BigChart
+              title="Market Analysis"
+              series={series}
+              height={350}
+              tooltipFormat="dd/MM/yy HH:mm"
+              colors={['#90e0db', '#b3baff', '#FEA889', '#8BCACA']}
+              // colors={['#b3baff', '#90e0db', '#f7dcdc', '#fffff0']}
+              Xcategories={[
+                '2018-09-19T00:00:00',
+                '2018-09-19T01:30:00',
+                '2018-09-19T02:30:00',
+                '2018-09-19T03:30:00',
+                '2018-09-19T04:30:00',
+                '2018-09-19T05:30:00',
+                '2018-09-19T06:30:00',
+              ]}
+            />
+            <LongBox
+              title="Live Token Holders"
+              url={`${process.env.REACT_APP_BASE_URL}/${
+                isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
+              }`}
+              refetchInterval={30000}
+              reqBody={{
+                address: account,
+              }}
+            />
           </div>
           <div className="row">
             <LongBox

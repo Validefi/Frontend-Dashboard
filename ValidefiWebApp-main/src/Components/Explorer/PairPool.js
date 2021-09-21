@@ -5,6 +5,7 @@ import { Search } from 'react-feather';
 import { connect } from 'react-redux';
 import { toggleLoading } from '../../Store/actionCreatos/auth';
 import TextInput from '../../Utils/TextInput';
+import { PairPoolData } from './data';
 
 const PairPool = ({
   title,
@@ -63,41 +64,10 @@ const PairPool = ({
   );
 
   const handleSearch = (e) => {};
-  const sampledata = [
-    {
-      date: '12/11/2020',
-      sender: 'Binance',
-      receiver: 'Rahul',
-      amount: 100,
-    },
-    {
-      date: '12/11/2020',
-      sender: 'Binance',
-      receiver: 'Rahul',
-      amount: 100,
-    },
-    {
-      date: '12/11/2020',
-      sender: 'Binance',
-      receiver: 'Rahul',
-      amount: 100,
-    },
-    {
-      date: '12/11/2020',
-      sender: 'Binance',
-      receiver: 'Rahul',
-      amount: 100,
-    },
-    {
-      date: '12/11/2020',
-      sender: 'Binance',
-      receiver: 'Rahul',
-      amount: 100,
-    },
-  ];
+
   return (
     <div className="col-md-12 col-lg-8">
-      <div className="card table-widget">
+      <div className="card table-widget" style={{ height: '95%' }}>
         <div className="card-body">
           <div className="d-flex" style={{ alignItems: 'center' }}>
             <h5 className="card-title" style={{ flex: 1 }}>
@@ -128,8 +98,8 @@ const PairPool = ({
                 </tr>
               </thead>
               <tbody>
-                {sampledata.map((item) => (
-                  <tr>
+                {PairPoolData.map((item, index) => (
+                  <tr key={index}>
                     <td>{item.date}</td>
                     <th scope="row">{item.sender}</th>
                     <td>{item.receiver}</td>

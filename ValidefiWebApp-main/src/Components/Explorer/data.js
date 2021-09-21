@@ -8,3 +8,48 @@ export const tickerData = [
   { pair: 'SOL/USD', change: '2.3', isPositive: true },
   { pair: 'DOGE/USD', change: '2.3', isPositive: false },
 ];
+
+export const PairPoolData = [
+  {
+    date: '12/11/2020',
+    sender: 'Binance',
+    receiver: 'Rahul',
+    amount: 100,
+  },
+  {
+    date: '12/11/2020',
+    sender: 'Binance',
+    receiver: 'Rahul',
+    amount: 100,
+  },
+  {
+    date: '12/11/2020',
+    sender: 'Binance',
+    receiver: 'Rahul',
+    amount: 100,
+  },
+  {
+    date: '12/11/2020',
+    sender: 'Binance',
+    receiver: 'Rahul',
+    amount: 100,
+  },
+  {
+    date: '12/11/2020',
+    sender: 'Binance',
+    receiver: 'Rahul',
+    amount: 100,
+  },
+  {
+    date: '12/11/2020',
+    sender: 'Binance',
+    receiver: 'Rahul',
+    amount: 100,
+  },
+  {
+    date: '12/11/2020',
+    sender: 'Binance',
+    receiver: 'Rahul',
+    amount: 100,
+  },
+];

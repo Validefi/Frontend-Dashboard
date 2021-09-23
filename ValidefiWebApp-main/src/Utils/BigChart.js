@@ -3,6 +3,7 @@ import Chart from 'react-apexcharts';
 import Logo from '../assets/sidewaysLogo.png';
 
 const BigChart = ({
+  type = 'area',
   title,
   series,
   height = 350,
@@ -81,7 +82,7 @@ const BigChart = ({
             <Chart
               options={options}
               series={series}
-              type="area"
+              type={type}
               // width={'100%'}
               height={350}
             />

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import Chart from 'react-apexcharts';
 
-const DonutChart = ({ series, width = 280, labels }) => {
+const DonutChart = ({
+  title,
+  series,
+  width = 280,
+  labels,
+  toggleTransactionModal,
+  togglePortfolioModal,
+}) => {
   const [options] = useState({
     series: [44, 55, 41, 17, 15],
     labels: labels,
@@ -13,8 +20,54 @@ const DonutChart = ({ series, width = 280, labels }) => {
     },
   });
   return (
-    <div id="apexchart">
-      <Chart options={options} series={series} type="donut" width={width} />
+    <div className="col-sm-6 col-xl-5" style={{ height: '462px' }}>
+      <div className="card" style={{ height: '100%' }}>
+        <div className="card-body">
+          <h5 className="card-title">{title}</h5>
+          <div id="apexchart">
+            <Chart
+              options={options}
+              series={series}
+              type="donut"
+              width={width}
+            />
+          </div>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              display: 'flex',
+              left: '0',
+              right: '0',
+              padding: '5px 20px',
+            }}
+          >
+            <button
+              type="button"
+              className="btn"
+              style={{
+                flex: '1',
+                marginRight: '5px',
+                outline: 'none',
+                backgroundColor: '#fff',
+                border: '1px solid rgb(120 136 247 / 55%)',
+                color: '#7888f7',
+              }}
+              onClick={togglePortfolioModal}
+            >
+              Edit Portfolio
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ flex: '1' }}
+              onClick={toggleTransactionModal}
+            >
+              Add Transaction
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

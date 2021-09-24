@@ -3,6 +3,7 @@ import Chart from 'react-apexcharts';
 import Logo from '../assets/sidewaysLogo.png';
 
 const BigChart = ({
+  size,
   type = 'area',
   title,
   series,
@@ -10,6 +11,7 @@ const BigChart = ({
   colors,
   tooltipFormat,
   Xcategories,
+  watermarkX,
 }) => {
   const [options] = useState({
     chart: {
@@ -66,7 +68,7 @@ const BigChart = ({
           path: Logo,
           width: 120,
           height: 120,
-          x: 530,
+          x: watermarkX || 530,
           y: height - 80,
           appendTo: '.apexcharts-annotations',
         },
@@ -74,7 +76,7 @@ const BigChart = ({
     },
   });
   return (
-    <div className="col-sm-6 col-xl-8">
+    <div className={size || 'col-sm-6 col-xl-8'}>
       <div className="card">
         <div className="card-body">
           <h5 className="card-title">{title}</h5>

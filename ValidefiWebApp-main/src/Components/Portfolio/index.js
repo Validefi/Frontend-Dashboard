@@ -6,7 +6,6 @@ import { ArrowRight } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
-import LongBox from '../Dashboard/LongBox';
 import PairPool from '../Explorer/PairPool';
 import { setMonitorWallet } from '../../Store/actionCreatos/wallets';
 import Modal from '../../Utils/Modal';
@@ -15,9 +14,12 @@ import TextInput from '../../Utils/TextInput';
 import { isAddress } from '../../Utils';
 import BigChart from '../../Utils/BigChart';
 import DonutChart from '../../Utils/DonutChart';
+import Performance from './Performance';
+import ProfitBar from './ProfitBar';
 
 const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
-  const [isOpen, toggle] = useState(false);
+  const [isTransactionModal, setIsTransactionModal] = useState(false);
+  const [isEditPortfolio, setIsEditPortfolio] = useState(false);
   const { account } = useWeb3React();
   const { currentTheme } = useThemeSwitcher();
 
@@ -28,14 +30,14 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
     align-items: center;
     padding: 20px 1.6rem 0 1.6rem;
   `;
-  const handleMonitorWallet = (wallet) => {
-    if (isAddress(wallet)) {
-      setMonitoredWallet({ wallet: wallet });
-      toggle(false);
-    } else {
-      showAlert('Please enter a valid wallet address', 'error');
-    }
-  };
+  // const handleMonitorWallet = (wallet) => {
+  //   if (isAddress(wallet)) {
+  //     setMonitoredWallet({ wallet: wallet });
+  //     toggle(false);
+  //   } else {
+  //     showAlert('Please enter a valid wallet address', 'error');
+  //   }
+  // };
   const [chart] = useState({
     series: [
       {
@@ -53,13 +55,15 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
     <>
       <div className="page-content">
         <div className="main-wrapper">
-          <div className="row flex-column">
+          <div className="row flex-row">
             <BigChart
-              title="Portfolio"
+              size="col-sm-6 col-xl-7"
+              title="Portfolio Value"
               series={chart.series}
               height={350}
               tooltipFormat="dd/MM/yy HH:mm"
               colors={chart.isPositive ? ['#90e0db'] : ['#F47174']}
+              watermarkX={440}
               Xcategories={[
                 '2018-09-19T00:00:00',
                 '2018-09-19T01:30:00',
@@ -70,28 +74,36 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
                 '2018-09-19T06:30:00',
               ]}
             />
-            <div className="col-sm-6 col-xl-5">
-              <DonutChart
-                type="donut"
-                series={donutChart.series}
-                labels={donutChart.label}
-                width={350}
-              />
-            </div>
-            {/* <LongBox
-              title="Live Token Holders"
+            <DonutChart
+              title="Your Assets"
+              type="donut"
+              series={donutChart.series}
+              labels={donutChart.label}
+              width={350}
+              toggleTransactionModal={() => setIsTransactionModal(true)}
+              togglePortfolioModal={() => setIsEditPortfolio(true)}
+            />
+          </div>
+          <div className="row  mb-3">
+            <ProfitBar
+              title="Portfolio Analysis"
               url={`${process.env.REACT_APP_BASE_URL}/${
                 isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
               }`}
               refetchInterval={30000}
-              reqBody={{
-                address: account,
-              }}
-            /> */}
+            />
           </div>
           <div className="row">
-            <LongBox
-              title="Your Transactions"
+            <Performance
+              title="Coin Performance"
+              url={`${process.env.REACT_APP_BASE_URL}/${
+                isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
+              }`}
+              refetchInterval={30000}
+            />
+            <PairPool
+              title="Transaction History"
+              isSearch
               url={`${process.env.REACT_APP_BASE_URL}/${
                 isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
               }`}
@@ -100,23 +112,37 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
                 address: account,
               }}
             />
-            <PairPool title="Whale Transactions" />
           </div>
         </div>
       </div>
       <Modal
-        isOpen={isOpen}
-        handleClose={() => toggle(false)}
+        isOpen={isTransactionModal}
+        handleClose={() => setIsTransactionModal(false)}
         width={isMobile ? 85 : 30}
         height={isMobile ? 20 : 15}
-        title="Monitor Wallet"
+        title="Add Transaction"
       >
         <ModalContent>
-          <TextInput
+          {/* <TextInput
             autoFocus={true}
-            handleSubmit={handleMonitorWallet}
+            // handleSubmit={handleMonitorWallet}
             icon={<ArrowRight />}
-          />
+          /> */}
+        </ModalContent>
+      </Modal>
+      <Modal
+        isOpen={isEditPortfolio}
+        handleClose={() => setIsEditPortfolio(false)}
+        width={isMobile ? 85 : 30}
+        height={isMobile ? 20 : 15}
+        title="Edit Portfolio"
+      >
+        <ModalContent>
+          {/* <TextInput
+            autoFocus={true}
+            // handleSubmit={handleMonitorWallet}
+            icon={<ArrowRight />}
+          /> */}
         </ModalContent>
       </Modal>
     </>

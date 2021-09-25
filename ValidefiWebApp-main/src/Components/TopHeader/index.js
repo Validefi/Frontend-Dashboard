@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Moon, Search, Sun } from 'react-feather';
 import { connect } from 'react-redux';
+import { useWeb3React } from '@web3-react/core';
+import Select from 'react-select';
 import { toggleSidebar } from '../../Store/actionCreatos/settings';
 import { toggleNetwork } from '../../Store/actionCreatos/auth';
-import Select from 'react-select';
 import Logo from '../../assets/logo1.svg';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Loading from '../Loading';
 import TextInput from '../../Utils/TextInput';
-import { useWeb3React } from '@web3-react/core';
 
 const TopHeader = ({
   isSidebarVisible,

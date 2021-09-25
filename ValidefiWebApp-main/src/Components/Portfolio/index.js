@@ -2,24 +2,19 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { isMobile } from 'react-device-detect';
-import { ArrowRight } from 'react-feather';
 import { useWeb3React } from '@web3-react/core';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 
 import PairPool from '../Explorer/PairPool';
 import { setMonitorWallet } from '../../Store/actionCreatos/wallets';
-import Modal from '../../Utils/Modal';
-import { showAlert } from '../../Utils/Alert';
-import TextInput from '../../Utils/TextInput';
-import { isAddress } from '../../Utils';
 import BigChart from '../../Utils/BigChart';
 import DonutChart from '../../Utils/DonutChart';
 import Performance from './Performance';
 import ProfitBar from './ProfitBar';
+import TransactionModal from './Modal/TransactionModal';
 
 const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
   const [isTransactionModal, setIsTransactionModal] = useState(false);
-  const [isEditPortfolio, setIsEditPortfolio] = useState(false);
   const { account } = useWeb3React();
   const { currentTheme } = useThemeSwitcher();
 
@@ -81,7 +76,7 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
               labels={donutChart.label}
               width={350}
               toggleTransactionModal={() => setIsTransactionModal(true)}
-              togglePortfolioModal={() => setIsEditPortfolio(true)}
+              isDark={currentTheme === 'dark'}
             />
           </div>
           <div className="row  mb-3">
@@ -115,36 +110,13 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
           </div>
         </div>
       </div>
-      <Modal
+      <TransactionModal
         isOpen={isTransactionModal}
         handleClose={() => setIsTransactionModal(false)}
         width={isMobile ? 85 : 30}
         height={isMobile ? 20 : 15}
         title="Add Transaction"
-      >
-        <ModalContent>
-          {/* <TextInput
-            autoFocus={true}
-            // handleSubmit={handleMonitorWallet}
-            icon={<ArrowRight />}
-          /> */}
-        </ModalContent>
-      </Modal>
-      <Modal
-        isOpen={isEditPortfolio}
-        handleClose={() => setIsEditPortfolio(false)}
-        width={isMobile ? 85 : 30}
-        height={isMobile ? 20 : 15}
-        title="Edit Portfolio"
-      >
-        <ModalContent>
-          {/* <TextInput
-            autoFocus={true}
-            // handleSubmit={handleMonitorWallet}
-            icon={<ArrowRight />}
-          /> */}
-        </ModalContent>
-      </Modal>
+      />
     </>
   );
 };

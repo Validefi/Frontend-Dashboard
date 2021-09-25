@@ -8,6 +8,7 @@ const DonutChart = ({
   labels,
   toggleTransactionModal,
   togglePortfolioModal,
+  isDark,
 }) => {
   const [options] = useState({
     series: [44, 55, 41, 17, 15],
@@ -15,7 +16,7 @@ const DonutChart = ({
     plotOptions: {
       pie: {
         customScale: 1,
-        expandOnClick: true,
+        expandOnClick: false,
       },
     },
   });
@@ -35,7 +36,7 @@ const DonutChart = ({
           <div
             style={{
               position: 'absolute',
-              bottom: '20px',
+              bottom: '10px',
               display: 'flex',
               left: '0',
               right: '0',
@@ -44,23 +45,10 @@ const DonutChart = ({
           >
             <button
               type="button"
-              className="btn"
+              className="btn btn-primary"
               style={{
                 flex: '1',
-                marginRight: '5px',
-                outline: 'none',
-                backgroundColor: '#fff',
-                border: '1px solid rgb(120 136 247 / 55%)',
-                color: '#7888f7',
               }}
-              onClick={togglePortfolioModal}
-            >
-              Edit Portfolio
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              style={{ flex: '1' }}
               onClick={toggleTransactionModal}
             >
               Add Transaction

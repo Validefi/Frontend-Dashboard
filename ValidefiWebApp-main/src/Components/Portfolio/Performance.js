@@ -1,9 +1,10 @@
 import { useWeb3React } from '@web3-react/core';
 import useAxios from 'axios-hooks';
-import React, { useEffect, useMemo, useState } from 'react';
-import { Search } from 'react-feather';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Search, DollarSign } from 'react-feather';
 import { connect } from 'react-redux';
 import { toggleLoading } from '../../Store/actionCreatos/auth';
+import Image from '../../Utils/CoinImage';
 import TextInput from '../../Utils/TextInput';
 import { performanceData } from '../Explorer/data';
 
@@ -62,8 +63,13 @@ const Performance = ({
 
   const handleSearch = (e) => {};
 
+  const calculateHoldings = useCallback((buyPrice, holdings) => {
+    const value = holdings / buyPrice;
+    return +value.toFixed(2);
+  }, []);
+
   return (
-    <div className="col-md-12 col-lg-4">
+    <div className="col-md-12 col-lg-12">
       <div className="card table-widget" style={{ height: '95%' }}>
         <div className="card-body">
           <div className="d-flex" style={{ alignItems: 'center' }}>
@@ -89,14 +95,30 @@ const Performance = ({
               <thead>
                 <tr>
                   <th scope="col">Coin</th>
-                  <th scope="col">Performance</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Buy Price</th>
+                  <th scope="col">Holdings</th>
+                  <th scope="col">All time return</th>
                 </tr>
               </thead>
               <tbody>
                 {performanceData.map((item, index) => (
                   <tr key={index}>
-                    <th scope="row">{item.coin}</th>
+                    <th scope="row">
+                      <Image contract_ticker_symbol={item?.coin} />
+                      {item.coin}
+                    </th>
+
+                    <td>${item.price}</td>
+                    <td>${item.buyPrice}</td>
                     <td>
+                      <span style={{ fontWeight: 500 }}>${item.holdings}</span>
+                      <span className="text-muted" style={{ display: 'block' }}>
+                        {calculateHoldings(item.buyPrice, item.holdings)}{' '}
+                        {item.coin}
+                      </span>
+                    </td>
+                    <td style={{ fontWeight: 700 }}>
                       <span
                         className={`${
                           item.isPositive ? 'text-success' : 'text-danger'

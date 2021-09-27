@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Search } from 'react-feather';
 import { connect } from 'react-redux';
 import { toggleLoading } from '../../Store/actionCreatos/auth';
+import Image from '../../Utils/CoinImage';
 import TextInput from '../../Utils/TextInput';
 import { PairPoolData } from './data';
 
@@ -66,7 +67,7 @@ const PairPool = ({
   const handleSearch = (e) => {};
 
   return (
-    <div className="col-md-12 col-lg-8">
+    <div className="col-md-12 col-lg-12">
       <div className="card table-widget" style={{ height: '95%' }}>
         <div className="card-body">
           <div className="d-flex" style={{ alignItems: 'center' }}>
@@ -94,6 +95,7 @@ const PairPool = ({
                   <th scope="col">Date</th>
                   <th scope="col">Sender</th>
                   <th scope="col">Receiver</th>
+                  <th scope="col">Coin</th>
                   <th scope="col">Amount</th>
                 </tr>
               </thead>
@@ -103,6 +105,10 @@ const PairPool = ({
                     <td>{item.date}</td>
                     <th scope="row">{item.sender}</th>
                     <td>{item.receiver}</td>
+                    <td>
+                      <Image contract_ticker_symbol={item?.token} />
+                      {item.token}
+                    </td>
                     <td>
                       <span className="badge bg-info">{item.amount}</span>
                     </td>

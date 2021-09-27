@@ -96,6 +96,8 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
               }`}
               refetchInterval={30000}
             />
+          </div>
+          <div className="row">
             <PairPool
               title="Transaction History"
               isSearch

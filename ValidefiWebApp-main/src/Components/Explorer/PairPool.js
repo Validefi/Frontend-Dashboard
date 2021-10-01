@@ -18,6 +18,7 @@ const PairPool = ({
   isEthereum,
   toggleLoading,
   isDataLoading,
+  className = 'col-md-12 col-lg-8',
 }) => {
   const [data, setData] = useState([]);
   const { account } = useWeb3React();
@@ -67,7 +68,7 @@ const PairPool = ({
   const handleSearch = (e) => {};
 
   return (
-    <div className="col-md-12 col-lg-12">
+    <div className={className}>
       <div className="card table-widget" style={{ height: '95%' }}>
         <div className="card-body">
           <div className="d-flex" style={{ alignItems: 'center' }}>

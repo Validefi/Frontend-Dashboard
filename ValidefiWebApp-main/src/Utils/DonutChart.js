@@ -9,6 +9,7 @@ const DonutChart = ({
   toggleTransactionModal,
   togglePortfolioModal,
   isDark,
+  show,
 }) => {
   const [options] = useState({
     series: [44, 55, 41, 17, 15],
@@ -18,6 +19,16 @@ const DonutChart = ({
         customScale: 1,
         expandOnClick: false,
       },
+    },
+    legend: {
+      show: show,
+      showForSingleSeries: false,
+      showForNullSeries: true,
+      showForZeroSeries: true,
+      position: 'bottom',
+      horizontalAlign: 'center',
+      floating: false,
+      fontWeight: 500,
     },
   });
   return (

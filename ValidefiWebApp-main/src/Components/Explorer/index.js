@@ -145,6 +145,7 @@ const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
               ]}
             />
             <LongBox
+              height="461px"
               title="Live Token Holders"
               url={`${process.env.REACT_APP_BASE_URL}/${
                 isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'

@@ -71,7 +71,7 @@ const TopHeader = ({
 
   return (
     <div className="page-header">
-      <nav className="navbar navbar-expand-lg d-flex justify-content-between">
+      <nav className="navbar d-flex justify-content-between">
         <div id="navbarNav">
           <ul className="navbar-nav" id="leftNav">
             <li
@@ -110,7 +110,7 @@ const TopHeader = ({
               />
             </li>
             <li
-              className="nav-item dropdown dashboard-dropdown"
+              className="nav-item dropdown dashboard-dropdown dashboard-search"
               style={{ width: '20%', marginLeft: '8px' }}
             >
               <div className="d-flex justify-content-center">
@@ -127,6 +127,7 @@ const TopHeader = ({
               </div>
             </li>
             <li
+              className="dashboard-search"
               style={{ marginLeft: '12px', cursor: 'pointer' }}
               onClick={() => toggleTheme(isDarkMode)}
             >

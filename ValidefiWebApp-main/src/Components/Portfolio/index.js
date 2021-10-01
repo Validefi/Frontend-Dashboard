@@ -70,7 +70,8 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
               ]}
             />
             <DonutChart
-              title="Your Assets"
+              show={donutChart.label.length < 6}
+              title="Your Portfolio"
               type="donut"
               series={donutChart.series}
               labels={donutChart.label}
@@ -79,7 +80,7 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
               isDark={currentTheme === 'dark'}
             />
           </div>
-          <div className="row  mb-3">
+          <div className={`row mb-3 ${isMobile ? 'mt-4' : ''}`}>
             <ProfitBar
               title="Portfolio Analysis"
               url={`${process.env.REACT_APP_BASE_URL}/${
@@ -100,6 +101,7 @@ const Portfolio = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
           <div className="row">
             <PairPool
               title="Transaction History"
+              className="col-md-12 col-lg-12"
               isSearch
               url={`${process.env.REACT_APP_BASE_URL}/${
                 isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'

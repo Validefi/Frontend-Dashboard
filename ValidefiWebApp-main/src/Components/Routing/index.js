@@ -13,7 +13,10 @@ const Routing = ({ isSidebarVisible }) => {
   const routes = RouteList;
   return (
     <Suspense fallback={<Loading />}>
-      <div className={`h-100 ${isSidebarVisible ? '' : 'sidebar-hidden'}`}>
+      <div
+        className={`h-100 ${isSidebarVisible ? '' : 'sidebar-hidden'}`}
+        style={{ overflowX: 'hidden' }}
+      >
         <Switch>
           {routes.map((route, index) => {
             return route.private ? (

@@ -17,6 +17,7 @@ const LongBox = ({
   isEthereum,
   toggleLoading,
   isDataLoading,
+  height = '573px',
 }) => {
   const { account } = useWeb3React();
   const [isOpen, toggle] = useState(false);
@@ -71,7 +72,7 @@ const LongBox = ({
           <div
             className="card-body"
             style={{
-              height: '573px',
+              height: { height },
               padding: title === 'News & Updates' ? '20px' : '30px',
             }}
           >

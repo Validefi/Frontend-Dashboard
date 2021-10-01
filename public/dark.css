@@ -2625,7 +2625,7 @@ ul.profile-about-list li.profile-about-list-buttons {
   .page-header .navbar #navbarNav #leftNav > #sidebar-toggle {
     transform: rotate(-180deg);
   }
-  sidebar-hidden .page-header .navbar #navbarNav #leftNav > #sidebar-toggle {
+  .sidebar-hidden .page-header .navbar #navbarNav #leftNav > #sidebar-toggle {
     transform: rotate(0);
   }
   .page-sidebar {
@@ -2722,7 +2722,7 @@ ul.profile-about-list li.profile-about-list-buttons {
 }
 @media (min-width: 630px) {
   .sidebar-search {
-    display: none;
+    display: none !important;
   }
 }
 

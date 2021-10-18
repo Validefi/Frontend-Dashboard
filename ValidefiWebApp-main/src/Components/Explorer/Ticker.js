@@ -7,7 +7,7 @@ const CustomTicker = () => {
 
   return (
     <>
-      {tickerData.map(({ pair, change, isPositive }) => (
+      {tickerData.map(({ pair, change, isPositive }, index) => (
         <div
           className="d-flex mx-2 px-3 py-1 align-items-center text-center"
           style={{
@@ -23,6 +23,14 @@ const CustomTicker = () => {
               fontWeight: '500',
             }}
           >
+            <span
+              style={{
+                fontSize: '1rem',
+                fontWeight: '300',
+              }}
+            >
+              {index + 1}.
+            </span>{' '}
             {pair}
           </p>
           <p className={`mb-0 ${isPositive ? 'text-success' : 'text-danger'}`}>

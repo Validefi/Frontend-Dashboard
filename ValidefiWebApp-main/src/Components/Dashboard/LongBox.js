@@ -72,7 +72,7 @@ const LongBox = ({
           <div
             className="card-body"
             style={{
-              height: { height },
+              height: height,
               padding: title === 'News & Updates' ? '20px' : '30px',
             }}
           >

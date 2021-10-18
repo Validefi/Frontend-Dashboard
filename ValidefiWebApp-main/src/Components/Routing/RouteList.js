@@ -8,6 +8,7 @@ const Profile = lazy(() => import('../Profile'));
 const Coins = lazy(() => import('../Coins'));
 const Explorer = lazy(() => import('../Explorer'));
 const Portfolio = lazy(() => import('../Portfolio'));
+const CoinDetail = lazy(() => import('../CoinDetail'));
 // private => Route requires authentication
 // layout => header should be visible or not
 // restricted => authenticated user cannot visit login type restriction
@@ -62,6 +63,12 @@ export const RouteList = [
     private: true,
     layout: true,
     render: () => <Portfolio />,
+  },
+  {
+    link: '/coin/:coin',
+    private: false,
+    layout: true,
+    render: () => <CoinDetail />,
   },
   {
     link: '/',

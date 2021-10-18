@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import './table.css';
 import Table from '../../Utils/Table';
 import SmallChart from '../../Utils/SmallChart';
+import { useHistory } from 'react-router';
 
 const Coins = () => {
+  const history = useHistory();
   const [series] = useState([
     {
       data: [25, 66, 41, 89, 63, 25, 44, 12, 36, 9, 54],
@@ -162,10 +164,14 @@ const Coins = () => {
     },
     cells: {
       style: {
+        cursor: 'pointer',
         fontSize: '13px',
       },
     },
   };
+
+  const handleChange = (coin) => history.push(`/coin/${coin.name}`);
+
   return (
     <div class="page-content">
       <div class="main-wrapper">
@@ -179,6 +185,7 @@ const Coins = () => {
                   data={data}
                   filterHeading="Find Coin"
                   customStyles={customStyles}
+                  handleChange={handleChange}
                 />
               </div>
             </div>

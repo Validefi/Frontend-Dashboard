@@ -12,6 +12,7 @@ const BigChart = ({
   tooltipFormat,
   Xcategories,
   watermarkX,
+  rightHeader = <></>,
 }) => {
   const [options] = useState({
     chart: {
@@ -79,7 +80,10 @@ const BigChart = ({
     <div className={size || 'col-sm-6 col-xl-8'}>
       <div className="card">
         <div className="card-body">
-          <h5 className="card-title">{title}</h5>
+          <div className="d-flex justify-content-between">
+            <h5 className="card-title">{title}</h5>
+            {rightHeader}
+          </div>
           <div id="apexchart">
             <Chart
               options={options}

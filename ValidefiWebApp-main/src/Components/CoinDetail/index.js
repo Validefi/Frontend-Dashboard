@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import { Code, Link, User } from 'react-feather';
+import { connect } from 'react-redux';
 import { useParams } from 'react-router';
+import BigChart from '../../Utils/BigChart';
 import CoinImage from '../../Utils/CoinImage';
+import AlertBox from './AlertBox';
 
 const TokenomicsTile = ({ title, value }) => {
   const { currentTheme } = useThemeSwitcher();
@@ -50,9 +53,54 @@ const LinksTile = ({ title, icon }) => {
   );
 };
 
-const CoinDetail = () => {
+const CoinDetail = ({ isEthereum }) => {
   const { coin } = useParams();
   const { currentTheme } = useThemeSwitcher();
+  const [activeItem, setActiveItem] = useState('hour');
+  const [series, setSeries] = useState([
+    {
+      name: 'price',
+      data: [41, 52, 14, 32, 45, 32, 21],
+    },
+  ]);
+
+  const hour = () => {
+    setActiveItem('hour');
+    setSeries([
+      {
+        name: 'price',
+        data: [11, 32, 44, 30, 15, 92, 91],
+      },
+    ]);
+  };
+
+  const day = () => {
+    setActiveItem('day');
+    setSeries([
+      {
+        name: 'price',
+        data: [19, 22, 14, 90, 55, 22, 51],
+      },
+    ]);
+  };
+  const month = () => {
+    setActiveItem('month');
+    setSeries([
+      {
+        name: 'price',
+        data: [21, 52, 34, 10, 65, 22, 21],
+      },
+    ]);
+  };
+  const year = () => {
+    setActiveItem('year');
+    setSeries([
+      {
+        name: 'price',
+        data: [51, 22, 94, 90, 75, 82, 91],
+      },
+    ]);
+  };
 
   return (
     <div class="page-content">
@@ -123,7 +171,7 @@ const CoinDetail = () => {
               />
             </div>
             <div className="row mt-4">
-              <h5>
+              <p>
                 <span
                   style={{
                     opacity: currentTheme === 'dark' ? '' : '1',
@@ -136,11 +184,10 @@ const CoinDetail = () => {
                   Category:
                 </span>{' '}
                 Digital Asset
-              </h5>
+              </p>
             </div>
             <div className="row mt-4">
-              <h5>
-                {' '}
+              <p>
                 <span
                   style={{
                     opacity: currentTheme === 'dark' ? '' : '1',
@@ -153,7 +200,7 @@ const CoinDetail = () => {
                   Exchanges:
                 </span>{' '}
                 Binance, Hotbit, Houbi Global, FTX, etc.
-              </h5>
+              </p>
             </div>
           </div>
           <div class="col col-md-4">
@@ -175,9 +222,97 @@ const CoinDetail = () => {
             </div>
           </div>
         </div>
+        <div className="row">
+          <BigChart
+            title={'Live' + ' | BTC' + ' | USD'}
+            rightHeader={
+              <div>
+                <button
+                  className={`btn p-2 ${
+                    activeItem === 'hour' ? 'text-dark' : 'text-muted'
+                  }`}
+                  onClick={hour}
+                >
+                  1H
+                </button>
+                <button
+                  className={`btn p-2 ${
+                    activeItem === 'day' ? 'text-dark' : 'text-muted'
+                  }`}
+                  onClick={day}
+                >
+                  24H
+                </button>
+                <button
+                  className={`btn p-2 ${
+                    activeItem === 'month' ? 'text-dark' : 'text-muted'
+                  }`}
+                  onClick={month}
+                >
+                  1M
+                </button>
+                <button
+                  className={`btn p-2 ${
+                    activeItem === 'year' ? 'text-dark' : 'text-muted'
+                  }`}
+                  onClick={year}
+                >
+                  1Y
+                </button>
+              </div>
+            }
+            series={series}
+            height={350}
+            tooltipFormat="dd/MM/yy HH:mm"
+            colors={['#90e0db']}
+            Xcategories={[
+              '2018-09-19T00:00:00',
+              '2018-09-19T01:30:00',
+              '2018-09-19T02:30:00',
+              '2018-09-19T03:30:00',
+              '2018-09-19T04:30:00',
+              '2018-09-19T05:30:00',
+              '2018-09-19T06:30:00',
+            ]}
+          />
+          {/* <Holdings
+            title="Current Holdings"
+            refetchInterval={300000}
+            reqBody={{
+              address: account,
+              // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
+            }}
+          /> */}
+          <AlertBox
+            toggleModal={() => {}}
+            // toggleModal={() => toggle(true)}
+            title="Alerts"
+            url={`${process.env.REACT_APP_BASE_URL}/${
+              isEthereum ? 'ethTransactionsLatest/' : 'bscTransactionsLatest/'
+            }`}
+            refetchInterval={30000}
+            reqBody={
+              {
+                // address: monitored_wallet,
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   );
 };
 
-export default CoinDetail;
+const mapStateToProps = (state) => ({
+  // wallet_balance: state.wallet.balance,
+  isEthereum: state.auth.isEthereum,
+  // monitored_wallet: state.wallet.monitored_wallet,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  // setMonitoredWallet: (wallet) => {
+  //   dispatch(setMonitorWallet(wallet));
+  // },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoinDetail);

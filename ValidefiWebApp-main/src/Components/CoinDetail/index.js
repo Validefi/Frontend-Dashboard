@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router';
 import BigChart from '../../Utils/BigChart';
 import CoinImage from '../../Utils/CoinImage';
+import LongBox from '../Dashboard/LongBox';
+import PairPool from '../Explorer/PairPool';
 import AlertBox from './AlertBox';
+import SwapLiquidity from './SwapLiquidity';
 
 const TokenomicsTile = ({ title, value }) => {
   const { currentTheme } = useThemeSwitcher();
@@ -30,17 +33,17 @@ const TokenomicsTile = ({ title, value }) => {
   );
 };
 
-const LinksTile = ({ title, icon }) => {
+const LinksTile = ({ title, icon, classname }) => {
   const { currentTheme } = useThemeSwitcher();
 
   return (
     <div className="col">
       <p
+        className={classname}
         style={{
           opacity: currentTheme === 'dark' ? '' : '1',
           whiteSpace: 'nowrap',
-          backgroundColor:
-            currentTheme === 'dark' ? '#253347' : 'rgb(239,239,239)',
+          backgroundColor: currentTheme === 'dark' ? '#253347' : '#EFF3F4',
           borderRadius: '5px',
           padding: '5px',
           textAlign: 'center',
@@ -102,6 +105,15 @@ const CoinDetail = ({ isEthereum }) => {
     ]);
   };
 
+  const Button = ({ name, title, onClick }) => (
+    <button
+      className={`btn p-2 ${activeItem === name ? 'text-dark' : 'text-muted'}`}
+      style={{ fontWeight: activeItem === name ? '700' : '300' }}
+      onClick={onClick}
+    >
+      {title}
+    </button>
+  );
   return (
     <div class="page-content">
       <div class="main-wrapper">
@@ -116,7 +128,7 @@ const CoinDetail = ({ isEthereum }) => {
                     color: currentTheme === 'dark' ? '' : '#1a1a1a',
                   }}
                 >
-                  {coin}
+                  {coin?.toUpperCase()}
                 </h2>
                 <p style={{ marginLeft: '0.6rem', marginTop: '5px' }}>BTC</p>
               </div>
@@ -142,6 +154,7 @@ const CoinDetail = ({ isEthereum }) => {
               />
               <LinksTile
                 title="Liquidity"
+                classname="btn btn-info"
                 icon={
                   <p
                     style={{
@@ -157,6 +170,7 @@ const CoinDetail = ({ isEthereum }) => {
               <LinksTile title="Audit" />
               <LinksTile
                 title="Score"
+                classname="btn btn-success"
                 icon={
                   <p
                     style={{
@@ -176,13 +190,15 @@ const CoinDetail = ({ isEthereum }) => {
                   style={{
                     opacity: currentTheme === 'dark' ? '' : '1',
                     backgroundColor:
-                      currentTheme === 'dark' ? '#253347' : 'rgb(239,239,239)',
+                      currentTheme === 'dark' ? '#253347' : '#7888fc',
+                    color: currentTheme === 'dark' ? '' : '#fff',
                     borderRadius: '5px',
                     padding: '5px',
                   }}
                 >
-                  Category:
-                </span>{' '}
+                  Category
+                </span>
+                {'  '}
                 Digital Asset
               </p>
             </div>
@@ -192,13 +208,15 @@ const CoinDetail = ({ isEthereum }) => {
                   style={{
                     opacity: currentTheme === 'dark' ? '' : '1',
                     backgroundColor:
-                      currentTheme === 'dark' ? '#253347' : 'rgb(239,239,239)',
+                      currentTheme === 'dark' ? '#253347' : '#7888fc',
+                    color: currentTheme === 'dark' ? '' : '#fff',
                     borderRadius: '5px',
                     padding: '5px',
                   }}
                 >
-                  Exchanges:
-                </span>{' '}
+                  Exchanges
+                </span>
+                {'  '}
                 Binance, Hotbit, Houbi Global, FTX, etc.
               </p>
             </div>
@@ -227,38 +245,10 @@ const CoinDetail = ({ isEthereum }) => {
             title={'Live' + ' | BTC' + ' | USD'}
             rightHeader={
               <div>
-                <button
-                  className={`btn p-2 ${
-                    activeItem === 'hour' ? 'text-dark' : 'text-muted'
-                  }`}
-                  onClick={hour}
-                >
-                  1H
-                </button>
-                <button
-                  className={`btn p-2 ${
-                    activeItem === 'day' ? 'text-dark' : 'text-muted'
-                  }`}
-                  onClick={day}
-                >
-                  24H
-                </button>
-                <button
-                  className={`btn p-2 ${
-                    activeItem === 'month' ? 'text-dark' : 'text-muted'
-                  }`}
-                  onClick={month}
-                >
-                  1M
-                </button>
-                <button
-                  className={`btn p-2 ${
-                    activeItem === 'year' ? 'text-dark' : 'text-muted'
-                  }`}
-                  onClick={year}
-                >
-                  1Y
-                </button>
+                <Button name="hour" title="1H" onClick={hour} />
+                <Button name="day" title="24H" onClick={day} />
+                <Button name="month" title="1M" onClick={month} />
+                <Button name="year" title="1Y" onClick={year} />
               </div>
             }
             series={series}
@@ -275,14 +265,6 @@ const CoinDetail = ({ isEthereum }) => {
               '2018-09-19T06:30:00',
             ]}
           />
-          {/* <Holdings
-            title="Current Holdings"
-            refetchInterval={300000}
-            reqBody={{
-              address: account,
-              // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
-            }}
-          /> */}
           <AlertBox
             toggleModal={() => {}}
             // toggleModal={() => toggle(true)}
@@ -298,15 +280,25 @@ const CoinDetail = ({ isEthereum }) => {
             }
           />
         </div>
+        <div className="row">
+          <PairPool title="Whale Transactions" isCoinColumn={false} />
+          <LongBox
+            title="News &#38; Updates"
+            url={`${process.env.REACT_APP_BASE_URL}/news/`}
+            isGetRequest
+            refetchInterval={60000}
+          />
+        </div>
+        <div className="row">
+          <SwapLiquidity title="Swap & Liquidity" />
+        </div>
       </div>
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  // wallet_balance: state.wallet.balance,
   isEthereum: state.auth.isEthereum,
-  // monitored_wallet: state.wallet.monitored_wallet,
 });
 
 const mapDispatchToProps = (dispatch) => ({

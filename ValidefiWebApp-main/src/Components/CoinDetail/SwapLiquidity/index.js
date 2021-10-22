@@ -1,16 +1,13 @@
 import { useWeb3React } from '@web3-react/core';
 import useAxios from 'axios-hooks';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Search } from 'react-feather';
 import { connect } from 'react-redux';
-import { toggleLoading } from '../../Store/actionCreatos/auth';
-import Image from '../../Utils/CoinImage';
-import TextInput from '../../Utils/TextInput';
-import { PairPoolData } from './data';
+import { toggleLoading } from '../../../Store/actionCreatos/auth';
+import Image from '../../../Utils/CoinImage';
+import { SwapLiquidityData } from '../data';
 
-const PairPool = ({
+const SwapLiquidity = ({
   title,
-  isSearch,
   url,
   refetchInterval,
   isGetRequest,
@@ -18,8 +15,7 @@ const PairPool = ({
   isEthereum,
   toggleLoading,
   isDataLoading,
-  isCoinColumn = true,
-  className = 'col-md-12 col-lg-8',
+  className = 'col-md-12 col-lg-12',
 }) => {
   const [data, setData] = useState([]);
   const { account } = useWeb3React();
@@ -76,46 +72,38 @@ const PairPool = ({
             <h5 className="card-title" style={{ flex: 1 }}>
               {title}
             </h5>
-            {isSearch && (
-              <TextInput
-                style={{
-                  width: '30%',
-                  height: '100%',
-                  marginRight: '15px',
-                  marginTop: '-15px',
-                }}
-                label="Search"
-                handleSubmit={handleSearch}
-                icon={<Search />}
-              />
-            )}
           </div>
           <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Sender</th>
-                  <th scope="col">Receiver</th>
-                  {isCoinColumn && <th scope="col">Coin</th>}
-                  <th scope="col">Amount</th>
+                  <th scope="col">Market</th>
+                  <th scope="col">Pair</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Volume</th>
+                  <th scope="col">Change</th>
+                  <th scope="col">Liquidity</th>
                 </tr>
               </thead>
               <tbody>
-                {PairPoolData.map((item, index) => (
+                {SwapLiquidityData.map((item, index) => (
                   <tr key={index}>
-                    <td>{item.date}</td>
-                    <th scope="row">{item.sender}</th>
-                    <td>{item.receiver}</td>
-                    {isCoinColumn && (
-                      <td>
-                        <Image contract_ticker_symbol={item?.token} />
-                        {item.token}
-                      </td>
-                    )}
                     <td>
-                      <span className="badge bg-info">{item.amount}</span>
+                      <Image contract_ticker_symbol={item?.market} />
+                      {item.market}
                     </td>
+                    <th scope="row">{item.pair}</th>
+                    <td>{item.price}</td>
+                    <td>{item.volume}</td>
+                    <td
+                      className={
+                        item.change >= 0 ? 'text-success' : 'text-danger'
+                      }
+                    >
+                      {item.change >= 0 ? '+' : ''}
+                      {item.change}%
+                    </td>
+                    <td>{item.liquidity}</td>
                   </tr>
                 ))}
               </tbody>
@@ -137,4 +125,4 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(toggleLoading(isEthereum));
   },
 });
-export default connect(mapStateToProps, mapDispatchToProps)(PairPool);
+export default connect(mapStateToProps, mapDispatchToProps)(SwapLiquidity);

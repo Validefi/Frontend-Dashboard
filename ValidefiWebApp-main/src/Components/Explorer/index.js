@@ -168,7 +168,12 @@ const Explorer = ({ setMonitoredWallet, isEthereum, monitored_wallet }) => {
                 // address: '0x9621de29f9083D9e638D4Fc1BF8A618650A5A69c',
               }}
             />
-            <PairPool title="Whale Transactions" />
+            <PairPool
+              title="Whale Transactions"
+              url={`${process.env.REACT_APP_BASE_URL}/news/`}
+              isGetRequest
+              refetchInterval={60000}
+            />
           </div>
         </div>
       </div>

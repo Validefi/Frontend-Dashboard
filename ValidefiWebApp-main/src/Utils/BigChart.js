@@ -90,7 +90,7 @@ const BigChart = ({
               series={series}
               type={type}
               // width={'100%'}
-              height={350}
+              height={height}
             />
           </div>
         </div>

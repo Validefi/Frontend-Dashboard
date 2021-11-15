@@ -82,7 +82,7 @@ const SwapLiquidity = ({
                   <th scope="col">Price</th>
                   <th scope="col">Volume</th>
                   <th scope="col">Change</th>
-                  <th scope="col">Liquidity</th>
+                  {/* <th scope="col">Liquidity</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -103,7 +103,7 @@ const SwapLiquidity = ({
                       {item.change >= 0 ? '+' : ''}
                       {item.change}%
                     </td>
-                    <td>{item.liquidity}</td>
+                    {/* <td>{item.liquidity}</td> */}
                   </tr>
                 ))}
               </tbody>

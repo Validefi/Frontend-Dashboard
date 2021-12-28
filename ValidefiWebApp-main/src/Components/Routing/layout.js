@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { showAlert } from '../../Utils/Alert';
 
 const TopHeader = lazy(() => import('../TopHeader'));
-// const BottomHeader = lazy(() => import('../BottomHeader'));
+const Footer = lazy(() => import('../Footer'));
 const Sidebar = lazy(() => import('../Sidebar'));
 
 const Layout = (params) => {
@@ -62,7 +62,7 @@ const Layout = (params) => {
           <TopHeader />
           <Sidebar />
           {React.cloneElement(children, { ...props })}
-          {/* <BottomHeader /> */}
+          <Footer />
         </div>
       ) : (
         <>{React.cloneElement(children, { ...props })}</>

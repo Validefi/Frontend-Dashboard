@@ -29,7 +29,7 @@ const TextInput = ({
         autoFocus={autoFocus}
       />
       <button
-        className="input-group-text nav-link search-icon"
+        className="input-group-text nav-link search-icon px-2"
         aria-expanded="false"
         style={{
           backgroundColor: currentTheme === 'dark' ? '#2B3B52' : '#fff',

@@ -35,6 +35,12 @@ export const RouteList = [
     render: () => <NotFound />,
   },
   {
+    link: '/500',
+    private: false,
+    layout: false,
+    render: () => <h1>Server error occured</h1>,
+  },
+  {
     link: '/contact',
     private: true,
     layout: true,

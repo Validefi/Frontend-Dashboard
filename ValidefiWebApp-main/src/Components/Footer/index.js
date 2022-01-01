@@ -29,8 +29,29 @@ const Footer = () => {
                   >
                     Privacy Policy
                   </a>
-                  <a className="mx-2" href="/terms">
+                  <a
+                    className="mx-2"
+                    href="/terms"
+                    style={{
+                      color:
+                        currentTheme === 'dark'
+                          ? 'rgba(225, 235, 245, 0.6)'
+                          : 'rgba(91, 91, 91, 0.6)',
+                    }}
+                  >
                     Terms of conditions
+                  </a>
+                  <a
+                    className="mx-2"
+                    href="/contact"
+                    style={{
+                      color:
+                        currentTheme === 'dark'
+                          ? 'rgba(225, 235, 245, 0.6)'
+                          : 'rgba(91, 91, 91, 0.6)',
+                    }}
+                  >
+                    Contact Us
                   </a>
                 </div>
               </div>

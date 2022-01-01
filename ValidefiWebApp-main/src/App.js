@@ -1,20 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Routing from './Components/Routing';
 import { HashRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useWeb3React } from '@web3-react/core';
-import { registerUser } from './Store/actionCreatos/auth';
+
+import { connect } from 'react-redux';
 
 const App = () => {
-  const { account, active, error } = useWeb3React();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (active && !error) {
-      dispatch(registerUser({ address: account }));
-    }
-  }, [account, active, dispatch, error]);
-
   return (
     <HashRouter>
       <Routing />
@@ -22,4 +12,14 @@ const App = () => {
   );
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  isEthereum: state.auth.isEthereum,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  // registerUser: (wallet) => {
+  //   dispatch(registerUser(wallet));
+  // },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

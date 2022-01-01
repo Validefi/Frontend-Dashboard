@@ -4,6 +4,9 @@ const initState = {
   isLoading: false,
   isEthereum: true,
   message: null,
+  isRegistered: false,
+  isAuthenticated: false,
+  nonce: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -26,13 +29,16 @@ const authReducer = (state = initState, action) => {
         ...state,
         message: null,
         isLoading: true,
+        isRegistered: false,
+        nonce: null,
       };
 
     case ActionTypes.REGISTER_USER_SUCCESS:
       return {
         ...state,
-        message: action.message,
         isLoading: false,
+        isRegistered: false,
+        nonce: action.nonce,
       };
 
     case ActionTypes.REGISTER_USER_FAILED:
@@ -40,7 +46,40 @@ const authReducer = (state = initState, action) => {
         ...state,
         message: action.message,
         isLoading: false,
+        isRegistered: false,
       };
+
+    case ActionTypes.AUTHENTICATE_USER_REQUEST:
+      return {
+        ...state,
+        message: null,
+        isLoading: true,
+        isAuthenticated: false,
+      };
+
+    case ActionTypes.AUTHENTICATE_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isAuthenticated: false,
+      };
+
+    case ActionTypes.AUTHENTICATE_USER_FAILED:
+      return {
+        ...state,
+        message: action.message,
+        isLoading: false,
+        isAuthenticated: false,
+      };
+
+    case ActionTypes.LOGOUT_USER:
+      return {
+        ...state,
+        isRegistered: false,
+        isAuthenticated: false,
+        nonce: null,
+      };
+
     default:
       return state;
   }

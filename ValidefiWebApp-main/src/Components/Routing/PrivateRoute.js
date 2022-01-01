@@ -1,57 +1,45 @@
-import { useWeb3React } from '@web3-react/core';
-import React from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
+import Spinner from '../Loading/Spinner';
+import { useWeb3React } from '@web3-react/core';
+import { useHistory } from 'react-router-dom';
 
-const updateChildrenWithProps = (props, children) =>
-  React.Children.map(children, (child, i) => {
-    return React.cloneElement(child, {
-      //this properties are available as a props in child components
-      ...props,
-      index: i,
-    });
-  });
+const TopHeader = React.lazy(() => import('../TopHeader'));
+const Footer = React.lazy(() => import('../Footer'));
+const Sidebar = React.lazy(() => import('../Sidebar'));
 
-const PrivateRouteComponent = (props) => {
+function PrivateLayout(params) {
   const { active, account } = useWeb3React();
+  const { children, ...props } = params;
+  const [status, setStatus] = useState('loading');
+  const history = useHistory();
 
+  useLayoutEffect(() => {
+    if (typeof window !== undefined) {
+      if (active && account && props.isAuthenticated) {
+        setStatus('success');
+      } else {
+        history.push('/login');
+      }
+    }
+  }, [account, active, history, props.isAuthenticated]);
   return (
-    <Route
-      {...props.routeProps}
-      render={(renderProps) => {
-        if (!account || !active) {
-          return (
-            <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: props.computedMatch.url },
-              }}
-            />
-          );
-        }
-
-        if (props.render) {
-          return props.render({ match: props.computedMatch });
-        }
-
-        return <>{updateChildrenWithProps(renderProps, props.children)}</>;
-      }}
-    />
+    <>
+      <TopHeader />
+      <Sidebar />
+      {status === 'success' && React.cloneElement(children, { ...props })}
+      {status === 'loading' && (
+        <div className="d-flex p-4 justify-content-center align-items-center vw-100 vh-100 position-absolute top-0 left-0">
+          <Spinner />
+        </div>
+      )}
+      <Footer />
+    </>
   );
-};
+}
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    location: ownProps.path,
-    routeProps: {
-      exact: ownProps.exact,
-      path: ownProps.path,
-      component: ownProps.component,
-    },
-    match: ownProps.match,
-  };
-};
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
-export default connect(mapStateToProps, null, null, { pure: true })(
-  PrivateRouteComponent
-);
+export default connect(mapStateToProps)(PrivateLayout);

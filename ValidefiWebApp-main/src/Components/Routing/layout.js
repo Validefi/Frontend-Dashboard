@@ -1,8 +1,9 @@
 import React, { lazy, useEffect, useLayoutEffect } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { injected } from '../Connectors';
 import { useWeb3React } from '@web3-react/core';
 import { showAlert } from '../../Utils/Alert';
+import { logoutUser } from '../../Store/actionCreatos/auth';
 
 const TopHeader = lazy(() => import('../TopHeader'));
 const Footer = lazy(() => import('../Footer'));
@@ -11,6 +12,7 @@ const Sidebar = lazy(() => import('../Sidebar'));
 const Layout = (params) => {
   const { children, layout, setAddress, setChainId, ...props } = params;
   const { active, error, activate } = useWeb3React();
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     injected
@@ -39,6 +41,8 @@ const Layout = (params) => {
       const handleAccountsChanged = (accounts) => {
         if (accounts.length > 0) {
           activate(injected);
+        } else {
+          dispatch(logoutUser());
         }
       };
 

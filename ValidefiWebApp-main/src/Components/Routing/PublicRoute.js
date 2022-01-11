@@ -4,10 +4,6 @@ import Spinner from '../Loading/Spinner';
 import { useWeb3React } from '@web3-react/core';
 import { useHistory } from 'react-router-dom';
 
-const TopHeader = React.lazy(() => import('../TopHeader'));
-const Footer = React.lazy(() => import('../Footer'));
-const Sidebar = React.lazy(() => import('../Sidebar'));
-
 function PublicLayout(params) {
   const { active, account } = useWeb3React();
   const { children, ...props } = params;
@@ -32,16 +28,9 @@ function PublicLayout(params) {
 
   return (
     <>
-      {props.layout && (
-        <>
-          <TopHeader />
-          <Sidebar />
-        </>
-      )}
       {(status === 'success' || props.path === '/login') &&
         React.cloneElement(children, { ...props })}
       {status === 'loading' && props.path !== '/login' && <Spinner />}
-      {props.layout && <Footer />}
     </>
   );
 }

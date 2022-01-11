@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Moon, Search, Sun } from 'react-feather';
+import React, { useEffect, useState } from 'react';
+import { ArrowLeft, Search } from 'react-feather';
 import { connect } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import Select from 'react-select';
@@ -9,16 +9,24 @@ import Logo from '../../assets/logo1.svg';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
 import Loading from '../Loading';
 import TextInput from '../../Utils/TextInput';
+import Gas from '../../assets/gas.svg';
+import { fetchGas } from '../../Store/actionCreatos/utils';
 
 const TopHeader = ({
   isSidebarVisible,
   toggleSidebar,
   isEthereum,
   toggleNetwork,
+  gasPrice,
+  fetchGasPrice,
 }) => {
-  const { switcher, themes, currentTheme, status } = useThemeSwitcher();
-  const [isDarkMode, setIsDarkMode] = useState(currentTheme === 'dark');
+  const { currentTheme, status } = useThemeSwitcher();
+  const [isDarkMode] = useState(currentTheme === 'dark');
   const { account } = useWeb3React();
+
+  useEffect(() => {
+    fetchGasPrice(isEthereum);
+  }, [fetchGasPrice, isEthereum]);
 
   if (status === 'loading') {
     return <Loading />;
@@ -52,11 +60,6 @@ const TopHeader = ({
   ];
   const toggle = () => {
     toggleSidebar(!isSidebarVisible);
-  };
-
-  const toggleTheme = (isDarkMode) => {
-    switcher({ theme: isDarkMode ? themes.light : themes.dark });
-    setIsDarkMode(!isDarkMode);
   };
 
   const handleSubmit = (text) => console.log(text);
@@ -127,11 +130,24 @@ const TopHeader = ({
               </div>
             </li>
             <li
-              className="dashboard-search"
-              style={{ marginLeft: '12px', cursor: 'pointer' }}
-              onClick={() => toggleTheme(isDarkMode)}
+              className="nav-item dropdown dashboard-dropdown dashboard-search"
+              style={{ marginLeft: '8px' }}
             >
-              {isDarkMode ? <Moon /> : <Sun />}
+              <div className="d-flex justify-content-center">
+                <span
+                  className="form-control form-text"
+                  style={{
+                    overflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                    textAlign: 'center',
+                  }}
+                >
+                  <img src={Gas} alt="Gas Price" width={15} className="mx-1" />
+                  {`${
+                    Math.round((gasPrice + Number.EPSILON) * 100) / 100
+                  } GWei`}
+                </span>
+              </div>
             </li>
           </ul>
         </div>
@@ -143,6 +159,7 @@ const TopHeader = ({
 const mapStateToProps = (state) => ({
   isSidebarVisible: state.settings.isSidebarVisible,
   isEthereum: state.auth.isEthereum,
+  gasPrice: state.utils.gasPrice,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -151,6 +168,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   toggleNetwork: (isEthereum) => {
     dispatch(toggleNetwork(isEthereum));
+  },
+  fetchGasPrice: (isEthereum) => {
+    dispatch(fetchGas(isEthereum));
   },
 });
 

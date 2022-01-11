@@ -15,6 +15,7 @@ import { toggleSidebar } from '../../Store/actionCreatos/settings';
 import { useDispatch } from 'react-redux';
 import { useWeb3React } from '@web3-react/core';
 import { useThemeSwitcher } from 'react-css-theme-switcher';
+import './sidebar.css';
 
 const Sidebar = () => {
   const { themes, currentTheme, switcher } = useThemeSwitcher();
@@ -44,7 +45,7 @@ const Sidebar = () => {
   };
   return (
     <div className="page-sidebar">
-      <ul className="list-unstyled accordion-menu">
+      <ul className="list-unstyled accordion-menu position-relative">
         <li
           className="nav-item dropdown m-r-xs sidebar-search"
           style={{ flex: 1 }}
@@ -68,43 +69,20 @@ const Sidebar = () => {
         <li className="sidebar-title sidebar-search">Wallet Address</li>
         <li className="nav-item sidebar-search" style={{ flex: 1 }}>
           <div className="d-flex">
-            <span
-              className="form-control form-text"
-              style={{
-                overflow: 'hidden',
-                whiteSpace: 'nowrap',
-                textAlign: 'center',
-              }}
-            >
+            <span className="form-control form-text account-sidebar">
               {`${account?.slice(0, 12)}...${account?.slice(-3)}`}
             </span>
           </div>
         </li>
         <li
-          className="mt-2 position-absolute sidebar-search"
+          className="mt-2 position-absolute theme-sidebar"
           onClick={() => toggleTheme(isDarkMode)}
           style={{
-            display: 'block',
             color: isDarkMode ? '#7888fc' : 'rgb(120, 136, 252)',
-            lineHeight: '45px',
-            padding: '0 15px',
-            bottom: '12px',
-            fontWeight: 500,
             backgroundColor: isDarkMode ? '#2b3b52' : 'rgb(243, 246, 249)',
-            borderRadius: '10px',
           }}
         >
-          <span
-            style={{
-              width: '21px',
-              height: '21px',
-              lineHeight: '40px',
-              textAlign: 'center',
-              marginRight: '15px',
-            }}
-          >
-            {isDarkMode ? <Moon /> : <Sun />}
-          </span>
+          <span>{isDarkMode ? <Moon /> : <Sun />}</span>
           {isDarkMode ? 'Dark' : 'Light'}
         </li>
       </ul>

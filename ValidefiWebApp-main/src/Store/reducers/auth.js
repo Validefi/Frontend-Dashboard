@@ -46,7 +46,9 @@ const authReducer = (state = initState, action) => {
         ...state,
         message: action.message,
         isLoading: false,
-        isRegistered: false,
+        //Change this
+        isRegistered: true,
+        nonce: 1,
       };
 
     case ActionTypes.AUTHENTICATE_USER_REQUEST:
@@ -69,7 +71,8 @@ const authReducer = (state = initState, action) => {
         ...state,
         message: action.message,
         isLoading: false,
-        isAuthenticated: false,
+        //Change this
+        isAuthenticated: true,
       };
 
     case ActionTypes.LOGOUT_USER:
